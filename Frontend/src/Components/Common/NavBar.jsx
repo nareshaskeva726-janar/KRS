@@ -4,7 +4,7 @@ import {
     User,
     X,
 } from "lucide-react";
-import { CiMenuFries } from "react-icons/ci";
+import { TbMenuDeep } from "react-icons/tb";
 
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { assets } from "../../assets/assets";
@@ -92,7 +92,7 @@ const NavBar = () => {
                                 onClick={() => setDrawerOpen(true)}
                                 className="lg:hidden text-white p-2"
                             >
-                                <CiMenuFries size={26} />
+                                <TbMenuDeep size={26} />
                             </button>
                         </div>
                     </div>
