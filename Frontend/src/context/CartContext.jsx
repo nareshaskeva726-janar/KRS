@@ -8,17 +8,12 @@ export const CartProvider = ({ children }) => {
   // ADD TO CART
   const addToCart = (product, qty = 1) => {
     setCartItems((prev) => {
-      const existing = prev.find(
-        (item) => item.id === product.id
-      );
+      const existing = prev.find((item) => item.id === product.id);
 
       if (existing) {
         return prev.map((item) =>
           item.id === product.id
-            ? {
-              ...item,
-              qty: item.qty + qty,
-            }
+            ? { ...item, qty: item.qty + qty }
             : item
         );
       }
@@ -36,18 +31,16 @@ export const CartProvider = ({ children }) => {
 
   // UPDATE QUANTITY
   const updateQuantity = (id, qty) => {
-    if (qty < 1) return;
-
     setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id
-          ? { ...item, qty }
-          : item
-      )
+      prev
+        .map((item) =>
+          item.id === id ? { ...item, qty } : item
+        )
+        .filter((item) => item.qty > 0) // auto remove if 0
     );
   };
 
-  // TOTAL ITEMS
+  // CART COUNT
   const cartCount = cartItems.reduce(
     (acc, item) => acc + item.qty,
     0
@@ -75,4 +68,5 @@ export const CartProvider = ({ children }) => {
   );
 };
 
+// CUSTOM HOOK
 export const useCart = () => useContext(CartContext);

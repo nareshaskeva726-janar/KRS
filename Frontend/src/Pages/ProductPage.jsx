@@ -192,7 +192,7 @@ const ProductPage = () => {
               }}
               src={assets.productImage}
               alt="Hero Product"
-              className="relative z-10 w-[350px] h-[350px] sm:w-[460px] sm:h-[460px] md:w-[520px] md:h-[520px] object-cover rounded-3xl shadow-2xl border border-white"
+              className="relative z-10 w-[350px] h-[350px] sm:w-[460px] sm:h-[460px] md:w-[520px] md:h-[520px] object-cover rounded-3xl  border border-white"
             />
           </motion.div>
 

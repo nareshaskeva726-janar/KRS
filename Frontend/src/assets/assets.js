@@ -52,4 +52,5 @@ export const products = [
   { id: 18, name: "Product 18", price: 899, category: "Fashion", qty: 10, image: p18 },
   { id: 19, name: "Product 19", price: 699, category: "Accessories", qty: 14, image: p19 },
   { id: 20, name: "Product 20", price: 1999, category: "Electronics", qty: 1, image: p20 },
+  { id: 21, name: "product 21", price: 2000, category: "Appliances", qty: 3, image: p18 },
 ];
