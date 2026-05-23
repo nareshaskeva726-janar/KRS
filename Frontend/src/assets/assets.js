@@ -2,6 +2,7 @@ import logo from "../assets/KRS LOGO .jpg.jpeg";
 import logoTwo from "../assets/KRS LOGO .png";
 import bannerOne from "../assets/Banner1.jpg";
 import bannerTwo from "../assets/banner2.jpg";
+import productImage from "../assets/ProductImage.jpg"
 
 import p1 from "../assets/p1.jpg";
 import p2 from "../assets/p2.jpg";
@@ -27,7 +28,8 @@ export const assets = {
   logo,
   logoTwo,
   bannerOne,
-  bannerTwo
+  bannerTwo,
+  productImage
 };
 
 export const products = [

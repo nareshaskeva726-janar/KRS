@@ -1,7 +1,16 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { FaInstagram, FaFacebook, FaYoutube } from "react-icons/fa";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6 },
+  },
+};
 
 const ContactPage = () => {
   const [form, setForm] = useState({
@@ -21,160 +30,193 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="bg-[#0b0b0f] min-h-screen text-white">
+    <div className="bg-white min-h-screen overflow-hidden">
+      {/* HERO SECTION */}
+      <section className="relative py-24 px-6">
+        {/* Background Blur */}
+        <div className="absolute top-0 left-0 w-[300px] h-[300px] bg-red-100 rounded-full blur-3xl opacity-70" />
+        <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-red-50 rounded-full blur-3xl opacity-80" />
 
-      {/* HERO */}
-      <div className="relative py-20 text-center overflow-hidden">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-14 items-center relative z-10">
+          {/* LEFT CONTENT */}
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+          >
+            <span className="bg-red-100 text-red-600 px-4 py-2 rounded-full text-sm font-semibold">
+              Contact Us
+            </span>
 
-        {/* Glow */}
-        <div className="absolute inset-0">
-          <div className="absolute w-[400px] h-[400px] bg-red-600/30 blur-[120px] rounded-full top-[-100px] left-[-100px]" />
-          <div className="absolute w-[400px] h-[400px] bg-white/10 blur-[120px] rounded-full bottom-[-120px] right-[-120px]" />
-        </div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-4xl md:text-5xl font-bold relative"
-        >
-          Contact <span className="text-red-500">KRS Lifeline</span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="text-gray-400 mt-3 relative"
-        >
-          We’d love to hear from you anytime
-        </motion.p>
-      </div>
-
-      {/* CONTENT */}
-      <div className="max-w-7xl mx-auto px-6 pb-20 grid md:grid-cols-2 gap-10">
-
-        {/* FORM */}
-        <motion.form
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          onSubmit={handleSubmit}
-          className="bg-[#14141a] border border-white/10 p-8 rounded-2xl shadow-xl"
-        >
-          <h2 className="text-2xl font-semibold mb-6 text-red-500">
-            Send Message
-          </h2>
-
-          <div className="space-y-4">
-
-            <input
-              type="text"
-              name="name"
-              placeholder="Your Name"
-              value={form.name}
-              onChange={handleChange}
-              className="w-full h-12 px-4 bg-black/40 border border-white/10 rounded-xl focus:border-red-500 outline-none"
-              required
-            />
-
-            <input
-              type="email"
-              name="email"
-              placeholder="Your Email"
-              value={form.email}
-              onChange={handleChange}
-              className="w-full h-12 px-4 bg-black/40 border border-white/10 rounded-xl focus:border-red-500 outline-none"
-              required
-            />
-
-            <textarea
-              name="message"
-              placeholder="Your Message"
-              value={form.message}
-              onChange={handleChange}
-              rows="5"
-              className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-xl focus:border-red-500 outline-none"
-              required
-            />
-
-            <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
-              type="submit"
-              className="w-full h-12 bg-red-600 hover:bg-red-700 rounded-xl font-semibold"
+            <motion.h1
+              variants={fadeUp}
+              className="text-4xl md:text-5xl lg:text-6xl font-extrabold mt-6 leading-tight text-gray-900"
             >
-              Send Message
-            </motion.button>
-          </div>
-        </motion.form>
+              Let's Build Something
+              <span className="block text-red-600">Amazing Together</span>
+            </motion.h1>
 
-        {/* INFO PANEL */}
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          className="bg-gradient-to-br from-[#14141a] to-black border border-white/10 p-8 rounded-2xl"
-        >
+            <motion.p
+              variants={fadeUp}
+              className="text-gray-600 mt-6 leading-7 max-w-xl"
+            >
+              Have questions about products, orders, or services? Our team is
+              always ready to help you with quick support and premium customer
+              experience.
+            </motion.p>
 
-          <h2 className="text-2xl font-semibold text-red-500 mb-6">
-            Get in Touch
-          </h2>
+            {/* CONTACT INFO */}
+            <div className="mt-10 space-y-6">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center">
+                  <Mail className="text-red-600" />
+                </div>
 
-          <div className="space-y-6 text-gray-300 text-sm">
+                <div>
+                  <h4 className="font-semibold text-gray-900">Email Us</h4>
+                  <p className="text-gray-600">
+                    krslifeline.info@gmail.com
+                  </p>
+                </div>
+              </div>
 
-            <div className="flex items-start gap-3">
-              <Mail className="text-red-500" />
-              <span>krslifeline.info@gmail.com</span>
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center">
+                  <Phone className="text-red-600" />
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-gray-900">Call Us</h4>
+                  <p className="text-gray-600">
+                    8190000668 | 9944968789
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center">
+                  <MapPin className="text-red-600" />
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-gray-900">Visit Us</h4>
+                  <p className="text-gray-600 max-w-md">
+                    331/12, 3rd Street Extension, Gandhipuram,
+                    Coimbatore - 641012
+                  </p>
+                </div>
+              </div>
             </div>
 
-            <div className="flex items-start gap-3">
-              <Phone className="text-red-500" />
-              <span>8190000668 | 9944968789</span>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <MapPin className="text-red-500" />
-              <span>
-                331/12, 3rd Street Extension, Gandhipuram, Coimbatore - 641012
-              </span>
-            </div>
-          </div>
-
-          {/* SOCIAL */}
-          <div className="mt-8">
-            <h3 className="text-white font-semibold mb-3">Follow Us</h3>
-
-            <div className="flex gap-4 text-xl">
-
+            {/* SOCIAL ICONS */}
+            <div className="flex gap-4 mt-10">
               <a
                 href="https://www.instagram.com/krs_lifeline/"
                 target="_blank"
                 rel="noreferrer"
+                className="w-12 h-12 rounded-xl border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-red-600 hover:text-white transition-all duration-300"
               >
-                <FaInstagram className="hover:text-red-500 transition" />
+                <FaInstagram size={20} />
               </a>
 
               <a
                 href="https://www.facebook.com/profile.php?id=61589577443192"
                 target="_blank"
                 rel="noreferrer"
+                className="w-12 h-12 rounded-xl border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-red-600 hover:text-white transition-all duration-300"
               >
-                <FaFacebook className="hover:text-red-500 transition" />
+                <FaFacebook size={20} />
               </a>
 
               <a
                 href="https://www.youtube.com/@KRSLIFELINE"
                 target="_blank"
                 rel="noreferrer"
+                className="w-12 h-12 rounded-xl border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-red-600 hover:text-white transition-all duration-300"
               >
-                <FaYoutube className="hover:text-red-500 transition" />
+                <FaYoutube size={20} />
               </a>
-
             </div>
-          </div>
+          </motion.div>
 
-        </motion.div>
-      </div>
+          {/* RIGHT FORM */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="bg-white border border-gray-200 rounded-3xl shadow-2xl p-8 md:p-10"
+          >
+            <h2 className="text-3xl font-bold text-gray-900">
+              Send a Message
+            </h2>
+
+            <p className="text-gray-600 mt-3">
+              Fill out the form and our team will contact you shortly.
+            </p>
+
+            <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+              <div>
+                <label className="text-sm font-medium text-gray-700">
+                  Full Name
+                </label>
+
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Enter your name"
+                  value={form.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full h-12 mt-2 px-4 rounded-xl border border-gray-300 focus:border-red-600 outline-none transition"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-medium text-gray-700">
+                  Email Address
+                </label>
+
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full h-12 mt-2 px-4 rounded-xl border border-gray-300 focus:border-red-600 outline-none transition"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-medium text-gray-700">
+                  Message
+                </label>
+
+                <textarea
+                  name="message"
+                  rows="5"
+                  placeholder="Write your message..."
+                  value={form.message}
+                  onChange={handleChange}
+                  required
+                  className="w-full mt-2 px-4 py-3 rounded-xl border border-gray-300 focus:border-red-600 outline-none transition resize-none"
+                />
+              </div>
+
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                type="submit"
+                className="w-full h-12 rounded-xl bg-red-600 text-white font-semibold flex items-center justify-center gap-2 hover:bg-red-700 transition"
+              >
+                <Send size={18} />
+                Send Message
+              </motion.button>
+            </form>
+          </motion.div>
+        </div>
+      </section>
     </div>
   );
 };
