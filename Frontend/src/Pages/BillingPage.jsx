@@ -7,6 +7,7 @@ import {
     ShieldCheck,
     Truck,
 } from "lucide-react";
+import { toast } from "react-hot-toast"
 
 const BillingPage = () => {
     const [paymentMethod, setPaymentMethod] = useState("razorpay");
@@ -187,6 +188,7 @@ const BillingPage = () => {
 
                         {/* PAY BUTTON */}
                         <motion.button
+                            onClick={() => toast.success("Order Placed successfully!")}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             className="w-full mt-6 bg-red-600 text-white py-3 rounded-2xl font-semibold hover:bg-red-700 transition"

@@ -2,8 +2,13 @@ import React from "react";
 import { X, Trash2, Plus, Minus, ShoppingBag } from "lucide-react";
 import { useCart } from "../../context/CartContext";
 import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "react-hot-toast"
+import { useNavigate } from "react-router-dom";
 
 const CartModal = ({ isOpen, onClose }) => {
+
+  const navigate = useNavigate();
+
   const { cartItems, updateQuantity, removeFromCart } = useCart();
 
   // ✅ SUBTOTAL
@@ -146,8 +151,13 @@ const CartModal = ({ isOpen, onClose }) => {
                   </span>
                 </div>
 
-                {/* CHECKOUT BUTTON */}
-                <button className="w-full mt-4 bg-red-600 text-white py-3 rounded-xl font-semibold hover:bg-red-700 transition">
+                <button
+                  onClick={() => {
+                    onClose();
+                    navigate("/billing");
+                  }}
+                  className="w-full mt-4 bg-red-600 text-white py-3 rounded-xl font-semibold hover:bg-red-700 transition"
+                >
                   Proceed to Checkout
                 </button>
 

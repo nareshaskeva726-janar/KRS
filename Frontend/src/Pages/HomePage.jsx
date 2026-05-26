@@ -19,7 +19,8 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { assets, products } from "../assets/assets";
+import { assets } from "../assets/assets";
+import {products} from "../MockData/Product"
 
 /* ── Animation variants ── */
 const container = {

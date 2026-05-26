@@ -1,9 +1,11 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { products, assets } from "../assets/assets";
+import { assets } from "../assets/assets";
+import { products } from "../MockData/Product"
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import ProductCard from "../Components/UI/ProductCard";
 import {
   Search,
   ShoppingCart,
@@ -302,100 +304,13 @@ const ProductPage = () => {
             layout
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
           >
-            {filteredProducts.map((product) => (
-              <motion.div
+            {filteredProducts.map((product, index) => (
+              <ProductCard
                 key={product.id}
-                layout
-                initial={{ opacity: 0, y: 20, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{
-                  duration: 0.35,
-                  ease: "easeOut",
-                }}
-                whileHover={{ y: -6, transition: { duration: 0.2 } }}
-                onClick={() => navigate(`/product/${product.id}`)}
-                className="group bg-white border border-gray-200 rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-300"
-              >
-                {/* IMAGE */}
-                <div className="relative overflow-hidden bg-gray-50">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-64 object-cover group-hover:scale-110 transition duration-500"
-                  />
-
-                  <div className="absolute top-4 left-4 bg-red-600 text-white text-xs px-3 py-1 rounded-full">
-                    {product.category}
-                  </div>
-                </div>
-
-                {/* CONTENT */}
-                <div className="p-5 flex flex-col">
-                  <h3 className="text-lg font-bold text-gray-900 line-clamp-1">
-                    {product.name}
-                  </h3>
-
-                  <p className="text-sm text-gray-500 mt-1">
-                    Premium quality appliance for modern homes.
-                  </p>
-
-                  <div className="mt-3 flex items-center justify-between">
-                    <span className="text-2xl font-extrabold text-gray-900">
-                      ₹{product.price.toLocaleString()}
-                    </span>
-
-                    <span className="text-sm text-green-600 font-medium">
-                      In Stock
-                    </span>
-                  </div>
-
-                  {/* QTY */}
-                  <div className="mt-5 flex items-center justify-between">
-                    <div className="flex items-center border border-gray-300 rounded-xl overflow-hidden">
-                      <button
-                        onClick={() => decrementQty(product.id)}
-                        className="w-10 h-10 text-lg hover:bg-gray-100"
-                      >
-                        -
-                      </button>
-
-                      <input
-                        type="text"
-                        value={quantity[product.id] || 1}
-                        onChange={(e) =>
-                          handleQty(product.id, e.target.value)
-                        }
-                        className="w-12 h-10 text-center outline-none border-x"
-                      />
-
-                      <button
-                        onClick={() => incrementQty(product.id)}
-                        className="w-10 h-10 text-lg hover:bg-gray-100"
-                      >
-                        +
-                      </button>
-                    </div>
-
-                    <span className="text-sm text-gray-500">
-                      {product.qty} left
-                    </span>
-                  </div>
-
-                  {/* BUTTON */}
-                  <motion.button
-                    whileTap={{ scale: 0.97 }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleAddToCart(product);
-                    }}
-                    className="mt-5 h-12 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-semibold flex items-center justify-center gap-2 transition"
-                  >
-                    <ShoppingCart size={18} />
-                    Add to Cart
-                  </motion.button>
-                </div>
-              </motion.div>
+                product={product}
+                index={index}
+                onAddToCart={(product, qty) => addToCart(product, qty)}
+              />
             ))}
           </motion.div>
         )}

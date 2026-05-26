@@ -43,7 +43,7 @@ const NavBar = () => {
     return (
         <>
             <header className="sticky top-0 z-50 bg-[#0a0a0a] border-b border-red-600/30 shadow-lg p-2">
-                <div className="max-w-7xl mx-auto px-2 lg:px-8">
+                <div className=" mx-auto px-2 lg:px-8">
                     <div className="h-16 flex items-center justify-between">
 
                         {/* LOGO */}
@@ -74,10 +74,9 @@ const NavBar = () => {
                                     key={link.name}
                                     to={link.path}
                                     className={({ isActive }) =>
-                                        `text-sm font-semibold transition ${
-                                            isActive
-                                                ? "text-red-500"
-                                                : "text-gray-300 hover:text-white"
+                                        `text-sm font-semibold transition ${isActive
+                                            ? "text-red-500"
+                                            : "text-gray-300 hover:text-white"
                                         }`
                                     }
                                 >
@@ -112,7 +111,7 @@ const NavBar = () => {
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         transition={{ duration: 0.15 }}
                                         className="absolute right-0 mt-4 w-80 bg-white text-black rounded-2xl shadow-2xl border border-gray-100 z-50 overflow-hidden"
-                                        
+
                                         // ✅ IMPORTANT: prevents flicker
                                         onMouseEnter={handleMouseEnter}
                                         onMouseLeave={handleMouseLeave}
@@ -178,7 +177,11 @@ const NavBar = () => {
                                                             View Cart
                                                         </button>
 
-                                                        <button className="w-full py-2.5 rounded-xl bg-red-600 text-white text-sm font-medium hover:bg-red-700 transition">
+                                                        <button
+                                                            onClick={() => {
+                                                                navigate("/billing");
+                                                            }}
+                                                            className="w-full py-2.5 rounded-xl bg-red-600 text-white text-sm font-medium hover:bg-red-700 transition">
                                                             Checkout
                                                         </button>
 
@@ -213,16 +216,14 @@ const NavBar = () => {
             {/* OVERLAY */}
             <div
                 onClick={closeDrawer}
-                className={`fixed inset-0 bg-black/60 z-50 transition-opacity ${
-                    drawerOpen ? "opacity-100 visible" : "opacity-0 invisible"
-                }`}
+                className={`fixed inset-0 bg-black/60 z-50 transition-opacity ${drawerOpen ? "opacity-100 visible" : "opacity-0 invisible"
+                    }`}
             />
 
             {/* DRAWER */}
             <div
-                className={`fixed top-0 right-0 h-full w-[280px] bg-[#0a0a0a] border-l border-red-500/20 z-50 transform transition-transform duration-300 ${
-                    drawerOpen ? "translate-x-0" : "translate-x-full"
-                }`}
+                className={`fixed top-0 right-0 h-full w-[280px] bg-[#0a0a0a] border-l border-red-500/20 z-50 transform transition-transform duration-300 ${drawerOpen ? "translate-x-0" : "translate-x-full"
+                    }`}
             >
                 <div className="flex items-center justify-between px-4 py-4 border-b border-white/10">
                     <h2 className="text-white font-bold tracking-widest">MENU</h2>
@@ -238,10 +239,9 @@ const NavBar = () => {
                             to={link.path}
                             onClick={closeDrawer}
                             className={({ isActive }) =>
-                                `px-4 py-3 rounded-lg text-sm font-semibold transition ${
-                                    isActive
-                                        ? "bg-red-600 text-white"
-                                        : "text-gray-300 hover:bg-white/10"
+                                `px-4 py-3 rounded-lg text-sm font-semibold transition ${isActive
+                                    ? "bg-red-600 text-white"
+                                    : "text-gray-300 hover:bg-white/10"
                                 }`
                             }
                         >
