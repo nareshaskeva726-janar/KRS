@@ -1,29 +1,45 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { assets } from "../assets/assets";
-import { products } from "../MockData/Product"
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import ProductCard from "../Components/UI/ProductCard";
+import { assets } from "../assets/assets";
+import { useGetProductsQuery } from "../Store/APIS/krsApi";
+
 import {
   Search,
-  ShoppingCart,
   SlidersHorizontal,
+  X,
+  ChevronRight,
+  Filter,
+  Grid3x3,
+  LayoutList,
 } from "lucide-react";
 
 const ProductPage = () => {
-
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sort, setSort] = useState("default");
   const [search, setSearch] = useState("");
-  const [quantity, setQuantity] = useState({});
+  const [viewMode, setViewMode] = useState("grid");
 
   const [searchParams] = useSearchParams();
-
   const initialCategory = searchParams.get("category") || "All";
 
   const { addToCart } = useCart();
+
+
+
+  const navigate = useNavigate();
+
+
+
+
+  // API CALL
+  const {
+    data: productsData = [],
+    isLoading,
+    isError,
+  } = useGetProductsQuery();
 
   useEffect(() => {
     setSelectedCategory(initialCategory);
@@ -33,41 +49,33 @@ const ProductPage = () => {
     window.scrollTo(0, 0);
   }, [selectedCategory]);
 
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.08,
-        delayChildren: 0.1,
-      },
-    },
-  };
+  // SAFE PRODUCTS ARRAY
+  const products = Array.isArray(productsData)
+    ? productsData
+    : productsData?.products || [];
 
-
+  // DYNAMIC CATEGORIES
   const allCategories = [
     "All",
     ...new Set(products.map((p) => p.category)),
   ];
 
+  // FILTER PRODUCTS
   const filteredProducts = useMemo(() => {
     let filtered = [...products];
 
-    // CATEGORY
     if (selectedCategory !== "All") {
       filtered = filtered.filter(
         (p) => p.category === selectedCategory
       );
     }
 
-    // SEARCH
     if (search.trim()) {
       filtered = filtered.filter((p) =>
         p.name.toLowerCase().includes(search.toLowerCase())
       );
     }
 
-    // SORT
     if (sort === "lowToHigh") {
       filtered.sort((a, b) => a.price - b.price);
     }
@@ -77,75 +85,53 @@ const ProductPage = () => {
     }
 
     return filtered;
-  }, [selectedCategory, search, sort]);
+  }, [products, selectedCategory, search, sort]);
 
-  const handleQty = (id, value) => {
-    const product = products.find((p) => p.id === id);
-
-    let newValue = parseInt(value) || 1;
-
-    if (newValue < 1) newValue = 1;
-    if (newValue > product.qty) newValue = product.qty;
-
-    setQuantity((prev) => ({
-      ...prev,
-      [id]: newValue,
-    }));
+  const clearFilters = () => {
+    setSelectedCategory("All");
+    setSearch("");
+    setSort("default");
   };
 
-  const incrementQty = (id) => {
-    const product = products.find((p) => p.id === id);
+  const hasActiveFilters =
+    selectedCategory !== "All" ||
+    search !== "" ||
+    sort !== "default";
 
-    const currentQty = quantity[id] || 1;
-
-    if (currentQty < product.qty) {
-      setQuantity((prev) => ({
-        ...prev,
-        [id]: currentQty + 1,
-      }));
-    }
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05,
+        delayChildren: 0.1,
+      },
+    },
   };
 
-  const decrementQty = (id) => {
-    const currentQty = quantity[id] || 1;
-
-    if (currentQty > 1) {
-      setQuantity((prev) => ({
-        ...prev,
-        [id]: currentQty - 1,
-      }));
-    }
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.3 },
+    },
   };
-
-  const handleAddToCart = (product) => {
-    const requestedQty = quantity[product.id] || 1;
-
-    addToCart(product, requestedQty);
-  };
-
-  const navigate = useNavigate();
-
-
-
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* HERO */}
-      <section className="relative overflow-hidden py-16 border-b border-gray-100">
-        {/* background glow */}
-        <div className="absolute top-0 left-0 w-72 h-72 bg-red-100 rounded-full blur-3xl opacity-70" />
-        <div className="absolute bottom-0 right-0 w-72 h-72 bg-red-50 rounded-full blur-3xl opacity-80" />
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
+      <section className="relative overflow-hidden py-24 border-b border-gray-100">
+        {/* Background glow */}
+        <div className="pointer-events-none absolute -top-40 -left-40 w-[600px] h-[600px] bg-[#c90202]/20 rounded-full blur-[140px]" />
+        <div className="pointer-events-none absolute -bottom-20 right-0 w-[400px] h-[400px] bg-[#0505eb]/10 rounded-full blur-[100px]" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid lg:grid-cols-2 gap-14 items-center">
-
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid lg:grid-cols-2 gap-16 items-center">
           {/* LEFT CONTENT */}
-          <div className="space-y-6">
-
+          <div className="flex flex-col space-y-7">
             <motion.span
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="bg-red-100 text-red-600 px-4 py-2 rounded-full text-sm font-semibold inline-block w-fit"
+              className="bg-white text-[#0505eb] border border-[#c90202]/30 shadow-sm px-4 py-2 rounded-full text-sm font-semibold inline-flex w-fit"
             >
               Premium Appliances
             </motion.span>
@@ -153,11 +139,10 @@ const ProductPage = () => {
             <motion.h1
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-gray-900"
+              className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-gray-900 space-y-2"
             >
-              Shop Smarter with
-              <span className="block text-red-600">
+              <span>Shop Smarter with</span>
+              <span className="block text-[#c90202]">
                 Premium Products
               </span>
             </motion.h1>
@@ -165,79 +150,114 @@ const ProductPage = () => {
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
               className="text-gray-600 leading-7 max-w-xl"
             >
-              We offer a unique collection of home appliances, kitchen essentials,
-              lifestyle products, gadgets, and social media trending items for everyday use. Customers can directly visit our showroom and explore products in person before purchasing.
+              We offer a unique collection of home appliances,
+              kitchen essentials, lifestyle products, gadgets,
+              and social media trending items for everyday use.
+              Customers can directly visit our showroom and
+              explore products in person before purchasing.
             </motion.p>
-
           </div>
 
           {/* RIGHT IMAGE */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.85 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+            transition={{ duration: 0.6 }}
             className="relative flex justify-center lg:justify-end"
           >
-            {/* glow behind image */}
-            <div className="absolute w-[360px] h-[360px] bg-red-200 blur-3xl opacity-40 rounded-full" />
+            <div className="absolute w-[380px] h-[380px] bg-red-200 blur-3xl opacity-40 rounded-full" />
 
-            {/* floating animation */}
-            <motion.img
-              animate={{ y: [0, -10, 0] }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              src={assets.productImage}
-              alt="Hero Product"
-              className="relative z-10 w-[350px] h-[350px] sm:w-[460px] sm:h-[460px] md:w-[520px] md:h-[520px] object-cover rounded-3xl  border border-white"
-            />
+            <div className="relative z-10 mt-2 lg:mt-0">
+              <motion.img
+                animate={{ y: [0, -10, 0] }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                src={assets.productImage}
+                alt="Hero Product"
+                className="w-[340px] h-[340px] sm:w-[460px] sm:h-[460px] md:w-[520px] md:h-[520px] object-cover rounded-3xl border border-white"
+              />
+            </div>
           </motion.div>
-
         </div>
       </section>
 
-      {/* CONTENT */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {/* TOP FILTERS */}
-
-        <h1 className="text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl py-6 font-extrabold leading-tight text-gray-900">
-          ALL <span className="text-red-600">Products</span>
-        </h1>
-
-        <div className="bg-white border border-gray-200 rounded-3xl p-5 shadow-sm mb-8">
-          <div className="flex flex-col lg:flex-row gap-4 lg:items-center lg:justify-between">
-            {/* SEARCH */}
-            <div className="relative w-full lg:max-w-md">
-              <Search
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
-                size={18}
-              />
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full h-12 pl-11 pr-4 rounded-2xl border border-gray-300 focus:border-red-600 outline-none"
-              />
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              {/* SORT */}
-              <div className="flex items-center gap-2 border border-gray-300 rounded-2xl px-4 h-12">
-                <SlidersHorizontal
+      {/* PRODUCTS SECTION */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* SIDEBAR */}
+          <aside className="w-full lg:w-72 flex-shrink-0">
+            <div className="sticky top-28 space-y-6">
+              {/* SEARCH */}
+              <div className="relative group">
+                <Search
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
                   size={18}
-                  className="text-red-600"
                 />
+
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="w-full pl-10 pr-10 py-2.5 bg-white border border-gray-200 rounded-xl focus:border-gray-400 focus:ring-1 focus:ring-gray-200 outline-none transition-all text-sm"
+                />
+
+                {search && (
+                  <button
+                    onClick={() => setSearch("")}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    <X size={16} />
+                  </button>
+                )}
+              </div>
+
+              {/* CATEGORY */}
+              <div>
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3 flex items-center gap-2">
+                  <Filter size={14} /> Categories
+                </h3>
+
+                <div className="space-y-1.5">
+                  {allCategories.map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => setSelectedCategory(cat)}
+                      className={`w-full text-left px-3 py-4 rounded-lg text-sm transition-all ${selectedCategory === cat
+                        ? "bg-[#c90202] text-white font-medium"
+                        : "text-gray-600 hover:bg-gray-100"
+                        }`}
+                    >
+                      <span className="flex items-center justify-between">
+                        {cat}
+
+                        {selectedCategory === cat && (
+                          <ChevronRight
+                            size={14}
+                            className="opacity-70"
+                          />
+                        )}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* SORT */}
+              <div>
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3 flex items-center gap-2">
+                  <SlidersHorizontal size={14} /> Sort by
+                </h3>
 
                 <select
                   value={sort}
                   onChange={(e) => setSort(e.target.value)}
-                  className="outline-none bg-transparent text-sm"
+                  className="w-full px-3 py-2.5 bg-white border border-gray-200 rounded-xl text-sm outline-none focus:border-gray-400 transition-colors cursor-pointer"
                 >
                   <option value="default">Default</option>
                   <option value="lowToHigh">
@@ -248,73 +268,170 @@ const ProductPage = () => {
                   </option>
                 </select>
               </div>
+
+              {hasActiveFilters && (
+                <div className="pt-2">
+                  <button
+                    onClick={clearFilters}
+                    className="text-sm text-gray-500 hover:text-gray-800 flex items-center gap-1 transition-colors"
+                  >
+                    <X size={14} /> Clear all filters
+                  </button>
+                </div>
+              )}
             </div>
-          </div>
+          </aside>
 
-          {/* CATEGORY BUTTONS */}
-          <div className="flex flex-wrap gap-3 mt-6">
-            {allCategories.map((cat) => (
-              <motion.button
-                whileTap={{ scale: 0.95 }}
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${selectedCategory === cat
-                  ? "bg-red-600 text-white shadow-lg"
-                  : "bg-gray-100 text-gray-700 hover:bg-red-50 hover:text-red-600"
-                  }`}
+          {/* MAIN CONTENT */}
+          <main className="flex-1">
+            <div className="flex items-center justify-between mb-6">
+              <p className="text-sm text-gray-500">
+                Showing{" "}
+                <span className="font-semibold text-gray-800">
+                  {filteredProducts.length}
+                </span>{" "}
+                products
+              </p>
+
+              <div className="flex items-center gap-2 bg-white rounded-xl border border-gray-100 p-1 shadow-sm">
+                <button
+                  onClick={() => setViewMode("grid")}
+                  className={`p-2 rounded-lg transition-all ${viewMode === "grid"
+                    ? "bg-gray-900 text-white"
+                    : "text-gray-500 hover:text-gray-700"
+                    }`}
+                >
+                  <Grid3x3 size={16} />
+                </button>
+
+                <button
+                  onClick={() => setViewMode("list")}
+                  className={`p-2 rounded-lg transition-all ${viewMode === "list"
+                    ? "bg-gray-900 text-white"
+                    : "text-gray-500 hover:text-gray-700"
+                    }`}
+                >
+                  <LayoutList size={16} />
+                </button>
+              </div>
+            </div>
+
+            {/* LOADING */}
+            {isLoading ? (
+              <div className="bg-white rounded-2xl py-20 text-center border border-gray-100 shadow-sm">
+                <h3 className="text-lg font-medium text-gray-800">
+                  Loading products...
+                </h3>
+              </div>
+            ) : isError ? (
+              <div className="bg-white rounded-2xl py-20 text-center border border-gray-100 shadow-sm">
+                <h3 className="text-lg font-medium text-red-500">
+                  Failed to load products
+                </h3>
+              </div>
+            ) : filteredProducts.length === 0 ? (
+              <div className="bg-white rounded-2xl py-20 text-center border border-gray-100 shadow-sm">
+                <div className="w-16 h-16 mx-auto bg-gray-50 rounded-full flex items-center justify-center mb-4">
+                  <Search
+                    size={28}
+                    className="text-gray-300"
+                  />
+                </div>
+
+                <h3 className="text-lg font-medium text-gray-800">
+                  No products found
+                </h3>
+
+                <p className="text-gray-500 text-sm mt-1">
+                  Try adjusting your filters
+                </p>
+
+                <button
+                  onClick={clearFilters}
+                  className="mt-4 text-[#0505eb] underline underline-offset-2 text-sm"
+                >
+                  Reset all filters
+                </button>
+              </div>
+            ) : viewMode === "grid" ? (
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
               >
-                {cat}
-              </motion.button>
-            ))}
-          </div>
+                {filteredProducts.map((product, idx) => (
+                  <motion.div
+                    key={product._id || product.id}
+                    variants={itemVariants}
+                    onClick={() => navigate(`/product/${product._id}`)}
+                    className="cursor-pointer"
+                  >
+                    <ProductCard
+                      product={product}
+                      index={idx}
+                      onAddToCart={(product, qty) =>
+                        addToCart(product, qty)
+                      }
+                    />
+                  </motion.div>
+                ))}
+              </motion.div>
+            ) : (
+              <div className="space-y-4">
+                {filteredProducts.map((product) => (
+                  <div
+                    key={product._id || product.id}
+                    onClick={() => navigate(`/product/${product._id}`)}
+                    className="bg-white rounded-xl border border-gray-100 p-4 flex flex-col sm:flex-row gap-4 hover:shadow-md transition-shadow cursor-pointer"
+                  >
+                    <div className="w-24 h-24 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+
+                    <div className="flex-1">
+                      <div className="flex flex-wrap justify-between items-start gap-2">
+                        <div>
+                          <h3 className="font-semibold text-gray-800">
+                            {product.name}
+                          </h3>
+
+                          <p className="text-sm text-gray-500 mt-0.5">
+                            {product.category}
+                          </p>
+                        </div>
+
+                        <div className="text-right">
+                          <p className="text-lg font-bold text-gray-900">
+                            ₹{product.price}
+                          </p>
+
+                          <p className="text-xs text-gray-400">
+                            In stock: {product.qty}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="mt-3 flex justify-end">
+                        <button
+                          onClick={() => addToCart(product, 1)}
+                          className="px-4 py-1.5 bg-gray-900 text-white text-sm rounded-lg hover:bg-gray-800 transition-colors"
+                        >
+                          Add to cart
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </main>
         </div>
-
-        {/* "ALL PRODUCTS" HEADER + RESULT COUNT */}
-        <div className="flex flex-col gap-1 mb-6">
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-            All Products
-          </h2>
-          <div className="flex items-center justify-between">
-            <p className="text-gray-600 text-sm">
-              Showing{" "}
-              <span className="font-semibold text-red-600">
-                {filteredProducts.length}
-              </span>{" "}
-              products
-            </p>
-          </div>
-        </div>
-
-        {/* PRODUCTS GRID */}
-        {filteredProducts.length === 0 ? (
-          <div className="bg-gray-50 rounded-3xl py-20 text-center border border-dashed border-gray-300">
-            <h2 className="text-2xl font-bold text-gray-800">
-              No Products Found
-            </h2>
-
-            <p className="text-gray-500 mt-2">
-              Try searching with different keywords.
-            </p>
-          </div>
-        ) : (
-          <motion.div
-            variants={container}
-            initial="hidden"
-            animate="show"
-            layout
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-          >
-            {filteredProducts.map((product, index) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                index={index}
-                onAddToCart={(product, qty) => addToCart(product, qty)}
-              />
-            ))}
-          </motion.div>
-        )}
-      </section>
+      </div>
     </div>
   );
 };

@@ -7,6 +7,7 @@ import { assets } from "../../assets/assets";
 import { useCart } from "../../context/CartContext";
 import CartModal from "../UI/CartModal";
 import { motion } from "framer-motion";
+import AuthModal from "../UI/AuthModal";
 
 const navLinks = [
     { name: "Home", path: "/" },
@@ -18,6 +19,7 @@ const NavBar = () => {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [hoverCart, setHoverCart] = useState(false);
+    const [authOpen, setAuthOpen] = useState(false);
 
     const { cartItems, cartCount } = useCart();
     const navigate = useNavigate();
@@ -26,7 +28,6 @@ const NavBar = () => {
 
     const closeDrawer = () => setDrawerOpen(false);
 
-    // ✅ STABLE HOVER LOGIC (FIXED)
     const handleMouseEnter = () => {
         if (hoverTimeout.current) {
             clearTimeout(hoverTimeout.current);
@@ -37,31 +38,31 @@ const NavBar = () => {
     const handleMouseLeave = () => {
         hoverTimeout.current = setTimeout(() => {
             setHoverCart(false);
-        }, 180); // smooth ecommerce delay
+        }, 180);
     };
 
     return (
         <>
             <header className="sticky top-0 z-50 bg-[#0a0a0a] border-b border-red-600/30 shadow-lg p-2">
-                <div className=" mx-auto px-2 lg:px-8">
+                <div className="max-w-7xl mx-auto px-2 lg:px-8">
                     <div className="h-16 flex items-center justify-between">
-
                         {/* LOGO */}
-                        <Link to="/" className="flex items-center gap-1">
-                            <div className="relative">
-                                <img
-                                    src={assets.logoTwo}
-                                    alt="KRS Lifeline"
-                                    className="h-25 w-20 object-contain"
-                                />
-                                <div className="absolute -inset-1 blur-xl opacity-30 rounded-full"></div>
-                            </div>
+                        <Link to="/" className="flex items-center gap-2">
 
+                            {/* Logo Image */}
+                            <img
+                                src={assets.logoTwo}
+                                alt="KRS Lifeline"
+                                className="h-12 w-12 sm:h-16 sm:w-16 md:h-20 md:w-20 object-contain"
+                            />
+
+                            {/* Text */}
                             <div className="leading-tight">
-                                <h1 className="text-white font-bold tracking-widest">
-                                    KRS<span className="text-red-500">LIFELINE</span>
+                                <h1 className="text-white font-bold tracking-widest text-sm sm:text-base md:text-lg">
+                                    KRS<span className="text-[#c90202]"> LIFELINE</span>
                                 </h1>
-                                <p className="text-[10px] text-gray-400 tracking-[3px]">
+
+                                <p className="text-[8px] sm:text-[10px] md:text-[11px] text-gray-400 tracking-[2px] sm:tracking-[3px]">
                                     ECOMMERCE
                                 </p>
                             </div>
@@ -75,7 +76,7 @@ const NavBar = () => {
                                     to={link.path}
                                     className={({ isActive }) =>
                                         `text-sm font-semibold transition ${isActive
-                                            ? "text-red-500"
+                                            ? "text-[#c90202]"
                                             : "text-gray-300 hover:text-white"
                                         }`
                                     }
@@ -88,7 +89,15 @@ const NavBar = () => {
                         {/* ACTIONS */}
                         <div className="flex items-center gap-3">
 
-                            {/* CART (FIXED HOVER SYSTEM) */}
+                            {/* USER ICON (VISIBLE ON ALL SCREENS) */}
+                            <button
+                                onClick={() => setAuthOpen(true)}
+                                className="p-2 text-white hover:text-red-500"
+                            >
+                                <User size={20} />
+                            </button>
+
+                            {/* CART */}
                             <div
                                 className="relative"
                                 onMouseEnter={handleMouseEnter}
@@ -111,14 +120,10 @@ const NavBar = () => {
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         transition={{ duration: 0.15 }}
                                         className="absolute right-0 mt-4 w-80 bg-white text-black rounded-2xl shadow-2xl border border-gray-100 z-50 overflow-hidden"
-
-                                        // ✅ IMPORTANT: prevents flicker
                                         onMouseEnter={handleMouseEnter}
                                         onMouseLeave={handleMouseLeave}
                                     >
-
-                                        {/* HEADER */}
-                                        <div className="px-4 py-3 border-b border-gray-100 bg-gray-50">
+                                        <div className="px-4 py-3 border-b bg-gray-50">
                                             <h3 className="font-semibold text-sm">
                                                 Cart Preview
                                                 <span className="text-gray-500 font-normal">
@@ -127,16 +132,13 @@ const NavBar = () => {
                                             </h3>
                                         </div>
 
-                                        {/* CONTENT */}
                                         <div className="p-4">
-
                                             {cartCount === 0 ? (
                                                 <p className="text-gray-500 text-sm text-center py-6">
                                                     Your cart is empty
                                                 </p>
                                             ) : (
                                                 <>
-                                                    {/* ITEMS */}
                                                     <div className="space-y-3 max-h-48 overflow-y-auto pr-1">
                                                         {cartItems.slice(0, 3).map((item) => (
                                                             <div
@@ -147,7 +149,6 @@ const NavBar = () => {
                                                                     src={item.image}
                                                                     className="w-11 h-11 rounded-lg object-cover border"
                                                                 />
-
                                                                 <div className="flex-1 min-w-0">
                                                                     <p className="text-sm font-medium truncate">
                                                                         {item.name}
@@ -156,7 +157,6 @@ const NavBar = () => {
                                                                         Qty: {item.qty}
                                                                     </p>
                                                                 </div>
-
                                                                 <p className="text-sm font-semibold text-red-600">
                                                                     ₹{item.price}
                                                                 </p>
@@ -164,9 +164,7 @@ const NavBar = () => {
                                                         ))}
                                                     </div>
 
-                                                    {/* ACTIONS */}
                                                     <div className="mt-4 space-y-2">
-
                                                         <button
                                                             onClick={() => {
                                                                 setIsCartOpen(true);
@@ -178,13 +176,11 @@ const NavBar = () => {
                                                         </button>
 
                                                         <button
-                                                            onClick={() => {
-                                                                navigate("/billing");
-                                                            }}
-                                                            className="w-full py-2.5 rounded-xl bg-red-600 text-white text-sm font-medium hover:bg-red-700 transition">
+                                                            onClick={() => navigate("/billing")}
+                                                            className="w-full py-2.5 rounded-xl bg-red-600 text-white text-sm font-medium hover:bg-red-700 transition"
+                                                        >
                                                             Checkout
                                                         </button>
-
                                                     </div>
                                                 </>
                                             )}
@@ -192,14 +188,6 @@ const NavBar = () => {
                                     </motion.div>
                                 )}
                             </div>
-
-                            {/* PROFILE */}
-                            <button
-                                onClick={() => navigate("/profile")}
-                                className="p-2 text-white hover:text-red-500 hidden md:block"
-                            >
-                                <User size={20} />
-                            </button>
 
                             {/* MOBILE MENU */}
                             <button
@@ -267,6 +255,11 @@ const NavBar = () => {
             <CartModal
                 isOpen={isCartOpen}
                 onClose={() => setIsCartOpen(false)}
+            />
+
+            <AuthModal
+                isOpen={authOpen}
+                onClose={() => setAuthOpen(false)}
             />
         </>
     );

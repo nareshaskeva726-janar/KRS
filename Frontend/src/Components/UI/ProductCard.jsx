@@ -125,7 +125,7 @@ const ProductCard = ({ product, onAddToCart, index }) => {
                             onClick={handleAdd}
                             className={`flex-1 h-11 rounded-2xl text-sm font-bold flex items-center justify-center gap-2 transition-all duration-300 shadow-lg ${added
                                 ? "bg-emerald-500 text-white"
-                                : "bg-gray-900 hover:bg-red-600 hover:scale-[1.02] text-white"
+                                : "bg-[#c90202] hover:bg-red-600 hover:scale-[1.02] text-white"
                                 }`}
                         >
                             {added ? (

@@ -1,18 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Outfit:wght@100..900&display=swap');
 @import "tailwindcss";
 
-h1{
-    font-family: "Outfit", sans-serif;
+h1 {
+  font-family: "Outfit", sans-serif;
 }
 
-p{
-    font-family: "Inter", sans-serif;
+p {
+  font-family: "Inter", sans-serif;
 }
 
 @keyframes slideInRight {
   from {
     transform: translateX(100%);
   }
+
   to {
     transform: translateX(0);
   }
@@ -20,4 +21,49 @@ p{
 
 .animate-slideInRight {
   animation: slideInRight 0.3s ease-out;
+}
+
+.custom-menu .ant-menu-item {
+  color: #ffffff;
+}
+
+.custom-menu .ant-menu-item:hover {
+  background-color: #1a1a1a !important;
+}
+
+.custom-menu .ant-menu-item-selected {
+  background-color: #c90202 !important;
+  color: #ffffff !important;
+  border-radius: 8px;
+}
+
+.custom-menu .ant-menu-item-selected .anticon {
+  color: #ffffff !important;
+}
+
+.custom-menu .ant-menu-item-selected:hover {
+  background-color: #a60202 !important;
+}
+
+.custom-menu .ant-menu-item {
+  font-weight: 500;
+  /* semi-bold */
+  color: #ffffff;
+}
+
+.custom-menu .ant-menu-item-selected {
+  font-weight: 600;
+  /* slightly stronger for active */
+  background-color: #c90202 !important;
+  color: #fff !important;
+  border-radius: 8px;
+}
+
+.ant-upload-select {
+  border: 1px dashed #c90202 !important;
+  border-radius: 10px !important;
+}
+
+.ant-upload-list-picture-card .ant-upload-list-item {
+  border-radius: 10px !important;
 }

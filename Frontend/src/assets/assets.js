@@ -8,6 +8,11 @@ import heroImage from "../assets/productKRSTwo.jpg"
 import TV from "../assets/TV.jpg";
 import WV from "../assets/WV.jpg";
 import AC from "../assets/AC.jpg";
+import proImage from "../assets/image.jpg"
+import hero from "../assets/mixy.png"
+import appliance from "../assets/appliances.png"
+import applianceTwo from "../assets/applianceTwo.png"
+import video from "../assets/KRSLIFELINE.mp4"
 
 //assets like banner, logo, hero images
 export const assets = {
@@ -20,6 +25,11 @@ export const assets = {
   heroImage,
   TV,
   WV,
-  AC
+  AC,
+  proImage,
+  hero,
+  appliance,
+  applianceTwo,
+  video
 };
 

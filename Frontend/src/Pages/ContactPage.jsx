@@ -44,7 +44,7 @@ const ContactPage = () => {
             initial="hidden"
             animate="visible"
           >
-            <span className="bg-red-100 text-red-600 px-4 py-2 rounded-full text-sm font-semibold">
+            <span className="bg-white text-[#0505eb] px-4 py-2 rounded-full text-sm font-semibold shadow-sm border-[#c90202]/30">
               Contact Us
             </span>
 
@@ -53,7 +53,7 @@ const ContactPage = () => {
               className="text-4xl md:text-5xl lg:text-6xl font-extrabold mt-6 leading-tight text-gray-900"
             >
               Let's Build Something
-              <span className="block text-red-600">Amazing Together</span>
+              <span className="block text-[#c90202]">Amazing Together</span>
             </motion.h1>
 
             <motion.p
@@ -98,13 +98,25 @@ const ContactPage = () => {
                   <MapPin className="text-red-600" />
                 </div>
 
-                <div>
+                <div className="w-full">
                   <h4 className="font-semibold text-gray-900">Visit Us</h4>
-                  <p className="text-gray-600 max-w-md">
-                    331/12, 3rd Street Extension, Gandhipuram,
-                    Coimbatore - 641012
+
+                  <p className="text-gray-600 max-w-md mb-3">
+                    331/12, 3rd Street Extension, Gandhipuram, Coimbatore - 641012
                   </p>
+
+                  {/* GOOGLE MAP */}
+                  <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-md">
+                    <iframe
+                      title="KRS Lifeline Location"
+                      src="https://www.google.com/maps?q=Gandhipuram,Coimbatore&output=embed"
+                      className="w-full h-48"
+                      loading="lazy"
+                      allowFullScreen
+                    />
+                  </div>
                 </div>
+
               </div>
             </div>
 
@@ -208,7 +220,7 @@ const ContactPage = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
-                className="w-full h-12 rounded-xl bg-red-600 text-white font-semibold flex items-center justify-center gap-2 hover:bg-red-700 transition"
+                className="w-full h-12 rounded-xl bg-[#c90202] text-white font-semibold flex items-center justify-center gap-2 hover:bg-red-700 transition"
               >
                 <Send size={18} />
                 Send Message
