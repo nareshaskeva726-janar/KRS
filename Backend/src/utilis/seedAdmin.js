@@ -9,8 +9,7 @@ const seedAdmin = async () => {
   try {
     await connectDB();
 
-    const name =
-      process.env.SUPERADMIN_NAME || "Super Admin";
+    const name = process.env.SUPERADMIN_NAME || "Super Admin";
     const email = process.env.SUPERADMIN_EMAIL || "krslifeline@gmail.com";
     const password = process.env.SUPERADMIN_PASSWORD || "krs@123";
 
