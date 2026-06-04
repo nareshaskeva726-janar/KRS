@@ -29,7 +29,7 @@ const seedAdmin = async () => {
       role: "superadmin",
     });
 
-    console.log("✅ Superadmin created successfully");
+    console.log("Superadmin created successfully");
     process.exit();
   } catch (err) {
     console.log(err.message);

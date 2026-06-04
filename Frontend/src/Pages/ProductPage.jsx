@@ -119,19 +119,23 @@ const ProductPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
-      <section className="relative overflow-hidden py-24 border-b border-gray-100">
-        {/* Background glow */}
-        <div className="pointer-events-none absolute -top-40 -left-40 w-[600px] h-[600px] bg-[#c90202]/20 rounded-full blur-[140px]" />
-        <div className="pointer-events-none absolute -bottom-20 right-0 w-[400px] h-[400px] bg-[#0505eb]/10 rounded-full blur-[100px]" />
+    <div className="min-h-screen  bg-white">
+      {/* HERO */}
+      <section className="relative overflow-hidden py-16 border-b border-gray-100">
+        {/* background glow */}
+        <div className="absolute top-0 left-0 w-72 h-72 bg-red-100 rounded-full blur-3xl opacity-70" />
+        <div className="absolute bottom-0 right-0 w-72 h-72 bg-red-50 rounded-full blur-3xl opacity-80" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid lg:grid-cols-2 gap-16 items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid lg:grid-cols-2 gap-14 items-center">
+
           {/* LEFT CONTENT */}
-          <div className="flex flex-col space-y-7">
+          <div className="space-y-6">
+
             <motion.span
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white text-[#0505eb] border border-[#c90202]/30 shadow-sm px-4 py-2 rounded-full text-sm font-semibold inline-flex w-fit"
+              transition={{ duration: 0.4 }}
+              className="bg-red-100 text-red-600 px-4 py-2 rounded-full text-sm font-semibold inline-block w-fit"
             >
               Premium Appliances
             </motion.span>
@@ -139,10 +143,11 @@ const ProductPage = () => {
             <motion.h1
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-gray-900 space-y-2"
+              transition={{ duration: 0.6 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-gray-900"
             >
-              <span>Shop Smarter with</span>
-              <span className="block text-[#c90202]">
+              Shop Smarter with
+              <span className="block text-red-600">
                 Premium Products
               </span>
             </motion.h1>
@@ -150,44 +155,46 @@ const ProductPage = () => {
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
               className="text-gray-600 leading-7 max-w-xl"
             >
-              We offer a unique collection of home appliances,
-              kitchen essentials, lifestyle products, gadgets,
-              and social media trending items for everyday use.
-              Customers can directly visit our showroom and
-              explore products in person before purchasing.
+              We offer a unique collection of home appliances, kitchen essentials,
+              lifestyle products, gadgets, and social media trending items for everyday use. Customers can directly visit our showroom and explore products in person before purchasing.
             </motion.p>
+
           </div>
 
           {/* RIGHT IMAGE */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
             className="relative flex justify-center lg:justify-end"
           >
-            <div className="absolute w-[380px] h-[380px] bg-red-200 blur-3xl opacity-40 rounded-full" />
+            {/* glow behind image */}
+            <div className="absolute w-[360px] h-[360px] bg-red-200 blur-3xl opacity-40 rounded-full" />
 
-            <div className="relative z-10 mt-2 lg:mt-0">
-              <motion.img
-                animate={{ y: [0, -10, 0] }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                src={assets.productImage}
-                alt="Hero Product"
-                className="w-[340px] h-[340px] sm:w-[460px] sm:h-[460px] md:w-[520px] md:h-[520px] object-cover rounded-3xl border border-white"
-              />
-            </div>
+            {/* floating animation */}
+            <motion.img
+              animate={{ y: [0, -10, 0] }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              src={assets.productImage}
+              alt="Hero Product"
+              className="relative z-10 w-[350px] h-[350px] sm:w-[460px] sm:h-[460px] md:w-[520px] md:h-[520px] object-cover rounded-3xl  border border-white"
+            />
           </motion.div>
+
         </div>
       </section>
 
       {/* PRODUCTS SECTION */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <h1 className="text-7xl text-center p-5 font-bold">ALL <span className="text-red-600">Products</span></h1>
         <div className="flex flex-col lg:flex-row gap-8">
           {/* SIDEBAR */}
           <aside className="w-full lg:w-72 flex-shrink-0">

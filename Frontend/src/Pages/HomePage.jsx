@@ -20,7 +20,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { assets } from "../assets/assets";
-import { products } from "../MockData/Product"
+import {products} from "../MockData/Product"
 
 /* ── Animation variants ── */
 const container = {
@@ -125,283 +125,180 @@ const HomePage = () => {
   return (
     <div className="bg-[#fafafa] text-gray-900 overflow-x-hidden">
 
-
-      {/* section 1 */}
-      <section className="relative overflow-hidden bg-[#fff] text-[#000]">
+      {/* ══════════════════════════════════════════
+          SECTION 1 · HERO
+      ══════════════════════════════════════════ */}
+      <section className="relative overflow-hidden bg-white">
         {/* Dot texture */}
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.03]"
+          className="pointer-events-none absolute inset-0 opacity-[0.025]"
           style={{
-            backgroundImage: "radial-gradient(circle, #000 1px, transparent 1px)",
+            backgroundImage: "radial-gradient(circle, #111 1px, transparent 1px)",
             backgroundSize: "28px 28px",
           }}
         />
-
-        {/* Background glow */}
-        <div className="pointer-events-none absolute -top-40 -left-40 w-[600px] h-[600px] bg-[#c90202]/20 rounded-full blur-[140px]" />
-        <div className="pointer-events-none absolute -bottom-20 right-0 w-[400px] h-[400px] bg-[#0505eb]/10 rounded-full blur-[100px]" />
+        <div className="pointer-events-none absolute -top-40 -left-40 w-[600px] h-[600px] bg-red-100 rounded-full blur-[140px] opacity-50" />
+        <div className="pointer-events-none absolute -bottom-20 right-0 w-[400px] h-[400px] bg-red-50 rounded-full blur-[100px] opacity-60" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 lg:pb-24 grid lg:grid-cols-2 gap-12 items-center">
-
-          {/* LEFT CONTENT */}
-          <motion.div
-            initial="hidden"
-            animate="show"
-            variants={container}
-            className="space-y-7"
-          >
-            {/* Badge */}
+          {/* Left */}
+          <motion.div initial="hidden" animate="show" variants={container} className="space-y-7">
             <motion.span
               variants={fadeUp}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#fff] border border-[#c90202]/30 text-[#0505eb] text-xs font-bold tracking-widest uppercase shadow-sm"
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 border border-red-200 text-red-600 text-xs font-bold tracking-widest uppercase"
             >
-              <Sparkles size={12} />
-              Welcome to KRS Lifeline
+              <Sparkles size={12} /> Welcome to KRS Lifeline
             </motion.span>
 
-            {/* Heading */}
-            <motion.h1
-              variants={fadeUp}
-              className="text-5xl md:text-6xl lg:text-[4.5rem] font-black leading-[1.06] tracking-tight text-[#000]"
-            >
+            <motion.h1 variants={fadeUp} className="text-5xl md:text-6xl lg:text-[4.5rem] font-black leading-[1.06] tracking-tight">
               Shop
               <span className="relative inline-block ml-3">
-                <span className="text-[#c90202]">Smarter.</span>
-
+                <span className="text-red-600">Smarter.</span>
                 <motion.span
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
-                  transition={{
-                    delay: 0.7,
-                    duration: 0.5,
-                    ease: "easeOut",
-                  }}
-                  className="absolute -bottom-1 left-0 w-full h-1 bg-[#c90202] origin-left rounded-full"
+                  transition={{ delay: 0.7, duration: 0.5, ease: "easeOut" }}
+                  className="absolute -bottom-1 left-0 w-full h-1 bg-red-600 origin-left rounded-full"
                 />
               </span>
-
-              <span className="block mt-2 text-[#000]">
-                Live Better.
-              </span>
+              <span className="block mt-2">Live Better.</span>
             </motion.h1>
 
-            {/* Description */}
-            <motion.p
-              variants={fadeUp}
-              className="text-[#000]/70 leading-relaxed text-base max-w-md"
-            >
-              Premium appliances, trending gadgets, and daily essentials —
-              delivered fast with unbeatable prices and service that goes
-              the extra mile.
+            <motion.p variants={fadeUp} className="text-gray-500 leading-relaxed text-base max-w-md">
+              Premium appliances, trending gadgets, and daily essentials — delivered fast with unbeatable prices and service that goes the extra mile.
             </motion.p>
 
-            {/* Buttons */}
-            <motion.div
-              variants={fadeUp}
-              className="flex flex-wrap gap-3 pt-1"
-            >
-              {/* Primary */}
+            <motion.div variants={fadeUp} className="flex flex-wrap gap-3 pt-1">
               <motion.button
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
+                whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
                 onClick={() => navigate("/products")}
-                className="inline-flex items-center gap-2 bg-[#c90202] hover:bg-[#dc0d0d] text-[#fff] px-8 py-4 rounded-2xl font-bold shadow-lg shadow-[#0505eb]/20 transition-all text-sm"
+                className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-2xl font-bold shadow-lg shadow-red-200 transition-all text-sm"
               >
-                Shop Now
-                <ArrowRight size={15} />
+                Shop Now <ArrowRight size={15} />
               </motion.button>
-
-              {/* Secondary */}
               <motion.button
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
+                whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
                 onClick={() => navigate("/products")}
-                className="inline-flex items-center gap-2 border-2 border-[#000]/10 hover:border-[#c90202] hover:text-[#c90202] text-[#000] px-8 py-4 rounded-2xl font-semibold transition-all text-sm bg-[#fff]"
+                className="inline-flex items-center gap-2 border-2 border-gray-200 hover:border-red-500 hover:text-red-600 text-gray-700 px-8 py-4 rounded-2xl font-semibold transition-all text-sm"
               >
                 Browse All
               </motion.button>
             </motion.div>
 
-            {/* Stats */}
-            <motion.div
-              variants={fadeUp}
-              className="flex items-center gap-8 pt-6 border-t border-[#000]/10"
-            >
+            <motion.div variants={fadeUp} className="flex items-center gap-8 pt-6 border-t border-gray-100">
               {stats.map((s) => (
                 <div key={s.label} className="text-center">
-                  <p className="text-3xl font-black text-[#000] tracking-tight">
-                    {s.value}
-                  </p>
-                  <p className="text-[#000]/50 text-[11px] font-medium mt-0.5 uppercase tracking-wide">
-                    {s.label}
-                  </p>
+                  <p className="text-3xl font-black text-gray-900 tracking-tight">{s.value}</p>
+                  <p className="text-gray-400 text-[11px] font-medium mt-0.5 uppercase tracking-wide">{s.label}</p>
                 </div>
               ))}
             </motion.div>
           </motion.div>
 
-          {/* RIGHT CONTENT */}
+          {/* Right */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{
-              duration: 0.7,
-              ease: [0.22, 1, 0.36, 1],
-            }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="relative flex justify-center lg:justify-end"
           >
-            {/* Floating Card 1 */}
             <motion.div
               animate={{ y: [0, -10, 0] }}
-              transition={{
-                repeat: Infinity,
-                duration: 4,
-                ease: "easeInOut",
-              }}
-              className="absolute -top-4 left-2 lg:-left-8 z-20 bg-[#fff] rounded-2xl shadow-xl border border-[#000]/10 px-4 py-3"
+              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+              className="absolute -top-4 left-2 lg:-left-8 z-20 bg-white rounded-2xl shadow-xl border border-gray-100 px-4 py-3"
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#c90202]/10 flex items-center justify-center text-[#c90202]">
+                <div className="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center text-red-600">
                   <ShoppingBag size={19} />
                 </div>
-
                 <div>
-                  <p className="font-black text-sm text-[#000]">
-                    500+ Products
-                  </p>
-                  <p className="text-[11px] text-[#000]/50">
-                    Premium collections
-                  </p>
+                  <p className="font-black text-sm text-gray-900">500+ Products</p>
+                  <p className="text-[11px] text-gray-400">Premium collections</p>
                 </div>
               </div>
             </motion.div>
 
-            {/* Floating Card 2 */}
             <motion.div
               animate={{ y: [0, 10, 0] }}
-              transition={{
-                repeat: Infinity,
-                duration: 5,
-                ease: "easeInOut",
-              }}
-              className="absolute -bottom-4 right-2 lg:-right-4 z-20 bg-[#fff] rounded-2xl shadow-xl border border-[#000]/10 px-4 py-3"
+              transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+              className="absolute -bottom-4 right-2 lg:-right-4 z-20 bg-white rounded-2xl shadow-xl border border-gray-100 px-4 py-3"
             >
               <div className="flex items-center gap-2">
                 <div className="flex -space-x-2">
-                  {["bg-[#c90202]", "bg-[#0505eb]", "bg-[#000]"].map(
-                    (c, i) => (
-                      <div
-                        key={i}
-                        className={`w-7 h-7 rounded-full ${c} border-2 border-[#fff]`}
-                      />
-                    )
-                  )}
+                  {["bg-red-400", "bg-red-600", "bg-gray-800"].map((c, i) => (
+                    <div key={i} className={`w-7 h-7 rounded-full ${c} border-2 border-white`} />
+                  ))}
                 </div>
-
                 <div>
-                  <p className="font-black text-sm text-[#000]">
-                    10K+ Happy
-                  </p>
-                  <p className="text-[11px] text-[#000]/50">
-                    Customers ⭐ 4.9
-                  </p>
+                  <p className="font-black text-sm text-gray-900">10K+ Happy</p>
+                  <p className="text-[11px] text-gray-400">Customers ⭐ 4.9</p>
                 </div>
               </div>
             </motion.div>
 
-            {/* Image */}
             <div className="relative w-full max-w-[520px]">
-              <div className="absolute inset-8 bg-[#c90202]/20 rounded-full blur-3xl" />
-
+              <div className="absolute inset-8 bg-red-300 rounded-full blur-3xl opacity-20" />
               <img
                 src={assets.bannerOne}
                 alt="Hero Banner"
-                className="relative z-10 w-full h-[480px] object-cover rounded-[2rem] shadow-2xl border border-[#000]/10"
+                className="relative z-10 w-full h-[480px] object-cover rounded-[2rem] shadow-2xl border border-gray-100"
               />
-
-              {/* Decorations */}
-              <div className="absolute -bottom-3 -right-3 w-24 h-24 rounded-[1.5rem] bg-[#0505eb] -z-10" />
-
-              <div className="absolute -top-3 -left-3 w-16 h-16 rounded-2xl border-2 border-[#c90202] -z-10" />
+              <div className="absolute -bottom-3 -right-3 w-24 h-24 rounded-[1.5rem] bg-red-600 -z-10" />
+              <div className="absolute -top-3 -left-3 w-16 h-16 rounded-2xl border-2 border-red-200 -z-10" />
             </div>
           </motion.div>
         </div>
 
-        {/* MARQUEE */}
-        <div className="relative z-10 border-t border-[#000]/10 bg-[#c90202] overflow-hidden py-3">
+        {/* Marquee ticker */}
+        <div className="relative z-10 border-t border-gray-100 bg-red-600 overflow-hidden py-3">
           <motion.div
             animate={{ x: [0, -1200] }}
-            transition={{
-              repeat: Infinity,
-              duration: 22,
-              ease: "linear",
-            }}
+            transition={{ repeat: Infinity, duration: 22, ease: "linear" }}
             className="flex gap-12 whitespace-nowrap"
           >
-            {[...marqueeItems, ...marqueeItems, ...marqueeItems].map(
-              (item, i) => (
-                <span
-                  key={i}
-                  className="text-[#fff] text-xs font-bold uppercase tracking-widest flex items-center gap-3"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#fff]/50 shrink-0" />
-                  {item}
-                </span>
-              )
-            )}
+            {[...marqueeItems, ...marqueeItems, ...marqueeItems].map((item, i) => (
+              <span key={i} className="text-white text-xs font-bold uppercase tracking-widest flex items-center gap-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-white/50 shrink-0" />
+                {item}
+              </span>
+            ))}
           </motion.div>
         </div>
       </section>
 
-      {/* section 2 */}
-      <section className="py-24 bg-[#fff] relative overflow-hidden">
+      {/* ══════════════════════════════════════════
+          SECTION 2 · WHY CHOOSE US — Light, numbered cards
+      ══════════════════════════════════════════ */}
+      <section className="py-24 bg-[#f7f7f7] relative overflow-hidden">
         {/* Subtle dot bg */}
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.03]"
           style={{
-            backgroundImage: "radial-gradient(circle, #000 1px, transparent 1px)",
+            backgroundImage: "radial-gradient(circle, #ef4444 1px, transparent 1px)",
             backgroundSize: "36px 36px",
           }}
         />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
           {/* Header */}
           <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.3 }}
-            variants={container}
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }} variants={container}
             className="text-center mb-16"
           >
-            <motion.p
-              variants={fadeUp}
-              className="text-[#0505eb] text-xs font-bold uppercase tracking-[4px] mb-3"
-            >
+            <motion.p variants={fadeUp} className="text-red-600 text-xs font-bold uppercase tracking-[4px] mb-3">
               Why Us
             </motion.p>
-
-            <motion.h2
-              variants={fadeUp}
-              className="text-4xl md:text-5xl font-black leading-tight text-[#000]"
-            >
-              Built Around <span className="text-[#c90202]">You</span>
+            <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black leading-tight">
+              Built Around <span className="text-red-600">You</span>
             </motion.h2>
-
-            <motion.p
-              variants={fadeUp}
-              className="text-[#000]/60 mt-4 max-w-lg mx-auto text-sm leading-relaxed"
-            >
+            <motion.p variants={fadeUp} className="text-gray-500 mt-4 max-w-lg mx-auto text-sm leading-relaxed">
               Every decision we make is centred on giving you a smoother, smarter, and more satisfying shopping experience.
             </motion.p>
           </motion.div>
 
           {/* Numbered feature cards */}
           <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.15 }}
-            variants={container}
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.15 }} variants={container}
             className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5"
           >
             {features.map((f, i) => (
@@ -409,31 +306,25 @@ const HomePage = () => {
                 key={i}
                 variants={fadeUp}
                 whileHover={{ y: -8, transition: { duration: 0.25 } }}
-                className="group relative bg-[#fff] rounded-3xl p-7 border border-[#000]/10 hover:border-[#c90202]/30 hover:shadow-xl hover:shadow-[#c90202]/10 transition-all duration-300 overflow-hidden cursor-default"
+                className="group relative bg-white rounded-3xl p-7 border border-gray-100 hover:border-red-200 hover:shadow-xl hover:shadow-red-50 transition-all duration-300 overflow-hidden cursor-default"
               >
                 {/* Big number watermark */}
                 <span
-                  className="absolute -top-3 -right-1 text-[80px] font-black text-[#000]/5 group-hover:text-[#c90202]/10 transition-colors leading-none select-none"
+                  className="absolute -top-3 -right-1 text-[80px] font-black text-gray-100 group-hover:text-red-50 transition-colors leading-none select-none"
                   style={{ lineHeight: 1 }}
                 >
                   {f.num}
                 </span>
 
                 {/* Top accent bar */}
-                <div className="absolute top-0 left-6 w-10 h-[3px] rounded-b-full bg-[#0505eb] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute top-0 left-6 w-10 h-[3px] rounded-b-full bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                 <div className="relative z-10">
-                  <div className="w-14 h-14 rounded-2xl bg-[#c90202]/10 text-[#c90202] flex items-center justify-center mb-5 group-hover:bg-[#0505eb] group-hover:text-[#fff] transition-all duration-300">
+                  <div className="w-14 h-14 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center mb-5 group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
                     {f.icon}
                   </div>
-
-                  <h3 className="text-[#000] font-black text-lg mb-2">
-                    {f.title}
-                  </h3>
-
-                  <p className="text-[#000]/60 text-sm leading-relaxed">
-                    {f.desc}
-                  </p>
+                  <h3 className="text-gray-900 font-black text-lg mb-2">{f.title}</h3>
+                  <p className="text-gray-500 text-sm leading-relaxed">{f.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -441,48 +332,39 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* section 3 */}
-      <section className="py-24 bg-[#fff]">
+      {/* ══════════════════════════════════════════
+          SECTION 3 · CATEGORIES
+      ══════════════════════════════════════════ */}
+      <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
           <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
-            variants={container}
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={container}
             className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12"
           >
             <div>
               <motion.p
                 variants={fadeUp}
-                className="text-[#0505eb] text-xs font-bold uppercase tracking-[4px] mb-2"
+                className="text-red-600 text-xs font-bold uppercase tracking-[4px] mb-2"
               >
                 Collections
               </motion.p>
 
               <motion.h2
                 variants={fadeUp}
-                className="text-4xl md:text-5xl font-black leading-tight text-[#000]"
+                className="text-4xl md:text-5xl font-black leading-tight text-nowrap [&>br]:hidden"
               >
-                Shop by
-                <span className="text-[#c90202]"> Category</span>
+                Shop by <br />
+                <span className="text-red-600">Category</span>
               </motion.h2>
             </div>
-
-            <motion.p
-              variants={fadeUp}
-              className="text-[#000]/50 text-sm max-w-xs leading-relaxed md:text-right"
-            >
+            <motion.p variants={fadeUp} className="text-gray-400 text-sm max-w-xs leading-relaxed md:text-right">
               Explore our curated collections, each handpicked for quality and value.
             </motion.p>
           </motion.div>
 
           {categories.length > 0 && (
             <motion.div
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, amount: 0.1 }}
-              variants={container}
+              initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.1 }} variants={container}
               className="grid grid-cols-2 lg:grid-cols-3 gap-4"
               style={{ gridAutoRows: "220px" }}
             >
@@ -490,37 +372,22 @@ const HomePage = () => {
                 <motion.div
                   key={i}
                   variants={fadeUp}
-                  onClick={() =>
-                    navigate(`/products?category=${cat.title}`)
-                  }
-                  className={`relative overflow-hidden rounded-3xl cursor-pointer group ${i === 0 ? "row-span-2" : ""
-                    }`}
+                  onClick={() => navigate(`/products?category=${cat.title}`)}
+                  className={`relative overflow-hidden rounded-3xl cursor-pointer group ${i === 0 ? "row-span-2" : ""}`}
                 >
                   <img
-                    src={cat.image}
-                    alt={cat.title}
+                    src={cat.image} alt={cat.title}
                     className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#000]/80 via-[#000]/20 to-transparent" />
-                  <div className="absolute inset-0 bg-[#c90202]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="absolute inset-0 bg-red-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between">
                     <div>
-                      <p className="text-[#fff]/60 text-[10px] uppercase tracking-[3px] mb-1">
-                        Collection
-                      </p>
-
-                      <h3 className="text-[#fff] font-black text-xl">
-                        {cat.title}
-                      </h3>
+                      <p className="text-white/60 text-[10px] uppercase tracking-[3px] mb-1">Collection</p>
+                      <h3 className="text-white font-black text-xl">{cat.title}</h3>
                     </div>
-
-                    <div className="w-9 h-9 rounded-full bg-[#fff] flex items-center justify-center group-hover:bg-[#0505eb] transition-colors shrink-0">
-                      <ChevronRight
-                        size={15}
-                        className="text-[#000] group-hover:text-[#fff] transition-colors"
-                      />
+                    <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center group-hover:bg-red-600 transition-colors shrink-0">
+                      <ChevronRight size={15} className="text-gray-900 group-hover:text-white transition-colors" />
                     </div>
                   </div>
                 </motion.div>
@@ -529,15 +396,12 @@ const HomePage = () => {
           )}
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-            className="text-center mt-8"
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+            transition={{ delay: 0.3 }} className="text-center mt-8"
           >
             <button
               onClick={() => navigate("/products")}
-              className="inline-flex items-center gap-2 border-2 border-[#000]/10 hover:border-[#c90202] hover:text-[#c90202] text-[#000]/70 px-8 py-3.5 rounded-2xl font-semibold text-sm transition-all"
+              className="inline-flex items-center gap-2 border-2 border-gray-200 hover:border-red-600 hover:text-red-600 text-gray-600 px-8 py-3.5 rounded-2xl font-semibold text-sm transition-all"
             >
               View All Categories <ArrowRight size={15} />
             </button>
@@ -545,99 +409,65 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* section 5 */}
-      <section className="py-24 bg-[#fff]">
+      {/* ══════════════════════════════════════════
+          SECTION 4 · TRENDING PRODUCTS
+      ══════════════════════════════════════════ */}
+      <section className="py-24 bg-[#f7f7f7]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
           <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
-            variants={container}
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={container}
             className="flex items-end justify-between mb-12"
           >
             <div>
               <motion.div variants={fadeUp} className="flex items-center gap-2 mb-2">
-                <Flame size={18} className="text-[#0505eb]" />
-                <p className="text-[#0505eb] text-xs font-bold uppercase tracking-[4px]">
-                  Hot Right Now
-                </p>
+                <Flame size={18} className="text-red-600" />
+                <p className="text-red-600 text-xs font-bold uppercase tracking-[4px]">Hot Right Now</p>
               </motion.div>
-
-              <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black text-[#000]">
-                Trending <span className="text-[#c90202]">Picks</span>
+              <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black">
+                Trending <span className="text-red-600">Picks</span>
               </motion.h2>
             </div>
-
             <motion.button
               variants={fadeUp}
               onClick={() => navigate("/products")}
-              className="hidden md:inline-flex items-center gap-2 text-sm font-bold text-[#000]/50 hover:text-[#c90202] transition-colors"
+              className="hidden md:inline-flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-red-600 transition-colors"
             >
               View All <ArrowRight size={14} />
             </motion.button>
           </motion.div>
 
           <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.1 }}
-            variants={container}
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.1 }} variants={container}
             className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5"
           >
             {trendingProducts.map((p, idx) => (
               <motion.div
-                key={p.id}
-                variants={fadeUp}
-                whileHover={{ y: -6 }}
+                key={p.id} variants={fadeUp} whileHover={{ y: -6 }}
                 onClick={() => navigate(`/product/${p.id}`)}
-                className="group bg-[#fff] rounded-3xl overflow-hidden border border-[#000]/10 shadow-sm hover:shadow-2xl hover:shadow-[#c90202]/10 transition-all duration-300 cursor-pointer"
+                className="group bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-2xl hover:shadow-red-50 transition-all duration-300 cursor-pointer"
               >
-                {/* IMAGE */}
-                <div className="relative overflow-hidden h-52 bg-[#f7f7f7]">
-                  <img
-                    src={p.image}
-                    alt={p.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-
+                <div className="relative overflow-hidden h-52 bg-gray-50">
+                  <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   {idx === 0 && (
-                    <div className="absolute top-3 left-3 bg-[#c90202] text-[#fff] text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-lg">
+                    <div className="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-lg">
                       #1 Trending
                     </div>
                   )}
-
-                  <button className="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#fff]/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-[#fff]">
-                    <Heart size={14} className="text-[#c90202]" />
+                  <button className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-50">
+                    <Heart size={14} className="text-red-500" />
                   </button>
                 </div>
-
-                {/* CONTENT */}
                 <div className="p-5">
-                  <span className="text-[10px] font-black text-[#c90202] uppercase tracking-widest">
-                    {p.category}
-                  </span>
-
-                  <h3 className="font-bold text-[#000] text-base mt-1 line-clamp-1">
-                    {p.name}
-                  </h3>
-
+                  <span className="text-[10px] font-black text-red-600 uppercase tracking-widest">{p.category}</span>
+                  <h3 className="font-bold text-gray-900 text-base mt-1 line-clamp-1">{p.name}</h3>
                   <div className="flex items-center justify-between mt-4">
                     <div>
-                      <p className="text-2xl font-black text-[#000]">
-                        ₹{p.price?.toLocaleString()}
-                      </p>
-                      <p className="text-[11px] text-[#000]/40 mt-0.5">
-                        Free delivery
-                      </p>
+                      <p className="text-2xl font-black text-gray-900">₹{p.price?.toLocaleString()}</p>
+                      <p className="text-[11px] text-gray-400 mt-0.5">Free delivery</p>
                     </div>
-
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/product/${p.id}`);
-                      }}
-                      className="w-10 h-10 rounded-2xl bg-[#c90202] hover:bg-[#0505eb] text-[#fff] flex items-center justify-center transition-colors"
+                      onClick={(e) => { e.stopPropagation(); navigate(`/product/${p.id}`); }}
+                      className="w-10 h-10 rounded-2xl bg-red-600 hover:bg-red-700 text-white flex items-center justify-center transition-colors"
                     >
                       <ShoppingBag size={16} />
                     </button>
@@ -649,9 +479,9 @@ const HomePage = () => {
         </div>
       </section>
 
-      
-
-      {/* section 6 */}
+      {/* ══════════════════════════════════════════
+          SECTION 5 · TESTIMONIALS
+      ══════════════════════════════════════════ */}
       <section className="py-24 bg-white relative overflow-hidden">
         <div className="pointer-events-none absolute top-0 right-0 w-[500px] h-[400px] bg-red-50 rounded-full blur-[120px] opacity-60" />
         <div className="pointer-events-none absolute bottom-0 left-0 w-[400px] h-[300px] bg-red-50 rounded-full blur-[100px] opacity-50" />
@@ -661,9 +491,9 @@ const HomePage = () => {
             initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={container}
             className="text-center mb-14"
           >
-            <motion.p variants={fadeUp} className="text-[#0505eb] text-xs font-bold uppercase tracking-[4px] mb-3">Testimonials</motion.p>
+            <motion.p variants={fadeUp} className="text-red-600 text-xs font-bold uppercase tracking-[4px] mb-3">Testimonials</motion.p>
             <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black">
-              What Our <span className="text-[#c90202]">Customers</span> Say
+              What Our <span className="text-red-600">Customers</span> Say
             </motion.h2>
             <motion.p variants={fadeUp} className="text-gray-400 mt-4 text-sm max-w-md mx-auto">
               Real reviews from real shoppers who love what we do.
@@ -721,7 +551,9 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* section 7 */}
+      {/* ══════════════════════════════════════════
+          SECTION 6 · ABOUT — Full-width cinematic, centre-aligned
+      ══════════════════════════════════════════ */}
       <section className="py-24 bg-[#f7f7f7] relative overflow-hidden">
         <div className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-red-100 rounded-full blur-[160px] opacity-40" />
 
@@ -732,9 +564,9 @@ const HomePage = () => {
             initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={container}
             className="text-center mb-12 max-w-3xl mx-auto"
           >
-            <motion.p variants={fadeUp} className="text-[#0505eb] text-xs font-bold uppercase tracking-[4px] mb-4">Who We Are</motion.p>
+            <motion.p variants={fadeUp} className="text-red-600 text-xs font-bold uppercase tracking-[4px] mb-4">Who We Are</motion.p>
             <motion.h2 variants={fadeUp} className="text-4xl md:text-6xl font-black leading-[1.08] mb-6">
-              About <span className="text-[#c90202]">KRS Lifeline</span>
+              About <span className="text-red-600">KRS Lifeline</span>
             </motion.h2>
             <motion.p variants={fadeUp} className="text-gray-500 text-base leading-[1.9]">
               Your exclusive shopping destination for innovative, trending, and everyday products at affordable prices.
@@ -834,7 +666,7 @@ const HomePage = () => {
           <motion.div
             initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="relative overflow-hidden rounded-[2rem] bg-[#c90202] p-10 md:p-14 text-center"
+            className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-red-700 via-red-600 to-red-500 p-10 md:p-14 text-center"
           >
             <div className="pointer-events-none absolute -top-16 -right-16 w-64 h-64 rounded-full border border-white/10" />
             <div className="pointer-events-none absolute -bottom-12 -left-12 w-48 h-48 rounded-full border border-white/10" />
@@ -871,8 +703,6 @@ const HomePage = () => {
 
         </div>
       </section>
-
-
 
     </div>
   );
