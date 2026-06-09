@@ -28,10 +28,14 @@ export const register = async (req, res) => {
 
     const token = generateToken(user);
 
+    const isProduction = process.env.NODE_ENV === "production";
+
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "strict",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+
     });
 
     res.status(201).json({ message: "User created", user, token });
@@ -68,10 +72,14 @@ export const login = async (req, res) => {
 
     const token = generateToken(user);
 
+    const isProduction = process.env.NODE_ENV === "production";
+
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "strict",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+
     });
 
     res.json({ success: true, message: "Login success", user, token });
