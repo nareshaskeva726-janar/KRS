@@ -35,7 +35,6 @@ export const register = async (req, res) => {
       secure: isProduction,
       sameSite: isProduction ? "none" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
-
     });
 
     res.status(201).json({ message: "User created", user, token });
@@ -79,7 +78,6 @@ export const login = async (req, res) => {
       secure: isProduction,
       sameSite: isProduction ? "none" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
-
     });
 
     res.json({ success: true, message: "Login success", user, token });
