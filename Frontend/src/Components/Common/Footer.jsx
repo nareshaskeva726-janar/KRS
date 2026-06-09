@@ -196,8 +196,8 @@ const Footer = () => {
                 <a href="tel:8190000668" className="block text-sm text-gray-400 hover:text-white transition">
                   +91 8190000668
                 </a>
-                <a href="tel:9944968789" className="block text-sm text-gray-400 hover:text-white transition mt-1">
-                  +91 9944968789
+                <a href="tel:9944589789" className="block text-sm text-gray-400 hover:text-white transition mt-1">
+                  +91 9944589789
                 </a>
               </ContactRow>
 

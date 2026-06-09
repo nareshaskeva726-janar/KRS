@@ -88,7 +88,7 @@ const ContactPage = () => {
                 <div>
                   <h4 className="font-semibold text-gray-900">Call Us</h4>
                   <p className="text-gray-600">
-                    8190000668 | 9944968789
+                    8190000668 | 9944589789
                   </p>
                 </div>
               </div>
