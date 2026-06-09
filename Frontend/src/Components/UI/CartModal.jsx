@@ -37,7 +37,7 @@ const CartModal = ({ isOpen, onClose }) => {
           >
 
             {/* ── header ── */}
-            <div className="flex items-center justify-between px-6 py-5 bg-white border-b border-gray-100">
+            <div className="flex items-center justify-between px-6 py-5 bg-[#EDF3F8] border-b border-gray-100">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-red-50 flex items-center justify-center">
                   <ShoppingBag size={17} className="text-red-600" />
@@ -59,7 +59,7 @@ const CartModal = ({ isOpen, onClose }) => {
 
             {/* free delivery banner */}
             {cartItems.length > 0 && delivery !== 0 && (
-              <div className="mx-4 mt-4 flex items-center gap-2.5 bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3">
+              <div className="mx-4 mt-4 flex items-center gap-2.5 bg-[#EDF3F8] border border-amber-200 rounded-2xl px-4 py-3">
                 <Tag size={14} className="text-amber-600 shrink-0" />
                 <p className="text-xs text-amber-700 font-semibold">
                   Add ₹{(1000 - subtotal).toFixed(0)} more for free delivery!
@@ -79,7 +79,7 @@ const CartModal = ({ isOpen, onClose }) => {
             <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
               {cartItems.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full gap-4 py-20">
-                  <div className="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-2xl bg-[#EDF3F8] flex items-center justify-center">
                     <ShoppingBag size={28} className="text-gray-300" />
                   </div>
                   <div className="text-center">

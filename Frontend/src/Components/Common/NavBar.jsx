@@ -43,29 +43,27 @@ const NavBar = () => {
 
     return (
         <>
-            <header className="sticky top-0 z-50 bg-[#0a0a0a] border-b border-red-600/30 shadow-lg p-2">
+            <header className="sticky top-0 z-50 bg-[#f9fafc] border-gray-300 border-b-1 shadow-sm  p-2">
+
+                
+
                 <div className="max-w-7xl mx-auto px-2 lg:px-8">
                     <div className="h-16 flex items-center justify-between">
                         {/* LOGO */}
                         <Link to="/" className="flex items-center gap-2">
 
                             {/* Logo Image */}
-                            <img
-                                src={assets.logoTwo}
-                                alt="KRS Lifeline"
-                                className="h-12 w-12 sm:h-16 sm:w-16 md:h-20 md:w-20 object-contain"
-                            />
+                            <div className="relative">
+                                <div className="absolute inset-0 rounded-lg blur-md group-hover:blur-lg transition" />
+                                <img
+                                    src={assets.newKrs}
+                                    alt="KRS Lifeline"
+                                    className="relative w-30 h-30 object-contain rounded-2xl "
+                                />
+                            </div>
 
                             {/* Text */}
-                            <div className="leading-tight">
-                                <h1 className="text-white font-bold tracking-widest text-sm sm:text-base md:text-lg">
-                                    KRS<span className="text-[#c90202]"> LIFELINE</span>
-                                </h1>
 
-                                <p className="text-[8px] sm:text-[10px] md:text-[11px] text-gray-400 tracking-[2px] sm:tracking-[3px]">
-                                    ECOMMERCE
-                                </p>
-                            </div>
                         </Link>
 
                         {/* NAV */}
@@ -75,9 +73,9 @@ const NavBar = () => {
                                     key={link.name}
                                     to={link.path}
                                     className={({ isActive }) =>
-                                        `text-sm font-semibold transition ${isActive
-                                            ? "text-[#c90202]"
-                                            : "text-gray-300 hover:text-white"
+                                        `text-sm font-bold transition uppercase ${isActive
+                                            ? "text-[#c90202] border-[#c90202] border-b-3 "
+                                            : "text-[#1e1919] hover:text-gray-500 "
                                         }`
                                     }
                                 >
@@ -92,7 +90,7 @@ const NavBar = () => {
                             {/* USER ICON (VISIBLE ON ALL SCREENS) */}
                             <button
                                 onClick={() => setAuthOpen(true)}
-                                className="p-2 text-white hover:text-red-500"
+                                className="p-2 text-[#1e1919] "
                             >
                                 <User size={20} />
                             </button>
@@ -105,10 +103,10 @@ const NavBar = () => {
                             >
                                 <button
                                     onClick={() => setIsCartOpen(true)}
-                                    className="relative p-2 text-white hover:text-red-500"
+                                    className="relative p-2 text-[#1e1919] "
                                 >
                                     <ShoppingCart size={20} />
-                                    <span className="absolute -top-1 -right-1 bg-red-600 text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
+                                    <span className="absolute -top-1 -right-1 bg-black  text-white bg-red-700 text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
                                         {cartCount}
                                     </span>
                                 </button>
@@ -192,7 +190,7 @@ const NavBar = () => {
                             {/* MOBILE MENU */}
                             <button
                                 onClick={() => setDrawerOpen(true)}
-                                className="lg:hidden text-white p-2"
+                                className="lg:hidden text-[#1e1919] p-2"
                             >
                                 <TbMenuDeep size={26} />
                             </button>
@@ -210,14 +208,14 @@ const NavBar = () => {
 
             {/* DRAWER */}
             <div
-                className={`fixed top-0 right-0 h-full w-[280px] bg-[#0a0a0a] border-l border-red-500/20 z-50 transform transition-transform duration-300 ${drawerOpen ? "translate-x-0" : "translate-x-full"
+                className={`fixed top-0 right-0 h-full w-[280px] bg-[#fff] border-l border-red-500/20 z-50 transform transition-transform duration-300 ${drawerOpen ? "translate-x-0" : "translate-x-full"
                     }`}
             >
-                <div className="flex items-center justify-between px-4 py-4 border-b border-white/10">
-                    <h2 className="text-white font-bold tracking-widest">MENU</h2>
-                    <button onClick={closeDrawer} className="text-white">
+                <div className="mx-auto px-4 py-4 ">
+                    <img className="w-34" src={assets.newKrs}/>
+                    {/* <button onClick={closeDrawer} className="text-[#000]">
                         <X />
-                    </button>
+                    </button> */}
                 </div>
 
                 <nav className="flex flex-col p-4 gap-2">
@@ -227,9 +225,9 @@ const NavBar = () => {
                             to={link.path}
                             onClick={closeDrawer}
                             className={({ isActive }) =>
-                                `px-4 py-3 rounded-lg text-sm font-semibold transition ${isActive
+                                `px-4 py-3 rounded-lg text-sm font-bold transition uppercase ${isActive
                                     ? "bg-red-600 text-white"
-                                    : "text-gray-300 hover:bg-white/10"
+                                    : "text-[#1e1919] hover:bg-white/10"
                                 }`
                             }
                         >

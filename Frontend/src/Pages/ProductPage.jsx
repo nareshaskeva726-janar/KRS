@@ -144,10 +144,10 @@ const ProductPage = () => {
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-gray-900"
+              className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-[#003B93]"
             >
               Shop Smarter with
-              <span className="block text-red-600">
+              <span className="block text-[#C6181E]">
                 Premium Products
               </span>
             </motion.h1>
@@ -194,7 +194,7 @@ const ProductPage = () => {
       {/* PRODUCTS SECTION */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-        <h1 className="text-7xl text-center p-5 font-bold">ALL <span className="text-red-600">Products</span></h1>
+        <h1 className="text-7xl text-center p-5 font-bold mb-5 text-[#003B93] font-extrabold leading-tight">All <span className="text-red-600">Products</span></h1>
         <div className="flex flex-col lg:flex-row gap-8">
           {/* SIDEBAR */}
           <aside className="w-full lg:w-72 flex-shrink-0">
@@ -236,8 +236,8 @@ const ProductPage = () => {
                       key={cat}
                       onClick={() => setSelectedCategory(cat)}
                       className={`w-full text-left px-3 py-4 rounded-lg text-sm transition-all ${selectedCategory === cat
-                        ? "bg-[#c90202] text-white font-medium"
-                        : "text-gray-600 hover:bg-gray-100"
+                        ? "bg-[#c90202] text-white font-medium font-bold"
+                        : "text-gray-600 hover:bg-gray-100 font-bold"
                         }`}
                     >
                       <span className="flex items-center justify-between">

@@ -137,9 +137,7 @@ const HomePage = () => {
             backgroundSize: "28px 28px",
           }}
         />
-        <div className="pointer-events-none absolute -top-40 -left-40 w-[600px] h-[600px] bg-red-100 rounded-full blur-[140px] opacity-50" />
-        <div className="pointer-events-none absolute -bottom-20 right-0 w-[400px] h-[400px] bg-red-50 rounded-full blur-[100px] opacity-60" />
-
+       
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 lg:pb-24 grid lg:grid-cols-2 gap-12 items-center">
           {/* Left */}
           <motion.div initial="hidden" animate="show" variants={container} className="space-y-7">
@@ -150,15 +148,15 @@ const HomePage = () => {
               <Sparkles size={12} /> Welcome to KRS Lifeline
             </motion.span>
 
-            <motion.h1 variants={fadeUp} className="text-5xl md:text-6xl lg:text-[4.5rem] font-black leading-[1.06] tracking-tight">
+            <motion.h1 variants={fadeUp} className="text-5xl md:text-6xl lg:text-[4.5rem] font-black leading-[1.06] tracking-tight text-[#003B93]">
               Shop
               <span className="relative inline-block ml-3">
-                <span className="text-red-600">Smarter.</span>
+                <span className="text-[#C6181E]">Smarter.</span>
                 <motion.span
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
                   transition={{ delay: 0.7, duration: 0.5, ease: "easeOut" }}
-                  className="absolute -bottom-1 left-0 w-full h-1 bg-red-600 origin-left rounded-full"
+                  className="absolute -bottom-1 left-0 w-full h-1 bg-[#C6181E] origin-left rounded-full"
                 />
               </span>
               <span className="block mt-2">Live Better.</span>
@@ -172,7 +170,7 @@ const HomePage = () => {
               <motion.button
                 whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
                 onClick={() => navigate("/products")}
-                className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-2xl font-bold shadow-lg shadow-red-200 transition-all text-sm"
+                className="inline-flex items-center gap-2 bg-[#C6181E] hover:bg-red-700 text-white px-8 py-4 rounded-2xl font-bold shadow-lg shadow-red-200 transition-all text-sm"
               >
                 Shop Now <ArrowRight size={15} />
               </motion.button>
@@ -188,7 +186,7 @@ const HomePage = () => {
             <motion.div variants={fadeUp} className="flex items-center gap-8 pt-6 border-t border-gray-100">
               {stats.map((s) => (
                 <div key={s.label} className="text-center">
-                  <p className="text-3xl font-black text-gray-900 tracking-tight">{s.value}</p>
+                  <p className="text-3xl font-black text-[#C6181E] tracking-tight">{s.value}</p>
                   <p className="text-gray-400 text-[11px] font-medium mt-0.5 uppercase tracking-wide">{s.label}</p>
                 </div>
               ))}
@@ -230,7 +228,7 @@ const HomePage = () => {
                   ))}
                 </div>
                 <div>
-                  <p className="font-black text-sm text-gray-900">10K+ Happy</p>
+                  <p className="font-black text-sm text-[#003B93]">10K+ Happy</p>
                   <p className="text-[11px] text-gray-400">Customers ⭐ 4.9</p>
                 </div>
               </div>
@@ -269,7 +267,7 @@ const HomePage = () => {
       {/* ══════════════════════════════════════════
           SECTION 2 · WHY CHOOSE US — Light, numbered cards
       ══════════════════════════════════════════ */}
-      <section className="py-24 bg-[#f7f7f7] relative overflow-hidden">
+      <section className="py-24 bg-[#EDF3F8] relative overflow-hidden">
         {/* Subtle dot bg */}
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.03]"
@@ -288,7 +286,7 @@ const HomePage = () => {
             <motion.p variants={fadeUp} className="text-red-600 text-xs font-bold uppercase tracking-[4px] mb-3">
               Why Us
             </motion.p>
-            <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black leading-tight">
+            <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black leading-tight text-[#003B93]">
               Built Around <span className="text-red-600">You</span>
             </motion.h2>
             <motion.p variants={fadeUp} className="text-gray-500 mt-4 max-w-lg mx-auto text-sm leading-relaxed">
@@ -310,7 +308,7 @@ const HomePage = () => {
               >
                 {/* Big number watermark */}
                 <span
-                  className="absolute -top-3 -right-1 text-[80px] font-black text-gray-100 group-hover:text-red-50 transition-colors leading-none select-none"
+                  className="absolute -top-3 -right-1 text-[80px] font-black text-blue-800/10 group-hover:text-red-50 transition-colors leading-none select-none"
                   style={{ lineHeight: 1 }}
                 >
                   {f.num}
@@ -351,7 +349,7 @@ const HomePage = () => {
 
               <motion.h2
                 variants={fadeUp}
-                className="text-4xl md:text-5xl font-black leading-tight text-nowrap [&>br]:hidden"
+                className="text-4xl md:text-5xl font-black leading-tight text-nowrap [&>br]:hidden text-[#003B93]"
               >
                 Shop by <br />
                 <span className="text-red-600">Category</span>
@@ -412,7 +410,7 @@ const HomePage = () => {
       {/* ══════════════════════════════════════════
           SECTION 4 · TRENDING PRODUCTS
       ══════════════════════════════════════════ */}
-      <section className="py-24 bg-[#f7f7f7]">
+      <section className="py-24 bg-[#EDF3F8]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={container}
@@ -423,7 +421,7 @@ const HomePage = () => {
                 <Flame size={18} className="text-red-600" />
                 <p className="text-red-600 text-xs font-bold uppercase tracking-[4px]">Hot Right Now</p>
               </motion.div>
-              <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black">
+              <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black text-[#003B93]">
                 Trending <span className="text-red-600">Picks</span>
               </motion.h2>
             </div>
@@ -492,7 +490,7 @@ const HomePage = () => {
             className="text-center mb-14"
           >
             <motion.p variants={fadeUp} className="text-red-600 text-xs font-bold uppercase tracking-[4px] mb-3">Testimonials</motion.p>
-            <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black">
+            <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black text-[#003B93]">
               What Our <span className="text-red-600">Customers</span> Say
             </motion.h2>
             <motion.p variants={fadeUp} className="text-gray-400 mt-4 text-sm max-w-md mx-auto">
@@ -554,7 +552,7 @@ const HomePage = () => {
       {/* ══════════════════════════════════════════
           SECTION 6 · ABOUT — Full-width cinematic, centre-aligned
       ══════════════════════════════════════════ */}
-      <section className="py-24 bg-[#f7f7f7] relative overflow-hidden">
+      <section className="py-24 bg-[#EDF3F8] relative overflow-hidden">
         <div className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-red-100 rounded-full blur-[160px] opacity-40" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -565,7 +563,7 @@ const HomePage = () => {
             className="text-center mb-12 max-w-3xl mx-auto"
           >
             <motion.p variants={fadeUp} className="text-red-600 text-xs font-bold uppercase tracking-[4px] mb-4">Who We Are</motion.p>
-            <motion.h2 variants={fadeUp} className="text-4xl md:text-6xl font-black leading-[1.08] mb-6">
+            <motion.h2 variants={fadeUp} className="text-4xl md:text-6xl font-black leading-[1.08] mb-6 text-[#003B93]">
               About <span className="text-red-600">KRS Lifeline</span>
             </motion.h2>
             <motion.p variants={fadeUp} className="text-gray-500 text-base leading-[1.9]">

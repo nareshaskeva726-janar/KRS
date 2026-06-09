@@ -6,24 +6,18 @@ import toast from "react-hot-toast";
 
 import { assets } from "../../assets/assets";
 import {
-    useRegisterMutation,
     useLoginMutation,
 } from "../../Store/APIS/krsApi";
 
 const AuthModal = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
 
-    const [isLogin, setIsLogin] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
 
     const [formData, setFormData] = useState({
-        name: "",
         email: "",
         password: "",
     });
-
-    const [registerUser, { isLoading: registerLoading }] =
-        useRegisterMutation();
 
     const [loginUser, { isLoading: loginLoading }] =
         useLoginMutation();
@@ -41,43 +35,23 @@ const AuthModal = ({ isOpen, onClose }) => {
         e.preventDefault();
 
         try {
-            if (isLogin) {
-                const res = await loginUser({
-                    email: formData.email,
-                    password: formData.password,
-                }).unwrap();
+            const res = await loginUser({
+                email: formData.email,
+                password: formData.password,
+            }).unwrap();
 
-                toast.success(res?.message || "Login successful");
+            toast.success(res?.message || "Login successful");
 
-                onClose();
+            onClose();
 
-                // small delay for smooth UX
-                setTimeout(() => {
-                    navigate("/admin/products");
-                }, 300);
+            setTimeout(() => {
+                navigate("/admin/products");
+            }, 300);
 
-
-            } else {
-                const res = await registerUser({
-                    name: formData.name,
-                    email: formData.email,
-                    password: formData.password,
-                }).unwrap();
-
-                toast.success(res?.message || "Registration successful");
-
-                onClose(); // optional but recommended (close modal)
-
-                setTimeout(() => {
-                    navigate("/admin/products"); // or "/admin"
-                }, 300);
-
-                setFormData({
-                    name: "",
-                    email: "",
-                    password: "",
-                });
-            }
+            setFormData({
+                email: "",
+                password: "",
+            });
         } catch (error) {
             console.log("LOGIN ERROR FULL:", error);
 
@@ -121,7 +95,7 @@ const AuthModal = ({ isOpen, onClose }) => {
                     {/* LOGO */}
                     <div className="flex justify-center mb-6">
                         <img
-                            src={assets.logo}
+                            src={assets.newKrs}
                             alt="Logo"
                             className="h-20 w-auto object-contain"
                         />
@@ -129,29 +103,17 @@ const AuthModal = ({ isOpen, onClose }) => {
 
                     {/* TITLE */}
                     <h2 className="text-3xl font-extrabold text-center text-gray-900">
-                        {isLogin ? "Welcome Back" : "Create Account"}
+                        Welcome Back
                     </h2>
 
                     <p className="text-sm text-gray-500 text-center mt-2">
-                        {isLogin
-                            ? "Login to continue shopping"
-                            : "Join us and start shopping"}
+                        Login to continue shopping
                     </p>
 
                     {/* FORM */}
                     <form onSubmit={handleSubmit} className="space-y-4 mt-6">
 
-                        {!isLogin && (
-                            <input
-                                type="text"
-                                name="name"
-                                value={formData.name}
-                                onChange={handleChange}
-                                placeholder="Full Name"
-                                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none transition"
-                                required
-                            />
-                        )}
+
 
                         <input
                             type="email"
@@ -191,28 +153,16 @@ const AuthModal = ({ isOpen, onClose }) => {
                         {/* SUBMIT */}
                         <button
                             type="submit"
-                            disabled={loginLoading || registerLoading}
-                            className="w-full py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold transition disabled:opacity-60"
+                            disabled={loginLoading}
+                            className="w-full py-3 mt-3  rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold transition disabled:opacity-60"
                         >
-                            {loginLoading || registerLoading
+                            {loginLoading
                                 ? "Please wait..."
-                                : isLogin
-                                    ? "Login"
-                                    : "Create Account"}
+                                : "Login"
+                            }
                         </button>
                     </form>
 
-                    {/* SWITCH */}
-                    <p className="text-sm text-center mt-6 text-gray-600">
-                        {isLogin ? "New here?" : "Already have an account?"}{" "}
-                        <button
-                            type="button"
-                            onClick={() => setIsLogin(!isLogin)}
-                            className="text-red-600 font-semibold hover:underline"
-                        >
-                            {isLogin ? "Create account" : "Login"}
-                        </button>
-                    </p>
                 </motion.div>
             </div>
         </AnimatePresence>

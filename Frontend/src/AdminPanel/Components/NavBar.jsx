@@ -192,8 +192,8 @@ const NavBar = ({
           <Button
             type="text"
             icon={
-              <span style={{ fontSize: 18 }}>
-                {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              <span style={{ fontSize: 20,  }}>
+                {collapsed ? <MenuUnfoldOutlined style={{color: "#C6181E"}}/> : <MenuFoldOutlined style={{color: "#C6181E"}}/>}
               </span>
             }
             onClick={() => setCollapsed(!collapsed)}

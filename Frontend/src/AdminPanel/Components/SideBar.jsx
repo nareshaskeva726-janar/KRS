@@ -159,7 +159,7 @@ const SideBar = ({
       collapsedWidth={80}
       style={{
         minHeight: "100vh",
-        background: "#000",
+        background: "#040a17",
         borderRight: "1px solid #1f1f1f",
       }}
     >
@@ -170,20 +170,12 @@ const SideBar = ({
             }`}
         >
           {!collapsed ? (
-            <div className="flex items-center gap-3">
+            <div className="mx-auto">
               <img
-                src={assets.logoTwo}
+                src={assets.newKrs}
                 alt="KRS"
-                className="h-12 w-12 object-contain"
+                className="w-35 object-contain"
               />
-              <div className="leading-tight">
-                <h1 className="text-white font-bold tracking-widest text-sm">
-                  KRS<span className="text-[#c90202]"> LIFELINE</span>
-                </h1>
-                <p className="text-[10px] text-gray-400 tracking-[3px]">
-                  ECOMMERCE
-                </p>
-              </div>
             </div>
           ) : (
             <div className="w-11 h-11 flex items-center justify-center">

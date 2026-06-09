@@ -41,7 +41,7 @@ const Footer = () => {
   return (
     <footer
       className="relative overflow-hidden text-gray-300"
-      style={{ background: "linear-gradient(160deg, #0a0a0a 0%, #0f0606 50%, #0a0a0a 100%)" }}
+      style={{ background: "linear-gradient(160deg, #040a17 0%, #040a17 50%, #040a17 100%)" }}
     >
       {/* ── Decorative background ── */}
       <div className="pointer-events-none absolute inset-0 z-0">
@@ -90,21 +90,21 @@ const Footer = () => {
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 w-fit group">
               <div className="relative">
-                <div className="absolute inset-0 rounded-2xl bg-red-600/20 blur-md group-hover:blur-lg transition" />
+                <div className="absolute inset-0 rounded-2xl bg-blue-900/20 blur-md group-hover:blur-lg transition" />
                 <img
-                  src={assets.logoTwo}
+                  src={assets.newKrs}
                   alt="KRS Lifeline"
-                  className="relative w-14 h-14 object-contain rounded-2xl"
+                  className="relative w-30 h-14 object-contain rounded-2xl "
                 />
               </div>
-              <div>
+              {/* <div>
                 <h1 className="text-xl font-black tracking-[3px] text-white leading-tight">
                   KRS <span className="text-red-500">LIFELINE</span>
                 </h1>
                 <p className="text-[10px] tracking-[5px] text-gray-600 mt-0.5 font-medium">
                   ECOMMERCE
                 </p>
-              </div>
+              </div> */}
             </Link>
 
             <p className="text-sm leading-[1.9] text-gray-400">
@@ -170,7 +170,7 @@ const Footer = () => {
               </ul>
             </div>
 
-           
+
           </div>
 
           {/* ── COL 3 · Contact ── */}
@@ -239,9 +239,8 @@ const Footer = () => {
             </form>
 
             <p
-              className={`text-xs text-green-400 -mt-2 transition-all duration-300 ${
-                subscribed ? "opacity-100" : "opacity-0"
-              }`}
+              className={`text-xs text-green-400 -mt-2 transition-all duration-300 ${subscribed ? "opacity-100" : "opacity-0"
+                }`}
             >
               ✓ You're subscribed! Thanks.
             </p>
@@ -258,7 +257,7 @@ const Footer = () => {
               </div>
             </div>
 
-          
+
           </div>
         </div>
 

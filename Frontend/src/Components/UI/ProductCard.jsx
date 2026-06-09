@@ -79,12 +79,12 @@ const ProductCard = ({ product, onAddToCart, index }) => {
                 </div>
 
                 {/* wishlist */}
-                <button
+                {/* <button
                     onClick={(e) => e.stopPropagation()}
                     className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110"
                 >
                     <Heart size={16} className="text-gray-700" />
-                </button>
+                </button> */}
 
                 {/* low stock */}
                 {product.qty <= 5 && (
