@@ -8,10 +8,8 @@ const productSchema = new mongoose.Schema(
         qty: Number,
         image: String,
         images: [String],
-
-        // NEW FIELDS
-        video: String,              // video URL (cloudinary / local / mp4 link)
-        videoDescription: String,   // text about video
+        video: String,              
+        videoDescription: String,   
     },
     { timestamps: true }
 );

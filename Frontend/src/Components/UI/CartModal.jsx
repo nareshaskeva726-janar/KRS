@@ -122,7 +122,7 @@ const CartModal = ({ isOpen, onClose }) => {
                         <h3 className="font-bold text-gray-900 text-sm leading-snug truncate">
                           {item.name}
                         </h3>
-                        <p className="text-red-600 font-black text-sm mt-0.5">
+                        <p className="text-[#C6181E] font-black text-sm mt-0.5">
                           ₹{(item.price * item.qty).toLocaleString()}
                         </p>
                         <p className="text-xs text-gray-400">₹{item.price.toLocaleString()} each</p>
@@ -183,7 +183,7 @@ const CartModal = ({ isOpen, onClose }) => {
 
                   <div className="border-t border-gray-100 pt-3 flex justify-between items-baseline">
                     <span className="font-black text-gray-900 text-base">Total</span>
-                    <span className="font-black text-red-600 text-2xl tracking-tight">
+                    <span className="font-black text-[#C6181E] text-2xl tracking-tight">
                       ₹{total.toFixed(2)}
                     </span>
                   </div>
@@ -191,7 +191,7 @@ const CartModal = ({ isOpen, onClose }) => {
 
                 <button
                   onClick={() => { onClose(); navigate("/billing"); }}
-                  className="w-full h-13 py-3.5 rounded-2xl bg-red-600 hover:bg-red-700 active:scale-[0.98] text-white font-bold text-sm transition-all duration-200 shadow-[0_8px_24px_rgba(220,38,38,0.25)] hover:shadow-[0_12px_32px_rgba(220,38,38,0.35)]"
+                  className="w-full h-13 py-3.5 rounded-2xl bg-[#C6181E] hover:bg-red-700 active:scale-[0.98] text-white font-bold text-sm transition-all duration-200 shadow-[0_8px_24px_rgba(220,38,38,0.25)] hover:shadow-[0_12px_32px_rgba(220,38,38,0.35)]"
                 >
                   Proceed to Checkout →
                 </button>

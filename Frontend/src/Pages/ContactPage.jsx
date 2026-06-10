@@ -50,7 +50,7 @@ const ContactPage = () => {
 
             <motion.h1
               variants={fadeUp}
-              className="text-4xl md:text-5xl lg:text-6xl font-extrabold mt-6 leading-tight text-[#003B93]"
+              className="text-4xl md:text-5xl lg:text-6xl font-extrabold mt-6 leading-tight text-[#073273]"
             >
               Let's Build Something
               <span className="block text-[#c90202]">Amazing Together</span>
@@ -159,7 +159,7 @@ const ContactPage = () => {
             transition={{ duration: 0.6 }}
             className="bg-white border border-gray-200 rounded-3xl shadow-2xl p-8 md:p-10"
           >
-            <h2 className="text-3xl font-bold text-[#003B93]">
+            <h2 className="text-3xl font-bold text-[#073273]">
               Send <span className="text-[#C6181E]">Message</span>
             </h2>
 

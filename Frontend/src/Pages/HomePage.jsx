@@ -120,16 +120,6 @@ const HomePage = () => {
   console.log(productsData, "data")
 
 
-
-
-  // const categories = useMemo(() => {
-  //   const unique = [...new Set(products.map((p) => p.category))];
-  //   return unique.map((cat) => {
-  //     const sample = products.find((p) => p.category === cat);
-  //     return { title: cat, image: sample?.image || assets.bannerOne };
-  //   });
-  // }, []);
-
   const categories = useMemo(() => {
     if (!productsData?.products) return [];
 
@@ -150,11 +140,6 @@ const HomePage = () => {
   }, [productsData]);
 
   console.log("Categories:", categories);
-
-  // const trendingProducts = useMemo(() => {
-  //   const trending = products.filter((p) => p.trending).slice(0, 4);
-  //   return trending.length >= 4 ? trending : products.slice(0, 4);
-  // }, []);
 
   const trendingProducts = useMemo(() => {
     if (!productsData?.products) return [];
@@ -198,7 +183,7 @@ const HomePage = () => {
               <Sparkles size={12} /> Welcome to KRS Lifeline
             </motion.span>
 
-            <motion.h1 variants={fadeUp} className="text-5xl md:text-6xl lg:text-[4.5rem] font-black leading-[1.06] tracking-tight text-[#003B93]">
+            <motion.h1 variants={fadeUp} className="text-5xl md:text-6xl lg:text-[4.5rem] font-black leading-[1.06] tracking-tight text-[#073273]">
               Shop
               <span className="relative inline-block ml-3">
                 <span className="text-[#C6181E]">Smarter.</span>
@@ -336,7 +321,7 @@ const HomePage = () => {
             <motion.p variants={fadeUp} className="text-[#C6181E] text-xs font-bold uppercase tracking-[4px] mb-3">
               Why Us
             </motion.p>
-            <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black leading-tight text-[#003B93]">
+            <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black leading-tight text-[#073273]">
               Built Around <span className="text-[#C6181E]">You</span>
             </motion.h2>
             <motion.p variants={fadeUp} className="text-gray-500 mt-4 max-w-lg mx-auto text-sm leading-relaxed">
@@ -399,7 +384,7 @@ const HomePage = () => {
 
               <motion.h2
                 variants={fadeUp}
-                className="text-4xl md:text-5xl font-black leading-tight text-nowrap [&>br]:hidden text-[#003B93]"
+                className="text-4xl md:text-5xl font-black leading-tight text-nowrap [&>br]:hidden text-[#073273]"
               >
                 Shop by <br />
                 <span className="text-[#C6181E]">Category</span>
@@ -425,7 +410,7 @@ const HomePage = () => {
                 >
                   <img
                     src={cat.image} alt={cat.title}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="absolute inset-0 w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                   <div className="absolute inset-0 bg-red-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -471,7 +456,7 @@ const HomePage = () => {
                 <Flame size={18} className="text-[#C6181E]" />
                 <p className="text-[#C6181E] text-xs font-bold uppercase tracking-[4px]">Hot Right Now</p>
               </motion.div>
-              <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black text-[#003B93]">
+              <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black text-[#073273]">
                 Trending <span className="text-[#C6181E]">Picks</span>
               </motion.h2>
             </div>
@@ -495,7 +480,7 @@ const HomePage = () => {
                 className="group bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-2xl hover:shadow-red-50 transition-all duration-300 cursor-pointer"
               >
                 <div className="relative overflow-hidden h-52 bg-gray-50">
-                  <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img src={p.image} alt={p.name} className="w-full h-full object-fit group-hover:scale-105 transition-transform duration-500" />
                   {idx === 0 && (
                     <div className="absolute top-3 left-3 bg-[#C6181E] text-white text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-lg">
                       #1 Trending
@@ -537,7 +522,7 @@ const HomePage = () => {
             className="text-center mb-14"
           >
             <motion.p variants={fadeUp} className="text-[#C6181E] text-xs font-bold uppercase tracking-[4px] mb-3">Testimonials</motion.p>
-            <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black text-[#003B93]">
+            <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black text-[#073273]">
               What Our <span className="text-[#C6181E]">Customers</span> Say
             </motion.h2>
             <motion.p variants={fadeUp} className="text-gray-400 mt-4 text-sm max-w-md mx-auto">
@@ -610,7 +595,7 @@ const HomePage = () => {
             className="text-center mb-12 max-w-3xl mx-auto"
           >
             <motion.p variants={fadeUp} className="text-[#C6181E] text-xs font-bold uppercase tracking-[4px] mb-4">Who We Are</motion.p>
-            <motion.h2 variants={fadeUp} className="text-4xl md:text-6xl font-black leading-[1.08] mb-6 text-[#003B93]">
+            <motion.h2 variants={fadeUp} className="text-4xl md:text-6xl font-black leading-[1.08] mb-6 text-[#073273]">
               About <span className="text-[#C6181E]">KRS Lifeline</span>
             </motion.h2>
             <motion.p variants={fadeUp} className="text-gray-500 text-base leading-[1.9]">

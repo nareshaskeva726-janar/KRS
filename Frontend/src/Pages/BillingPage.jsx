@@ -119,7 +119,7 @@ const BillingPage = () => {
                     <p className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 border border-red-200 text-[#C6181E] text-xs font-bold tracking-widest uppercase">
                         Final Step
                     </p>
-                    <h1 className="text-4xl font-black tracking-tight text-[#003B93] mt-4">
+                    <h1 className="text-4xl font-black tracking-tight text-[#073273] mt-4">
                         Billing & <span className="text-[#C6181E]">Checkout</span>
                     </h1>
                 </motion.div>
@@ -321,7 +321,7 @@ const BillingPage = () => {
                                 </div>
                                 <div className="border-t border-gray-100 pt-3 flex justify-between items-baseline">
                                     <span className="font-black text-gray-900">Total</span>
-                                    <span className="font-black text-red-600 text-2xl tracking-tight">
+                                    <span className="font-black text-[#C6181E] text-2xl tracking-tight">
                                         ₹{total.toFixed(2)}
                                     </span>
                                 </div>
@@ -330,7 +330,7 @@ const BillingPage = () => {
                             <motion.button
                                 whileTap={{ scale: 0.97 }}
                                 onClick={handleSubmit}
-                                className="w-full mt-5 h-14 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm flex items-center justify-center gap-2 transition-all duration-200 shadow-[0_8px_24px_rgba(220,38,38,0.25)] hover:shadow-[0_12px_32px_rgba(220,38,38,0.35)]"
+                                className="w-full mt-5 h-14 rounded-2xl bg-[#C6181E] hover:bg-red-700 text-white font-bold text-sm flex items-center justify-center gap-2 transition-all duration-200 shadow-[0_8px_24px_rgba(220,38,38,0.25)] hover:shadow-[0_12px_32px_rgba(220,38,38,0.35)]"
                             >
                                 {paymentMethod === "cod" ? (
                                     <><Banknote size={17} /> Place Order</>
