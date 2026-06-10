@@ -90,8 +90,7 @@ const NavBar = () => {
                                         }
                                     }}
                                     className={({ isActive }) =>
-                                        `relative z-10 text-[13px] font-medium tracking-[0.06em] uppercase px-[18px] py-[7px] rounded-full transition-colors duration-150 ${
-                                            isActive ? "text-[#C6181E]" : "text-gray-500 hover:text-gray-900"
+                                        `relative z-10 text-[13px] font-medium tracking-[0.06em] uppercase px-[18px] py-[7px] rounded-full transition-colors duration-150 ${isActive ? "text-[#C6181E]" : "text-gray-500 hover:text-gray-900"
                                         }`
                                     }
                                     onMouseEnter={(e) => updatePill(e.currentTarget)}
@@ -285,10 +284,9 @@ const NavBar = () => {
                                         to={link.path}
                                         onClick={closeDrawer}
                                         className={({ isActive }) =>
-                                            `flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-medium transition-colors ${
-                                                isActive
-                                                    ? "bg-[#FCEBEB] text-[#C6181E] border border-[#F7C1C1]"
-                                                    : "text-gray-700 hover:bg-gray-50"
+                                            `flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-medium transition-colors ${isActive
+                                                ? "bg-[#FCEBEB] text-[#C6181E] border border-[#F7C1C1]"
+                                                : "text-gray-700 hover:bg-gray-50"
                                             }`
                                         }
                                     >
