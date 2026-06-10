@@ -12,7 +12,7 @@ export const CartProvider = ({ children }) => {
 
       if (existing) {
         return prev.map((item) =>
-          item.id === product._id
+          item._id === product._id
             ? { ...item, qty: item.qty + qty }
             : item
         );

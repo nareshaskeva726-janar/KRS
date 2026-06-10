@@ -100,7 +100,7 @@ const CartModal = ({ isOpen, onClose }) => {
                 <AnimatePresence initial={false}>
                   {cartItems.map((item) => (
                     <motion.div
-                      key={item.id}
+                      key={item._id}
                       layout
                       initial={{ opacity: 0, y: 12 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -131,7 +131,7 @@ const CartModal = ({ isOpen, onClose }) => {
                       {/* qty controls */}
                       <div className="flex items-center gap-1 shrink-0">
                         <button
-                          onClick={() => updateQuantity(item.id, item.qty - 1)}
+                          onClick={() => updateQuantity(item._id, item.qty - 1)}
                           className="w-7 h-7 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
                         >
                           <Minus size={12} />
@@ -140,13 +140,13 @@ const CartModal = ({ isOpen, onClose }) => {
                           {item.qty}
                         </span>
                         <button
-                          onClick={() => updateQuantity(item.id, item.qty + 1)}
+                          onClick={() => updateQuantity(item._id, item.qty + 1)}
                           className="w-7 h-7 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
                         >
                           <Plus size={12} />
                         </button>
                         <button
-                          onClick={() => removeFromCart(item.id)}
+                          onClick={() => removeFromCart(item._id)}
                           className="w-7 h-7 rounded-lg bg-red-50 hover:bg-red-100 flex items-center justify-center ml-1 transition-colors"
                         >
                           <Trash2 size={12} className="text-red-500" />
