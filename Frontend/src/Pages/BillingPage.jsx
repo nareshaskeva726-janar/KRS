@@ -106,7 +106,7 @@ const BillingPage = () => {
                     className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-red-600 bg-white border border-gray-200 hover:border-red-200 px-4 py-2 rounded-xl transition-all duration-200"
                 >
                     <ArrowLeft size={15} />
-                    Back to Cart
+                    Back to Products
                 </button>
 
                 {/* page heading */}
@@ -116,11 +116,11 @@ const BillingPage = () => {
                     transition={{ duration: 0.4 }}
                     className="mb-8"
                 >
-                    <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-red-500 mb-1.5">
+                    <p className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 border border-red-200 text-[#C6181E] text-xs font-bold tracking-widest uppercase">
                         Final Step
                     </p>
-                    <h1 className="text-4xl font-black tracking-tight text-gray-900">
-                        Billing & <span className="text-red-600">Checkout</span>
+                    <h1 className="text-4xl font-black tracking-tight text-[#003B93] mt-4">
+                        Billing & <span className="text-[#C6181E]">Checkout</span>
                     </h1>
                 </motion.div>
 

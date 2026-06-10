@@ -4,11 +4,11 @@ import Product from "../models/productModel.js";
 export const createProduct = async (req, res) => {
   try {
 
-     console.log(req.files);
-     console.log("IMAGES FROM SERVER:", req.files?.images);
+    // console.log(req.files);
+    // console.log("IMAGES FROM SERVER:", req.files?.images);
 
-     
-    const { name, price, category, qty } = req.body;
+
+    const { name, price, category, qty, videoDescription, } = req.body;
 
     if (!name || !price || !category || !qty) {
       return res.status(400).json({ success: false, message: "Missing Details!" })
@@ -18,6 +18,9 @@ export const createProduct = async (req, res) => {
 
     const images = req.files?.images?.map((file) => file.path);
 
+    const video = req.files?.video?.[0]?.path;
+
+
     const product = await Product.create({
       name,
       price,
@@ -25,6 +28,8 @@ export const createProduct = async (req, res) => {
       qty,
       image,
       images,
+      video,
+      videoDescription,
     });
 
     res.status(201).json({ success: true, message: "Product created successfully!", product });
@@ -116,6 +121,8 @@ export const updateProduct = async (req, res) => {
     product.price = req.body.price || product.price;
     product.category = req.body.category || product.category;
     product.qty = req.body.qty || product.qty;
+    product.video = req.files?.video?.[0]?.path || product.video;
+    product.videoDescription = req.body.videoDescription || product.videoDescription;
 
     // ── IMAGE (single) ──────────────────────────
     if (req.files?.image?.[0]) {

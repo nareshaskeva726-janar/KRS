@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useEffect,  useRef } from "react";
 import { ShoppingCart, User, X } from "lucide-react";
 import { TbMenuDeep } from "react-icons/tb";
 
@@ -19,7 +19,32 @@ const NavBar = () => {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [hoverCart, setHoverCart] = useState(false);
+    const [pillStyle, setPillStyle] = useState({ left: 0, width: 0 });
+
+
     const [authOpen, setAuthOpen] = useState(false);
+
+    const navRef = useRef(null);
+    const activeRef = useRef(null);
+
+
+    const updatePill = (el) => {
+        if (!navRef.current || !el) return;
+        const navRect = navRef.current.getBoundingClientRect();
+        const elRect = el.getBoundingClientRect();
+        setPillStyle({
+            left: elRect.left - navRect.left,
+            width: elRect.width,
+        });
+    };
+
+        useEffect(() => {
+        if (activeRef.current) {
+            setTimeout(() => updatePill(activeRef.current), 50);
+        }
+    }, []);
+
+
 
     const { cartItems, cartCount } = useCart();
     const navigate = useNavigate();
@@ -43,9 +68,9 @@ const NavBar = () => {
 
     return (
         <>
-            <header className="sticky top-0 z-50 bg-[#f9fafc] border-gray-300 border-b-1 shadow-sm  p-2">
+            <header className="sticky top-0 z-50 bg-[#ffff] border-gray-300 border-b-1 shadow-sm  p-2">
 
-                
+
 
                 <div className="max-w-7xl mx-auto px-2 lg:px-8">
                     <div className="h-16 flex items-center justify-between">
@@ -211,25 +236,48 @@ const NavBar = () => {
                 className={`fixed top-0 right-0 h-full w-[280px] bg-[#fff] border-l border-red-500/20 z-50 transform transition-transform duration-300 ${drawerOpen ? "translate-x-0" : "translate-x-full"
                     }`}
             >
-                <div className="mx-auto px-4 py-4 ">
-                    <img className="w-34" src={assets.newKrs}/>
+                <div className="mx-auto px-4 py-4 border-b-gray-300 shadow-sm ">
+                    <img className="w-34" src={assets.newKrs} />
                     {/* <button onClick={closeDrawer} className="text-[#000]">
                         <X />
                     </button> */}
                 </div>
 
-                <nav className="flex flex-col p-4 gap-2">
+                <nav
+                    ref={navRef}
+                    className="flex-1 flex justify-center items-center gap-1 relative"
+                >
+                    {/* Sliding pill */}
+                    <div
+                        className="absolute top-1/2 -translate-y-1/2 h-[34px] rounded-full bg-[#FCEBEB] border border-[#F7C1C1] pointer-events-none transition-all duration-[220ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+                        style={{ left: pillStyle.left, width: pillStyle.width }}
+                    />
+
                     {navLinks.map((link) => (
                         <NavLink
                             key={link.name}
                             to={link.path}
-                            onClick={closeDrawer}
+                            ref={(el) => {
+                                // track active link for initial pill position
+                            }}
                             className={({ isActive }) =>
-                                `px-4 py-3 rounded-lg text-sm font-bold transition uppercase ${isActive
-                                    ? "bg-red-600 text-white"
-                                    : "text-[#1e1919] hover:bg-white/10"
+                                `relative z-10 text-[13px] font-medium tracking-[0.06em] uppercase px-[18px] py-[7px] rounded-full transition-colors duration-150 ${isActive
+                                    ? "text-[#C6181E]"
+                                    : "text-gray-500 hover:text-gray-900"
                                 }`
                             }
+                            onMouseEnter={(e) => updatePill(e.currentTarget)}
+                            onMouseLeave={() => updatePill(activeRef.current)}
+                            onClick={(e) => {
+                                activeRef.current = e.currentTarget;
+                                updatePill(e.currentTarget);
+                            }}
+                            ref={(el) => {
+                                // Set activeRef on mount for the active link
+                                if (el && window.location.pathname === link.path) {
+                                    activeRef.current = el;
+                                }
+                            }}
                         >
                             {link.name}
                         </NavLink>
@@ -242,7 +290,7 @@ const NavBar = () => {
                             setIsCartOpen(true);
                             closeDrawer();
                         }}
-                        className="w-full bg-red-600 text-white py-2 rounded-lg font-semibold"
+                        className="w-full bg-[#C6181E] text-white py-2 rounded-lg font-semibold"
                     >
                         Go to Cart
                     </button>

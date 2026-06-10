@@ -20,7 +20,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { assets } from "../assets/assets";
-import {products} from "../MockData/Product"
+import { products } from "../MockData/Product"
+import { useGetProductsQuery } from "../Store/APIS/krsApi";
 
 /* ── Animation variants ── */
 const container = {
@@ -109,18 +110,67 @@ const aboutHighlights = [
 const HomePage = () => {
   const navigate = useNavigate();
 
+
+  const {
+    data: productsData = [],
+    isLoading,
+    isError,
+  } = useGetProductsQuery();
+
+  console.log(productsData, "data")
+
+
+
+
+  // const categories = useMemo(() => {
+  //   const unique = [...new Set(products.map((p) => p.category))];
+  //   return unique.map((cat) => {
+  //     const sample = products.find((p) => p.category === cat);
+  //     return { title: cat, image: sample?.image || assets.bannerOne };
+  //   });
+  // }, []);
+
   const categories = useMemo(() => {
-    const unique = [...new Set(products.map((p) => p.category))];
+    if (!productsData?.products) return [];
+
+    const unique = [
+      ...new Set(productsData.products.map((p) => p.category)),
+    ];
+
     return unique.map((cat) => {
-      const sample = products.find((p) => p.category === cat);
-      return { title: cat, image: sample?.image || assets.bannerOne };
+      const sample = productsData.products.find(
+        (p) => p.category === cat
+      );
+
+      return {
+        title: cat,
+        image: sample?.image || assets.bannerOne,
+      };
     });
-  }, []);
+  }, [productsData]);
+
+  console.log("Categories:", categories);
+
+  // const trendingProducts = useMemo(() => {
+  //   const trending = products.filter((p) => p.trending).slice(0, 4);
+  //   return trending.length >= 4 ? trending : products.slice(0, 4);
+  // }, []);
 
   const trendingProducts = useMemo(() => {
-    const trending = products.filter((p) => p.trending).slice(0, 4);
-    return trending.length >= 4 ? trending : products.slice(0, 4);
-  }, []);
+    if (!productsData?.products) return [];
+
+    const trending = productsData.products
+      .filter((p) => p.trending)
+      .slice(3, 10);
+
+    return trending.length >= 4
+      ? trending
+      : productsData.products.slice(0, 4);
+  }, [productsData]);
+
+
+
+
 
   return (
     <div className="bg-[#fafafa] text-gray-900 overflow-x-hidden">
@@ -137,13 +187,13 @@ const HomePage = () => {
             backgroundSize: "28px 28px",
           }}
         />
-       
+
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 lg:pb-24 grid lg:grid-cols-2 gap-12 items-center">
           {/* Left */}
           <motion.div initial="hidden" animate="show" variants={container} className="space-y-7">
             <motion.span
               variants={fadeUp}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 border border-red-200 text-red-600 text-xs font-bold tracking-widest uppercase"
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 border border-red-200 text-[#C6181E] text-xs font-bold tracking-widest uppercase"
             >
               <Sparkles size={12} /> Welcome to KRS Lifeline
             </motion.span>
@@ -248,7 +298,7 @@ const HomePage = () => {
         </div>
 
         {/* Marquee ticker */}
-        <div className="relative z-10 border-t border-gray-100 bg-red-600 overflow-hidden py-3">
+        <div className="relative z-10 border-t border-gray-100 bg-[#C6181E] overflow-hidden py-3">
           <motion.div
             animate={{ x: [0, -1200] }}
             transition={{ repeat: Infinity, duration: 22, ease: "linear" }}
@@ -283,11 +333,11 @@ const HomePage = () => {
             initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }} variants={container}
             className="text-center mb-16"
           >
-            <motion.p variants={fadeUp} className="text-red-600 text-xs font-bold uppercase tracking-[4px] mb-3">
+            <motion.p variants={fadeUp} className="text-[#C6181E] text-xs font-bold uppercase tracking-[4px] mb-3">
               Why Us
             </motion.p>
             <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black leading-tight text-[#003B93]">
-              Built Around <span className="text-red-600">You</span>
+              Built Around <span className="text-[#C6181E]">You</span>
             </motion.h2>
             <motion.p variants={fadeUp} className="text-gray-500 mt-4 max-w-lg mx-auto text-sm leading-relaxed">
               Every decision we make is centred on giving you a smoother, smarter, and more satisfying shopping experience.
@@ -318,7 +368,7 @@ const HomePage = () => {
                 <div className="absolute top-0 left-6 w-10 h-[3px] rounded-b-full bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                 <div className="relative z-10">
-                  <div className="w-14 h-14 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center mb-5 group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
+                  <div className="w-14 h-14 rounded-2xl bg-red-50 text-[#C6181E] flex items-center justify-center mb-5 group-hover:bg-[#C6181E] group-hover:text-white transition-all duration-300">
                     {f.icon}
                   </div>
                   <h3 className="text-gray-900 font-black text-lg mb-2">{f.title}</h3>
@@ -342,7 +392,7 @@ const HomePage = () => {
             <div>
               <motion.p
                 variants={fadeUp}
-                className="text-red-600 text-xs font-bold uppercase tracking-[4px] mb-2"
+                className="text-[#C6181E] text-xs font-bold uppercase tracking-[4px] mb-2"
               >
                 Collections
               </motion.p>
@@ -352,7 +402,7 @@ const HomePage = () => {
                 className="text-4xl md:text-5xl font-black leading-tight text-nowrap [&>br]:hidden text-[#003B93]"
               >
                 Shop by <br />
-                <span className="text-red-600">Category</span>
+                <span className="text-[#C6181E]">Category</span>
               </motion.h2>
             </div>
             <motion.p variants={fadeUp} className="text-gray-400 text-sm max-w-xs leading-relaxed md:text-right">
@@ -418,17 +468,17 @@ const HomePage = () => {
           >
             <div>
               <motion.div variants={fadeUp} className="flex items-center gap-2 mb-2">
-                <Flame size={18} className="text-red-600" />
-                <p className="text-red-600 text-xs font-bold uppercase tracking-[4px]">Hot Right Now</p>
+                <Flame size={18} className="text-[#C6181E]" />
+                <p className="text-[#C6181E] text-xs font-bold uppercase tracking-[4px]">Hot Right Now</p>
               </motion.div>
               <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black text-[#003B93]">
-                Trending <span className="text-red-600">Picks</span>
+                Trending <span className="text-[#C6181E]">Picks</span>
               </motion.h2>
             </div>
             <motion.button
               variants={fadeUp}
               onClick={() => navigate("/products")}
-              className="hidden md:inline-flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-red-600 transition-colors"
+              className="hidden md:inline-flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-[#C6181E] transition-colors"
             >
               View All <ArrowRight size={14} />
             </motion.button>
@@ -440,23 +490,20 @@ const HomePage = () => {
           >
             {trendingProducts.map((p, idx) => (
               <motion.div
-                key={p.id} variants={fadeUp} whileHover={{ y: -6 }}
-                onClick={() => navigate(`/product/${p.id}`)}
+                key={p._id} variants={fadeUp} whileHover={{ y: -6 }}
+                onClick={() => navigate(`/product/${p._id}`)}
                 className="group bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-2xl hover:shadow-red-50 transition-all duration-300 cursor-pointer"
               >
                 <div className="relative overflow-hidden h-52 bg-gray-50">
                   <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   {idx === 0 && (
-                    <div className="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-lg">
+                    <div className="absolute top-3 left-3 bg-[#C6181E] text-white text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-lg">
                       #1 Trending
                     </div>
                   )}
-                  <button className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-50">
-                    <Heart size={14} className="text-red-500" />
-                  </button>
                 </div>
                 <div className="p-5">
-                  <span className="text-[10px] font-black text-red-600 uppercase tracking-widest">{p.category}</span>
+                  <span className="text-[10px] font-black text-[#C6181E] uppercase tracking-widest">{p.category}</span>
                   <h3 className="font-bold text-gray-900 text-base mt-1 line-clamp-1">{p.name}</h3>
                   <div className="flex items-center justify-between mt-4">
                     <div>
@@ -465,7 +512,7 @@ const HomePage = () => {
                     </div>
                     <button
                       onClick={(e) => { e.stopPropagation(); navigate(`/product/${p.id}`); }}
-                      className="w-10 h-10 rounded-2xl bg-red-600 hover:bg-red-700 text-white flex items-center justify-center transition-colors"
+                      className="w-10 h-10 rounded-2xl bg-[#C6181E] hover:bg-red-600 text-white flex items-center justify-center transition-colors"
                     >
                       <ShoppingBag size={16} />
                     </button>
@@ -489,9 +536,9 @@ const HomePage = () => {
             initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={container}
             className="text-center mb-14"
           >
-            <motion.p variants={fadeUp} className="text-red-600 text-xs font-bold uppercase tracking-[4px] mb-3">Testimonials</motion.p>
+            <motion.p variants={fadeUp} className="text-[#C6181E] text-xs font-bold uppercase tracking-[4px] mb-3">Testimonials</motion.p>
             <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black text-[#003B93]">
-              What Our <span className="text-red-600">Customers</span> Say
+              What Our <span className="text-[#C6181E]">Customers</span> Say
             </motion.h2>
             <motion.p variants={fadeUp} className="text-gray-400 mt-4 text-sm max-w-md mx-auto">
               Real reviews from real shoppers who love what we do.
@@ -515,7 +562,7 @@ const HomePage = () => {
                 </div>
                 <p className="text-gray-600 text-sm leading-[1.85] mb-6 relative z-10">"{t.text}"</p>
                 <div className="flex items-center gap-3 pt-5 border-t border-gray-100">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-red-500 to-red-700 text-white text-xs font-black flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#C6181E] to-red-700 text-white text-xs font-black flex items-center justify-center shrink-0">
                     {t.avatar}
                   </div>
                   <div>
@@ -541,7 +588,7 @@ const HomePage = () => {
               { val: "99%", label: "Satisfied Customers" },
             ].map((s) => (
               <div key={s.label} className="px-8 py-4 rounded-2xl bg-gray-50 border border-gray-100">
-                <p className="text-2xl font-black text-red-600">{s.val}</p>
+                <p className="text-2xl font-black text-[#C6181E]">{s.val}</p>
                 <p className="text-xs text-gray-400 mt-1 font-medium uppercase tracking-wide">{s.label}</p>
               </div>
             ))}
@@ -562,9 +609,9 @@ const HomePage = () => {
             initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={container}
             className="text-center mb-12 max-w-3xl mx-auto"
           >
-            <motion.p variants={fadeUp} className="text-red-600 text-xs font-bold uppercase tracking-[4px] mb-4">Who We Are</motion.p>
+            <motion.p variants={fadeUp} className="text-[#C6181E] text-xs font-bold uppercase tracking-[4px] mb-4">Who We Are</motion.p>
             <motion.h2 variants={fadeUp} className="text-4xl md:text-6xl font-black leading-[1.08] mb-6 text-[#003B93]">
-              About <span className="text-red-600">KRS Lifeline</span>
+              About <span className="text-[#C6181E]">KRS Lifeline</span>
             </motion.h2>
             <motion.p variants={fadeUp} className="text-gray-500 text-base leading-[1.9]">
               Your exclusive shopping destination for innovative, trending, and everyday products at affordable prices.
@@ -610,7 +657,7 @@ const HomePage = () => {
               <p className="font-black text-gray-900 text-sm">Est. in Coimbatore</p>
               <p className="text-gray-400 text-[11px]">Tamil Nadu, India 🇮🇳</p>
             </div>
-            <div className="absolute top-6 right-6 bg-red-600 rounded-2xl px-4 py-2.5 shadow-lg">
+            <div className="absolute top-6 right-6 bg-[#C6181E] rounded-2xl px-4 py-2.5 shadow-lg">
               <p className="font-black text-white text-sm">⭐ 4.9 Rating</p>
               <p className="text-red-200 text-[11px]">10K+ customers</p>
             </div>
@@ -626,7 +673,7 @@ const HomePage = () => {
                 key={i} variants={fadeUp}
                 className="bg-white rounded-2xl p-5 border border-gray-100 flex flex-col items-center text-center gap-3 hover:border-red-200 hover:shadow-md transition-all"
               >
-                <div className="w-12 h-12 rounded-xl bg-red-50 text-red-600 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-xl bg-red-50 text-[#C6181E] flex items-center justify-center">
                   {h.icon}
                 </div>
                 <div>
@@ -653,7 +700,7 @@ const HomePage = () => {
             ].map((tag) => (
               <span
                 key={tag}
-                className="px-4 py-2 rounded-full bg-white border border-gray-200 text-gray-600 text-xs font-semibold hover:border-red-400 hover:text-red-600 transition-colors"
+                className="px-4 py-2 rounded-full bg-white border border-gray-200 text-gray-600 text-xs font-semibold hover:border-[#C6181E] hover:text-[#C6181E] transition-colors cursor-pointer"
               >
                 {tag}
               </span>
@@ -664,10 +711,10 @@ const HomePage = () => {
           <motion.div
             initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-red-700 via-red-600 to-red-500 p-10 md:p-14 text-center"
+            className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-[#C6181E] via-[#C6181E] to-[#C6181E] p-10 md:p-14 text-center"
           >
-            <div className="pointer-events-none absolute -top-16 -right-16 w-64 h-64 rounded-full border border-white/10" />
-            <div className="pointer-events-none absolute -bottom-12 -left-12 w-48 h-48 rounded-full border border-white/10" />
+            <div className="pointer-events-none absolute -top-16 -right-16 w-64 h-64 rounded-full border-3 border-white/30" />
+            <div className="pointer-events-none absolute -bottom-12 -left-12 w-48 h-48 rounded-full border-3 border-white/30" />
             <div className="pointer-events-none absolute inset-0 opacity-[0.04]"
               style={{ backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)", backgroundSize: "24px 24px" }}
             />
@@ -684,7 +731,7 @@ const HomePage = () => {
                 <motion.button
                   whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
                   onClick={() => navigate("/products")}
-                  className="inline-flex items-center justify-center gap-2 bg-white text-red-600 hover:bg-gray-100 px-10 py-4 rounded-2xl font-black text-sm transition-all shadow-lg"
+                  className="inline-flex items-center justify-center gap-2 bg-white text-[#C6181E] hover:bg-gray-100 px-10 py-4 rounded-2xl font-black text-sm transition-all shadow-lg"
                 >
                   Shop Now <ArrowRight size={15} />
                 </motion.button>

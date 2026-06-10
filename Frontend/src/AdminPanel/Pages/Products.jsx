@@ -33,27 +33,17 @@ import {
   EditOutlined,
   DeleteOutlined,
   InboxOutlined,
+  PlayCircleOutlined,
 } from "@ant-design/icons";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
 const { useBreakpoint } = Grid;
 const { Option } = Select;
+const { TextArea } = Input;
 
 const PRIMARY = "#c90202";
 const FONT = "'Outfit', sans-serif";
-
-const CATEGORIES = [
-  "Electronics",
-  "Clothing",
-  "Furniture",
-  "Food & Beverages",
-  "Books",
-  "Sports",
-  "Beauty",
-  "Toys",
-  "Other",
-];
 
 // ─── Status helpers ───────────────────────────────────────────────────────────
 const getStatus = (qty) =>
@@ -87,15 +77,23 @@ const Products = () => {
   const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
   const [deleteProduct, { isLoading: isDeleting }] = useDeleteProductMutation();
 
-
-
+  // Search & filter states
   const [searchText, setSearchText] = useState("");
   const [categoryFilter, setCategoryFilter] = useState(null);
+
+  // Modal & edit states
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingProduct, setEditingProduct] = useState(null); // null = add mode
-  const [previewImage, setPreviewImage] = useState(null);   // cover image
-  const [imageFile, setImageFile] = useState(null);         // cover File obj
+  const [editingProduct, setEditingProduct] = useState(null);
+
+  // Image states
+  const [previewImage, setPreviewImage] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
   const [galleryFiles, setGalleryFiles] = useState([]);
+
+  // Video states (new)
+  const [videoFile, setVideoFile] = useState(null);
+  const [videoPreviewUrl, setVideoPreviewUrl] = useState(null);
+  const [videoDescription, setVideoDescription] = useState("");
 
   const productsData = data?.products || [];
 
@@ -125,6 +123,11 @@ const Products = () => {
     setPreviewImage(null);
     setImageFile(null);
     setGalleryFiles([]);
+    // Reset video states
+    setVideoFile(null);
+    if (videoPreviewUrl) URL.revokeObjectURL(videoPreviewUrl);
+    setVideoPreviewUrl(null);
+    setVideoDescription("");
     form.resetFields();
     setIsModalOpen(true);
   };
@@ -133,18 +136,31 @@ const Products = () => {
     setEditingProduct(record);
     setPreviewImage(record.image || null);
     setImageFile(null);
-    // Seed gallery from existing images array (strings/URLs)
+
+    // Gallery images
     const existing = (record.images || []).map((img, i) => ({
       uid: `existing-${i}`,
       file: null,
       url: typeof img === "string" ? img : img?.path || img?.url,
     }));
     setGalleryFiles(existing);
+
+    // Video: existing URL (if any)
+    if (record.video) {
+      setVideoPreviewUrl(record.video);
+      setVideoFile(null);
+    } else {
+      setVideoPreviewUrl(null);
+      setVideoFile(null);
+    }
+    setVideoDescription(record.videoDescription || "");
+
     form.setFieldsValue({
       name: record.name,
       category: record.category,
       price: record.price,
       qty: record.qty,
+      videoDescription: record.videoDescription || "",
     });
     setIsModalOpen(true);
   };
@@ -155,7 +171,39 @@ const Products = () => {
     setPreviewImage(null);
     setImageFile(null);
     setGalleryFiles([]);
+    if (videoPreviewUrl && !editingProduct?.video) {
+      URL.revokeObjectURL(videoPreviewUrl);
+    }
+    setVideoFile(null);
+    setVideoPreviewUrl(null);
+    setVideoDescription("");
     form.resetFields();
+  };
+
+  // ── Video upload handler ──────────────────────────────────────────────────
+  const handleVideoUpload = (file) => {
+
+    const realFile = file.originFileObj;
+
+    // Revoke previous blob if any
+    if (videoPreviewUrl && !editingProduct?.video) {
+      URL.revokeObjectURL(videoPreviewUrl);
+    }
+    setVideoFile(file);
+    const blobUrl = URL.createObjectURL(file);
+    setVideoPreviewUrl(blobUrl);
+    return false;
+  };
+
+  const removeVideo = () => {
+    if (videoPreviewUrl && !editingProduct?.video) {
+      URL.revokeObjectURL(videoPreviewUrl);
+    }
+    setVideoFile(null);
+    setVideoPreviewUrl(null);
+    // For existing product, we simply remove the video field from the update payload
+    // by not appending "video" to FormData. The backend should handle deletion
+    // if field is missing. If you need explicit delete, add a flag.
   };
 
   // ── Save (add / edit) with API ───────────────────────────────────────────
@@ -170,6 +218,8 @@ const Products = () => {
       formData.append("price", values.price);
       formData.append("qty", values.qty);
 
+      formData.append("videoDescription", values.videoDescription || "");
+
       if (imageFile) {
         formData.append("image", imageFile);
       }
@@ -177,6 +227,20 @@ const Products = () => {
       galleryFiles.forEach((g) => {
         if (g.file) formData.append("images", g.file);
       });
+
+      // Append video only if a new file was selected
+      if (videoFile) {
+        formData.append("video", videoFile);
+      } else if (editingProduct && editingProduct.video && !videoFile && videoPreviewUrl === editingProduct.video) {
+        // Keep existing video – no action needed (backend keeps it)
+      } else if (editingProduct && editingProduct.video && !videoFile && videoPreviewUrl === null) {
+        // User removed video – we need to tell backend to delete it.
+        // Option 1: send a flag (requires backend support). For now we skip,
+        // but you can add formData.append("removeVideo", "true") if your backend supports it.
+        // We'll assume that omitting "video" means keep existing.
+      }
+
+      console.log("VIDEO FILE:", videoFile);
 
       if (editingProduct) {
         await updateProduct({
@@ -209,7 +273,7 @@ const Products = () => {
     }
   };
 
-  // ── Image upload handlers (same as before) ─────────────────────────────────
+  // ── Image upload handlers ─────────────────────────────────────────────────
   const handleImageUpload = (file) => {
     setImageFile(file);
     setPreviewImage(URL.createObjectURL(file));
@@ -222,12 +286,10 @@ const Products = () => {
     return false;
   };
 
-
-
   const removeGalleryItem = (uid) =>
     setGalleryFiles((prev) => prev.filter((g) => g.uid !== uid));
 
-  // ── Export to Excel (uses current filtered data) ────────────────────────────
+  // ── Export to Excel (includes video description) ─────────────────────────
   const handleExport = () => {
     const exportData = filtered.map((item) => ({
       Name: item.name,
@@ -236,6 +298,8 @@ const Products = () => {
       Price: item.price,
       Quantity: item.qty,
       Status: getStatus(item.qty),
+      VideoDescription: item.videoDescription || "",
+      HasVideo: item.video ? "Yes" : "No",
     }));
     const ws = XLSX.utils.json_to_sheet(exportData);
     const wb = XLSX.utils.book_new();
@@ -255,7 +319,7 @@ const Products = () => {
       try {
         const wb = XLSX.read(new Uint8Array(e.target.result), { type: "array" });
         const json = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
-        const imported = json.map((item, i) => ({
+        const imported = json.map((item) => ({
           name: item.Name || item.name || "Unnamed",
           sku: item.SKU || item.sku || "",
           category: item.Category || item.category || "Other",
@@ -264,8 +328,9 @@ const Products = () => {
           description: item.Description || item.description || "",
           image: "https://via.placeholder.com/100",
           images: [],
+          videoDescription: item.VideoDescription || item.videoDescription || "",
+          // video file cannot be bulk uploaded
         }));
-        // Create products one by one (or bulk if API supports)
         for (const product of imported) {
           await createProduct(product).unwrap();
         }
@@ -279,7 +344,7 @@ const Products = () => {
     return false;
   };
 
-  // ── Table columns (unchanged) ─────────────────────────────────────────────────────────
+  // ── Table columns ─────────────────────────────────────────────────────────
   const columns = [
     {
       title: "Product",
@@ -303,6 +368,11 @@ const Products = () => {
           <div>
             <div style={{ fontWeight: 600, fontFamily: FONT, fontSize: 14 }}>
               {text}
+              {record.video && (
+                <Tooltip title="Has video">
+                  <PlayCircleOutlined style={{ marginLeft: 6, color: PRIMARY, fontSize: 14 }} />
+                </Tooltip>
+              )}
             </div>
             {record.sku && (
               <div style={{ fontSize: 12, color: "#aaa", fontFamily: FONT }}>
@@ -316,16 +386,11 @@ const Products = () => {
     {
       title: "Category",
       dataIndex: "category",
-
-      filters: [
-        ...new Set(productsData.map((item) => item.category))
-      ].map((cat) => ({
+      filters: [...new Set(productsData.map((item) => item.category))].map((cat) => ({
         text: cat,
         value: cat,
       })),
-
       onFilter: (value, record) => record.category === value,
-
       render: (t) => (
         <Tag
           style={{
@@ -358,6 +423,53 @@ const Products = () => {
       render: (q) => (
         <span style={{ fontWeight: 600, fontFamily: FONT }}>{q}</span>
       ),
+    },
+    {
+      title: "Video",
+      dataIndex: "video",
+      render: (video, record) => {
+        if (!video) {
+          return <span style={{ color: "#aaa" }}>No video</span>;
+        }
+
+        return (
+          <video
+            src={video}
+            width={80}
+            height={50}
+            style={{ borderRadius: 8, objectFit: "cover" }}
+            muted
+            preload="metadata"
+            controls
+          />
+        );
+      },
+    },
+    {
+      title: "Video Info",
+      dataIndex: "videoDescription",
+      render: (desc) => {
+        if (!desc) {
+          return <span style={{ color: "#aaa" }}>No description</span>;
+        }
+
+        return (
+          <Tooltip title={desc}>
+            <span
+              style={{
+                display: "inline-block",
+                maxWidth: 160,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                fontFamily: FONT,
+              }}
+            >
+              {desc}
+            </span>
+          </Tooltip>
+        );
+      },
     },
     {
       title: "Status",
@@ -413,16 +525,6 @@ const Products = () => {
     },
   ];
 
-  // // Show error state if API fails
-  // if (isError) {
-  //   return (
-  //     <div style={{ textAlign: "center", padding: 48, fontFamily: FONT }}>
-  //       <p style={{ color: "#ff4d4f" }}>Failed to load products. Please try again later.</p>
-  //       <Button onClick={() => refetch()} style={{ marginTop: 16 }}>Retry</Button>
-  //     </div>
-  //   );
-  // }
-
   // ── Render ────────────────────────────────────────────────────────────────
   return (
     <div
@@ -433,7 +535,7 @@ const Products = () => {
         fontFamily: FONT,
       }}
     >
-      {/* ── Page header ── */}
+      {/* Page header */}
       <div style={{ marginBottom: 24 }}>
         <h2
           style={{
@@ -459,13 +561,11 @@ const Products = () => {
         </p>
       </div>
 
-      {/* ── Stat cards ── */}
+      {/* Stat cards */}
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: screens.xs
-            ? "1fr 1fr"
-            : "repeat(4, 1fr)",
+          gridTemplateColumns: screens.xs ? "1fr 1fr" : "repeat(4, 1fr)",
           gap: 12,
           marginBottom: 24,
         }}
@@ -510,7 +610,7 @@ const Products = () => {
         ))}
       </div>
 
-      {/* ── Table card ── */}
+      {/* Table card */}
       <div
         style={{
           background: "#fff",
@@ -598,12 +698,12 @@ const Products = () => {
           </Space>
         </div>
 
-        {/* Table with loading indicator */}
+        {/* Table */}
         <Spin spinning={isLoading} tip="Loading products...">
           <Table
             dataSource={filtered}
             columns={columns}
-            rowKey="id"
+            rowKey="_id"
             scroll={{ x: 860 }}
             pagination={{
               pageSize: 5,
@@ -621,7 +721,7 @@ const Products = () => {
         </Spin>
       </div>
 
-      {/* ── Add / Edit Modal (unchanged) ── */}
+      {/* Add / Edit Modal */}
       <Modal
         title={
           <div style={{ fontFamily: FONT }}>
@@ -670,7 +770,7 @@ const Products = () => {
           style={{ marginTop: 16, fontFamily: FONT }}
           requiredMark={false}
         >
-          {/* Name */}
+          {/* Product Name */}
           <Form.Item
             label={<b style={{ fontFamily: FONT }}>Product Name *</b>}
             name="name"
@@ -694,7 +794,7 @@ const Products = () => {
             />
           </Form.Item>
 
-          {/* Price + Qty */}
+          {/* Price + Quantity */}
           <div
             style={{
               display: "grid",
@@ -735,7 +835,7 @@ const Products = () => {
             </Form.Item>
           </div>
 
-          {/* Cover image */}
+          {/* Cover Image */}
           <Form.Item label={<b style={{ fontFamily: FONT }}>Cover Image</b>}>
             <div style={{ display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap" }}>
               <Upload
@@ -767,7 +867,9 @@ const Products = () => {
                       borderRadius: "50%", width: 20, height: 20,
                       minWidth: 20, padding: 0, fontSize: 10, lineHeight: "20px",
                     }}
-                  >✕</Button>
+                  >
+                    ✕
+                  </Button>
                 </div>
               )}
             </div>
@@ -776,14 +878,12 @@ const Products = () => {
             </p>
           </Form.Item>
 
-          {/* Gallery images */}
+          {/* Gallery Images */}
           <Form.Item
             label={
               <b style={{ fontFamily: FONT }}>
                 Gallery Images{" "}
-                <span style={{ fontWeight: 400, color: "#aaa", fontSize: 12 }}>
-                  (up to 5)
-                </span>
+                <span style={{ fontWeight: 400, color: "#aaa", fontSize: 12 }}>(up to 5)</span>
               </b>
             }
           >
@@ -791,11 +891,7 @@ const Products = () => {
               {galleryFiles.map((g) => (
                 <div key={g.uid} style={{ position: "relative", display: "inline-block" }}>
                   <Image
-                    src={
-                      typeof g === "string"
-                        ? g
-                        : g.url || g.path || ""
-                    }
+                    src={g.url || g.path || ""}
                     width={68}
                     height={68}
                     style={{ objectFit: "cover", borderRadius: 10, border: "1px solid #eee" }}
@@ -810,7 +906,9 @@ const Products = () => {
                       borderRadius: "50%", width: 20, height: 20,
                       minWidth: 20, padding: 0, fontSize: 10, lineHeight: "20px",
                     }}
-                  >✕</Button>
+                  >
+                    ✕
+                  </Button>
                 </div>
               ))}
 
@@ -839,11 +937,79 @@ const Products = () => {
               )}
             </div>
             <p style={{ fontSize: 12, color: "#aaa", marginTop: 2, fontFamily: FONT }}>
-              These map to the <code>images</code> array — shown in product gallery / carousel
+              Additional product images (displayed in gallery/carousel)
             </p>
           </Form.Item>
 
-          {/* Live stock status preview */}
+          {/* Video & Video Description (new) */}
+          <div
+            style={{
+              borderTop: "1px solid #f0f0f0",
+              marginTop: 8,
+              paddingTop: 12,
+            }}
+          >
+            <Form.Item
+              label={<b style={{ fontFamily: FONT }}>Product Video</b>}
+              tooltip="Upload an MP4 or WebM (max 50MB)"
+            >
+              <div style={{ display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap" }}>
+                <Upload
+                  beforeUpload={handleVideoUpload}
+                  maxCount={1}
+                  showUploadList={false}
+                  accept="video/mp4,video/webm,video/quicktime"
+                >
+                  <Button icon={<UploadOutlined />} style={{ borderRadius: 8, fontFamily: FONT }}>
+                    {videoFile || (editingProduct?.video && !videoFile) ? "Change Video" : "Upload Video"}
+                  </Button>
+                </Upload>
+
+                {videoPreviewUrl && (
+                  <div style={{ position: "relative", display: "inline-block" }}>
+                    <video
+                      width="120"
+                      height="80"
+                      controls
+                      src={videoPreviewUrl}
+                      style={{ borderRadius: 10, border: "1px solid #eee", objectFit: "cover" }}
+                    />
+                    <Button
+                      size="small"
+                      danger
+                      onClick={removeVideo}
+                      style={{
+                        position: "absolute", top: -8, right: -8,
+                        borderRadius: "50%", width: 20, height: 20,
+                        minWidth: 20, padding: 0, fontSize: 10, lineHeight: "20px",
+                      }}
+                    >
+                      ✕
+                    </Button>
+                  </div>
+                )}
+              </div>
+              <p style={{ fontSize: 12, color: "#aaa", marginTop: 6, fontFamily: FONT }}>
+                Supported: MP4, WebM, MOV. A video URL will be stored on the server.
+              </p>
+            </Form.Item>
+
+            <Form.Item
+              label={<b style={{ fontFamily: FONT }}>Video Description</b>}
+              name="videoDescription"
+              tooltip="Short description for the product video"
+            >
+              <TextArea
+                rows={3}
+                placeholder="Explain what the video shows (features, demo, etc.)"
+                style={{ borderRadius: 8, fontFamily: FONT }}
+                value={videoDescription}
+                onChange={(e) => setVideoDescription(e.target.value)}
+              />
+            </Form.Item>
+          </div>
+
+          {/* Stock status preview */}
           <Form.Item noStyle shouldUpdate>
             {() => {
               const qty = form.getFieldValue("qty");
@@ -871,7 +1037,7 @@ const Products = () => {
         </Form>
       </Modal>
 
-      {/* Row hover style */}
+      {/* Global styles */}
       <style>{`
         .product-row:hover td { background: #fff8f8 !important; }
         .ant-table-thead > tr > th {

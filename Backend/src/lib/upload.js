@@ -6,7 +6,8 @@ const storage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: "krs-products",
-    allowed_formats: ["jpg", "png", "jpeg", "webp"],
+    resource_type: "auto",
+    allowed_formats: ["jpg", "png", "jpeg", "webp", "mp4", "mov", "avi"],
   },
 });
 

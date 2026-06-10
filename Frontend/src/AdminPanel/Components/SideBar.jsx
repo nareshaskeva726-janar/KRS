@@ -170,7 +170,7 @@ const SideBar = ({
             }`}
         >
           {!collapsed ? (
-            <div className="mx-auto">
+            <div className="mx-auto  rounded-sm">
               <img
                 src={assets.newKrs}
                 alt="KRS"

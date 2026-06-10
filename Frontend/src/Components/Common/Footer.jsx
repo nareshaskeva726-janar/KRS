@@ -90,11 +90,11 @@ const Footer = () => {
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 w-fit group">
               <div className="relative">
-                <div className="absolute inset-0 rounded-2xl bg-blue-900/20 blur-md group-hover:blur-lg transition" />
+                <div className="absolute inset-0  bg-[#EDF3F8]/100 rounded-sm" />
                 <img
                   src={assets.newKrs}
                   alt="KRS Lifeline"
-                  className="relative w-30 h-14 object-contain rounded-2xl "
+                  className="relative w-30 h-14 object-contain"
                 />
               </div>
               {/* <div>

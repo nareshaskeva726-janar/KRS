@@ -91,7 +91,7 @@ const CartModal = ({ isOpen, onClose }) => {
                       onClose();
                       navigate("/products");
                     }}
-                    className="mt-2 px-6 py-2.5 rounded-xl bg-red-600 text-white text-sm font-bold hover:bg-red-700 transition-colors"
+                    className="mt-2 px-6 py-2.5 rounded-xl bg-[#C6181E] text-white text-sm font-bold hover:bg-red-700 transition-colors"
                   >
                     Browse Products
                   </button>

@@ -15,7 +15,6 @@ import {
   Truck,
   BadgeCheck,
   Star,
-  Heart,
   Sparkles,
   CheckCircle2,
 } from "lucide-react";
@@ -150,12 +149,12 @@ const ProductDetailsPage = () => {
                 </span>
               </div>
 
-              <button className="absolute top-5 right-5 z-20 w-12 h-12 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center shadow-xl hover:scale-110 transition-all duration-300">
+              {/* <button className="absolute top-5 right-5 z-20 w-12 h-12 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center shadow-xl hover:scale-110 transition-all duration-300">
                 <Heart
                   size={18}
                   className="text-gray-700"
                 />
-              </button>
+              </button> */}
 
               <div className="relative overflow-hidden">
                 <img
@@ -201,11 +200,10 @@ const ProductDetailsPage = () => {
                   <button
                     key={index}
                     onClick={() => setSelectedImage(img)}
-                    className={`w-24 h-24 rounded-3xl overflow-hidden border transition-all duration-300 ${
-                      selectedImage === img
-                        ? "border-red-500 scale-105"
-                        : "border-white/40"
-                    }`}
+                    className={`w-24 h-24 rounded-3xl overflow-hidden border transition-all duration-300 ${selectedImage === img
+                      ? "border-red-500 scale-105"
+                      : "border-white/40"
+                      }`}
                   >
                     <img
                       src={img}
@@ -363,11 +361,10 @@ const ProductDetailsPage = () => {
               <motion.button
                 whileTap={{ scale: 0.97 }}
                 onClick={handleAddToCart}
-                className={`flex-1 h-16 rounded-3xl font-bold flex items-center justify-center gap-3 transition-all duration-300 ${
-                  added
-                    ? "bg-emerald-500 text-white"
-                    : "bg-gradient-to-r from-red-600 to-red-700 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(220,38,38,0.35)] text-white"
-                }`}
+                className={`flex-1 h-16 rounded-3xl font-bold flex items-center justify-center gap-3 transition-all duration-300 ${added
+                  ? "bg-emerald-500 text-white"
+                  : "bg-gradient-to-r from-red-600 to-red-700 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(220,38,38,0.35)] text-white"
+                  }`}
               >
                 {added ? (
                   <>
@@ -399,6 +396,54 @@ const ProductDetailsPage = () => {
           </motion.div>
         </div>
 
+
+        {/* PRODUCT VIDEO */}
+        {product.video && (
+        <section className="mt-24">
+          <div className="text-center mb-10">
+            <p className="text-xs uppercase tracking-[0.3em] text-red-500 font-bold mb-2">
+              Product Showcase
+            </p>
+
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight text-gray-900">
+              Watch Product{" "}
+              <span className="text-red-600">Video</span>
+            </h2>
+
+            <p className="text-gray-500 mt-4 max-w-2xl mx-auto">
+              See the product in action and explore its features,
+              quality, and performance.
+            </p>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="rounded-[40px] overflow-hidden bg-white shadow-[0_20px_60px_rgba(0,0,0,0.08)] border border-white/40"
+          >
+            <video
+              src={product.video}
+              controls
+              muted
+              playsInline
+              className="w-full h-[250px] md:h-[500px] object-cover"
+            />
+          </motion.div>
+          {/* PRODUCT CONTENT BELOW VIDEO */}
+          <div className="mt-10 text-center max-w-4xl mx-auto">
+            <h3 className="text-2xl md:text-3xl font-black text-gray-900">
+              Why This Product Stands Out
+            </h3>
+
+            <p className="text-gray-600 mt-4 leading-8">
+              {product.videoDescription}
+            </p>
+
+          </div>
+        </section>)}
+
         {/* RELATED PRODUCTS */}
         {relatedProducts.length > 0 && (
           <section className="mt-28">
@@ -416,6 +461,9 @@ const ProductDetailsPage = () => {
                 </h2>
               </div>
             </div>
+
+
+
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
               {relatedProducts.map((item, index) => (

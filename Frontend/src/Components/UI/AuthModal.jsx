@@ -154,7 +154,7 @@ const AuthModal = ({ isOpen, onClose }) => {
                         <button
                             type="submit"
                             disabled={loginLoading}
-                            className="w-full py-3 mt-3  rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold transition disabled:opacity-60"
+                            className="w-full py-3 mt-3  rounded-xl bg-[#C6181E] hover:bg-red-700 text-white font-semibold transition disabled:opacity-60"
                         >
                             {loginLoading
                                 ? "Please wait..."

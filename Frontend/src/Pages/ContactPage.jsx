@@ -34,8 +34,8 @@ const ContactPage = () => {
       {/* HERO SECTION */}
       <section className="relative py-24 px-6">
         {/* Background Blur */}
-        <div className="absolute top-0 left-0 w-[300px] h-[300px] bg-red-100 rounded-full blur-3xl opacity-70" />
-        <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-red-50 rounded-full blur-3xl opacity-80" />
+        {/* <div className="absolute top-0 left-0 w-[300px] h-[300px] bg-red-100 rounded-full blur-3xl opacity-70" />
+        <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-red-50 rounded-full blur-3xl opacity-80" /> */}
 
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-14 items-center relative z-10">
           {/* LEFT CONTENT */}
@@ -44,13 +44,13 @@ const ContactPage = () => {
             initial="hidden"
             animate="visible"
           >
-            <span className="bg-white text-[#0505eb] px-4 py-2 rounded-full text-sm font-semibold shadow-sm border-[#c90202]/30">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 border border-red-200 text-[#C6181E] text-xs font-bold tracking-widest uppercase">
               Contact Us
             </span>
 
             <motion.h1
               variants={fadeUp}
-              className="text-4xl md:text-5xl lg:text-6xl font-extrabold mt-6 leading-tight text-gray-900"
+              className="text-4xl md:text-5xl lg:text-6xl font-extrabold mt-6 leading-tight text-[#003B93]"
             >
               Let's Build Something
               <span className="block text-[#c90202]">Amazing Together</span>
@@ -159,8 +159,8 @@ const ContactPage = () => {
             transition={{ duration: 0.6 }}
             className="bg-white border border-gray-200 rounded-3xl shadow-2xl p-8 md:p-10"
           >
-            <h2 className="text-3xl font-bold text-gray-900">
-              Send a Message
+            <h2 className="text-3xl font-bold text-[#003B93]">
+              Send <span className="text-[#C6181E]">Message</span>
             </h2>
 
             <p className="text-gray-600 mt-3">

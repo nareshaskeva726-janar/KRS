@@ -17,6 +17,7 @@ ProductRouter.post(
   upload.fields([
     { name: "image", maxCount: 1 },
     { name: "images", maxCount: 5 },
+    { name: "video", maxCount: 1 },
   ]),
   createProduct
 );
@@ -31,9 +32,10 @@ ProductRouter.put(
   upload.fields([
     { name: "image", maxCount: 1 },
     { name: "images", maxCount: 5 },
+    { name: "video", maxCount: 1 },
   ]),
   updateProduct
-);;
+);
 
 // DELETE
 ProductRouter.delete("/:id", deleteProduct);

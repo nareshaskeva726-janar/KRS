@@ -123,8 +123,8 @@ const ProductPage = () => {
       {/* HERO */}
       <section className="relative overflow-hidden py-16 border-b border-gray-100">
         {/* background glow */}
-        <div className="absolute top-0 left-0 w-72 h-72 bg-red-100 rounded-full blur-3xl opacity-70" />
-        <div className="absolute bottom-0 right-0 w-72 h-72 bg-red-50 rounded-full blur-3xl opacity-80" />
+        {/* <div className="absolute top-0 left-0 w-72 h-72 bg-red-100 rounded-full blur-3xl opacity-70" />
+        <div className="absolute bottom-0 right-0 w-72 h-72 bg-red-50 rounded-full blur-3xl opacity-80" /> */}
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid lg:grid-cols-2 gap-14 items-center">
 
@@ -135,7 +135,7 @@ const ProductPage = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
-              className="bg-red-100 text-red-600 px-4 py-2 rounded-full text-sm font-semibold inline-block w-fit"
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 border border-red-200 text-[#C6181E] text-xs font-bold tracking-widest uppercase"
             >
               Premium Appliances
             </motion.span>
@@ -194,7 +194,9 @@ const ProductPage = () => {
       {/* PRODUCTS SECTION */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-        <h1 className="text-7xl text-center p-5 font-bold mb-5 text-[#003B93] font-extrabold leading-tight">All <span className="text-red-600">Products</span></h1>
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-center px-4 py-5 font-extrabold text-[#003B93] leading-tight">
+          All <span className="text-[#C6181E]">Products</span>
+        </h1>        
         <div className="flex flex-col lg:flex-row gap-8">
           {/* SIDEBAR */}
           <aside className="w-full lg:w-72 flex-shrink-0">

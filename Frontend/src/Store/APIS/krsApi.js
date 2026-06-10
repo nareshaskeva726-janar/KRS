@@ -4,7 +4,7 @@ export const krsApi = createApi({
   reducerPath: "krsApi",
 
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_API_URL,
+    baseUrl: "http://localhost:5000/api",
     credentials: "include",
   }),
 
