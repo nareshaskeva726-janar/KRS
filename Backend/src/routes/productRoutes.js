@@ -8,6 +8,7 @@ import {
 } from "../controllers/productController.js";
 
 import { upload } from "../lib/upload.js";
+import protect from "../middleware/authMiddleware.js";
 
 const ProductRouter = express.Router();
 
@@ -19,12 +20,13 @@ ProductRouter.post(
     { name: "images", maxCount: 5 },
     { name: "video", maxCount: 1 },
   ]),
+  protect,
   createProduct
 );
 
 // READ
-ProductRouter.get("/", getProducts);
-ProductRouter.get("/:id", getProduct);
+ProductRouter.get("/",  protect,getProducts);
+ProductRouter.get("/:id", protect, getProduct);
 
 // UPDATE
 ProductRouter.put(
@@ -34,10 +36,11 @@ ProductRouter.put(
     { name: "images", maxCount: 5 },
     { name: "video", maxCount: 1 },
   ]),
+  protect,
   updateProduct
 );
 
 // DELETE
-ProductRouter.delete("/:id", deleteProduct);
+ProductRouter.delete("/:id", protect, deleteProduct);
 
 export default ProductRouter;

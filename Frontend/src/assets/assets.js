@@ -15,6 +15,7 @@ import applianceTwo from "../assets/applianceTwo.png"
 import video from "../assets/KRSLIFELINE.mp4"
 import newKrs from "../assets/LogoKRS.png"
 import newKrsLogo from "../assets/KRS Logo.jpeg"
+import favKrs from "../assets/FavKRS.jpeg"
 
 //assets like banner, logo, hero images
 export const assets = {
@@ -34,6 +35,7 @@ export const assets = {
   applianceTwo,
   video,
   newKrs,
-  newKrsLogo
+  newKrsLogo,
+  favKrs
 };
 

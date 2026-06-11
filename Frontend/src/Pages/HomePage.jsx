@@ -16,6 +16,7 @@ import {
   MapPin,
   Users,
   Award,
+  TrendingUp
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -153,6 +154,32 @@ const HomePage = () => {
       : productsData.products.slice(0, 4);
   }, [productsData]);
 
+  // Animation variants
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const fadeUp = {
+    hidden: { opacity: 0, y: 30 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] },
+    },
+  };
+
+  const scaleOnHover = {
+    scale: 1.02,
+    transition: { duration: 0.3, ease: 'easeOut' },
+  };
+
 
 
 
@@ -184,7 +211,9 @@ const HomePage = () => {
             </motion.span>
 
             <motion.h1 variants={fadeUp} className="text-5xl md:text-6xl lg:text-[4.5rem] font-black leading-[1.06] tracking-tight text-[#073273]">
-              Shop
+              Shop{" "}
+
+{/* 
               <span className="relative inline-block ml-3">
                 <span className="text-[#C6181E]">Smarter.</span>
                 <motion.span
@@ -193,7 +222,20 @@ const HomePage = () => {
                   transition={{ delay: 0.7, duration: 0.5, ease: "easeOut" }}
                   className="absolute -bottom-1 left-0 w-full h-1 bg-[#C6181E] origin-left rounded-full"
                 />
+              </span> */}
+
+              <span className="relative inline-block">
+                <span className="text-[#C6181E]">Smarter.</span>
+                <motion.span
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ delay: 0.7, duration: 0.5, ease: "easeOut" }}
+                  className="absolute -bottom-2 left-0 w-full h-1 origin-left bg-gradient-to-r from-[#C6181E]/40 to-transparent rounded-full"
+                />
               </span>
+
+
+
               <span className="block mt-2">Live Better.</span>
             </motion.h1>
 
@@ -274,7 +316,7 @@ const HomePage = () => {
               <img
                 src={assets.bannerOne}
                 alt="Hero Banner"
-                className="relative z-10 w-full h-[480px] object-cover rounded-[2rem] shadow-2xl border border-gray-100"
+                className="relative z-10 w-full h-[480px] object-contain rounded-[2rem] shadow-2xl border border-gray-100"
               />
               <div className="absolute -bottom-3 -right-3 w-24 h-24 rounded-[1.5rem] bg-red-600 -z-10" />
               <div className="absolute -top-3 -left-3 w-16 h-16 rounded-2xl border-2 border-red-200 -z-10" />
@@ -322,7 +364,12 @@ const HomePage = () => {
               Why Us
             </motion.p>
             <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black leading-tight text-[#073273]">
-              Built Around <span className="text-[#C6181E]">You</span>
+              Built Around {" "}
+
+              <span className="relative inline-block">
+                <span className="text-[#C6181E]">You</span>
+                <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-[#C6181E]/40 to-transparent rounded-full" />
+              </span>
             </motion.h2>
             <motion.p variants={fadeUp} className="text-gray-500 mt-4 max-w-lg mx-auto text-sm leading-relaxed">
               Every decision we make is centred on giving you a smoother, smarter, and more satisfying shopping experience.
@@ -387,7 +434,10 @@ const HomePage = () => {
                 className="text-4xl md:text-5xl font-black leading-tight text-nowrap [&>br]:hidden text-[#073273]"
               >
                 Shop by <br />
-                <span className="text-[#C6181E]">Category</span>
+                <span className="relative inline-block">
+                  <span className="text-[#C6181E]">Category</span>
+                  <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-[#C6181E]/40 to-transparent rounded-full" />
+                </span>
               </motion.h2>
             </div>
             <motion.p variants={fadeUp} className="text-gray-400 text-sm max-w-xs leading-relaxed md:text-right">
@@ -445,66 +495,177 @@ const HomePage = () => {
       {/* ══════════════════════════════════════════
           SECTION 4 · TRENDING PRODUCTS
       ══════════════════════════════════════════ */}
-      <section className="py-24 bg-[#EDF3F8]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative py-28 overflow-hidden bg-gradient-to-br from-[#F8FAFF] via-white to-[#F0F4FA]">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {/* <div className="absolute top-20 -left-20 w-96 h-96 bg-red-100/30 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 -right-20 w-96 h-96 bg-blue-100/30 rounded-full blur-3xl" /> */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-red-50/20 via-transparent to-blue-50/20 rounded-full blur-3xl" />
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Header - Modern Minimalist */}
           <motion.div
-            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={container}
-            className="flex items-end justify-between mb-12"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={container}
+            className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6"
           >
-            <div>
-              <motion.div variants={fadeUp} className="flex items-center gap-2 mb-2">
-                <Flame size={18} className="text-[#C6181E]" />
-                <p className="text-[#C6181E] text-xs font-bold uppercase tracking-[4px]">Hot Right Now</p>
+            <div className="space-y-3">
+              <motion.div
+                variants={fadeUp}
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-red-50 to-red-100/50 border border-red-200/50 shadow-sm"
+              >
+                <Flame size={16} className="text-[#C6181E] fill-[#C6181E]/20" />
+                <span className="text-[#C6181E] text-xs font-bold uppercase tracking-wider">
+                  Hot Right Now
+                </span>
+                <Sparkles size={12} className="text-amber-500" />
               </motion.div>
-              <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black text-[#073273]">
-                Trending <span className="text-[#C6181E]">Picks</span>
+              <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl lg:text-6xl text-[#073273] font-black tracking-tight">
+                Trending{' '}
+                <span className="relative inline-block">
+                  <span className="bg-gradient-to-r from-[#C6181E] to-[#E84C3D] bg-clip-text text-transparent">
+                    Picks
+                  </span>
+                  <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-[#C6181E]/40 to-transparent rounded-full" />
+                </span>
               </motion.h2>
+              <motion.p variants={fadeUp} className="text-gray-500 max-w-md text-sm">
+                Discover what everyone's talking about — curated just for you.
+              </motion.p>
             </div>
+
             <motion.button
               variants={fadeUp}
               onClick={() => navigate("/products")}
-              className="hidden md:inline-flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-[#C6181E] transition-colors"
+              className="group hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200/80 shadow-sm text-sm font-semibold text-gray-700 hover:text-[#C6181E] hover:border-red-200 hover:shadow-md transition-all duration-300"
             >
-              View All <ArrowRight size={14} />
+              <span>View All</span>
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
             </motion.button>
           </motion.div>
 
+          {/* Modern Grid Layout */}
           <motion.div
-            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.1 }} variants={container}
-            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.1 }}
+            variants={container}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-7"
           >
-            {trendingProducts.map((p, idx) => (
+            {trendingProducts.map((product, idx) => (
               <motion.div
-                key={p._id} variants={fadeUp} whileHover={{ y: -6 }}
-                onClick={() => navigate(`/product/${p._id}`)}
-                className="group bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-2xl hover:shadow-red-50 transition-all duration-300 cursor-pointer"
+                key={product._id}
+                variants={fadeUp}
+                whileHover={scaleOnHover}
+                onClick={() => navigate(`/product/${product._id}`)}
+                className="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-red-500/10 transition-all duration-500 cursor-pointer border border-gray-100/80 hover:border-red-100"
               >
-                <div className="relative overflow-hidden h-52 bg-gray-50">
-                  <img src={p.image} alt={p.name} className="w-full h-full object-fit group-hover:scale-105 transition-transform duration-500" />
-                  {idx === 0 && (
-                    <div className="absolute top-3 left-3 bg-[#C6181E] text-white text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-lg">
+                {/* Modern Badge */}
+                {idx === 0 && (
+                  <div className="absolute top-4 left-4 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-[#C6181E] to-[#E84C3D] text-white shadow-lg shadow-red-500/30">
+                    <TrendingUp size={12} className="fill-white" />
+                    <span className="text-[10px] font-black uppercase tracking-wider">
                       #1 Trending
+                    </span>
+                  </div>
+                )}
+
+                {/* Image Container with Gradient Overlay */}
+                <div className="relative overflow-hidden h-64 bg-gradient-to-br from-gray-50 to-gray-100/50">
+                  <div className="absolute inset-0 bg-gradient-to-t from-white/0 via-transparent to-black/5 z-10" />
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700 ease-out"
+                  />
+                  {/* Quick action overlay on hover */}
+                  <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-20">
+                    <div className="bg-white/90 backdrop-blur-md rounded-full px-4 py-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                      <span className="text-xs font-bold text-gray-800">Quick View</span>
                     </div>
-                  )}
+                  </div>
                 </div>
-                <div className="p-5">
-                  <span className="text-[10px] font-black text-[#C6181E] uppercase tracking-widest">{p.category}</span>
-                  <h3 className="font-bold text-gray-900 text-base mt-1 line-clamp-1">{p.name}</h3>
-                  <div className="flex items-center justify-between mt-4">
-                    <div>
-                      <p className="text-2xl font-black text-gray-900">₹{p.price?.toLocaleString()}</p>
-                      <p className="text-[11px] text-gray-400 mt-0.5">Free delivery</p>
-                    </div>
+
+                {/* Content Area */}
+                <div className="p-5 space-y-3">
+                  <div className="flex items-start justify-between">
+                    <span className="text-[10px] font-black text-[#C6181E] uppercase tracking-wider bg-red-50 px-2 py-1 rounded-md">
+                      {product.category}
+                    </span>
+                    {/* Wishlist Button (Optional subtle) */}
                     <button
-                      onClick={(e) => { e.stopPropagation(); navigate(`/product/${p.id}`); }}
-                      className="w-10 h-10 rounded-2xl bg-[#C6181E] hover:bg-red-600 text-white flex items-center justify-center transition-colors"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // Add wishlist logic here
+                      }}
+                      className="text-gray-300 hover:text-red-400 transition-colors"
                     >
-                      <ShoppingBag size={16} />
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <h3 className="font-bold text-gray-900 text-base leading-tight line-clamp-1 group-hover:text-[#C6181E] transition-colors">
+                    {product.name}
+                  </h3>
+
+                  {/* Price & Delivery Section */}
+                  <div className="flex items-end justify-between pt-2">
+                    <div>
+                      <p className="text-2xl font-black text-gray-900 tracking-tight">
+                        ₹{product.price?.toLocaleString()}
+                      </p>
+                      <div className="flex items-center gap-1.5 mt-1">
+                        <svg className="w-3 h-3 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wide">
+                          Free Delivery
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Stylish Add to Cart Button */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/product/${product._id}`);
+                      }}
+                      className="relative group/btn w-11 h-11 rounded-xl bg-gradient-to-br from-[#C6181E] to-[#E84C3D] text-white flex items-center justify-center shadow-md shadow-red-500/30 hover:shadow-lg hover:shadow-red-500/40 transition-all duration-300 hover:scale-105 active:scale-95"
+                    >
+                      <ShoppingBag size={18} className="relative z-10 group-hover/btn:rotate-12 transition-transform duration-300" />
+                      <span className="absolute inset-0 rounded-xl bg-white/20 scale-0 group-hover/btn:scale-100 transition-transform duration-300" />
                     </button>
                   </div>
                 </div>
+
+                {/* Animated border gradient on hover */}
+                <div className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-red-500/20 via-transparent to-red-500/20" />
+                </div>
               </motion.div>
             ))}
+          </motion.div>
+
+          {/* Mobile View All Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            className="flex justify-center mt-12 md:hidden"
+          >
+            <button
+              onClick={() => navigate("/products")}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white border border-gray-200 shadow-sm text-sm font-bold text-gray-700 hover:text-[#C6181E] hover:border-red-200 transition-all duration-300"
+            >
+              Browse All Trending Products
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </button>
           </motion.div>
         </div>
       </section>
@@ -523,7 +684,11 @@ const HomePage = () => {
           >
             <motion.p variants={fadeUp} className="text-[#C6181E] text-xs font-bold uppercase tracking-[4px] mb-3">Testimonials</motion.p>
             <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black text-[#073273]">
-              What Our <span className="text-[#C6181E]">Customers</span> Say
+              What Our {" "}
+              <span className="relative inline-block">
+                <span className="text-[#C6181E]">Customers</span>
+                <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-[#C6181E]/40 to-transparent rounded-full" />
+              </span>{" "}Say
             </motion.h2>
             <motion.p variants={fadeUp} className="text-gray-400 mt-4 text-sm max-w-md mx-auto">
               Real reviews from real shoppers who love what we do.
@@ -596,7 +761,13 @@ const HomePage = () => {
           >
             <motion.p variants={fadeUp} className="text-[#C6181E] text-xs font-bold uppercase tracking-[4px] mb-4">Who We Are</motion.p>
             <motion.h2 variants={fadeUp} className="text-4xl md:text-6xl font-black leading-[1.08] mb-6 text-[#073273]">
-              About <span className="text-[#C6181E]">KRS Lifeline</span>
+              About{" "}
+
+              <span className="relative inline-block">
+                <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-[#C6181E]/40 to-transparent rounded-full" />
+                <span className="text-[#C6181E]">KRS Lifeline</span>
+              </span>
+
             </motion.h2>
             <motion.p variants={fadeUp} className="text-gray-500 text-base leading-[1.9]">
               Your exclusive shopping destination for innovative, trending, and everyday products at affordable prices.

@@ -174,15 +174,15 @@ const SideBar = ({
               <img
                 src={assets.newKrs}
                 alt="KRS"
-                className="w-35 object-contain"
+                className="w-35 object-contain bg-white rounded-sm"
               />
             </div>
           ) : (
             <div className="w-11 h-11 flex items-center justify-center">
               <img
-                src={assets.logo}
+                src={assets.logoTwo}
                 alt=""
-                className="rounded-lg w-10 h-10"
+                className="rounded-lg w-10 h-10 bg-white"
               />
             </div>
           )}

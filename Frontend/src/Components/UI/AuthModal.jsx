@@ -45,7 +45,7 @@ const AuthModal = ({ isOpen, onClose }) => {
             onClose();
 
             setTimeout(() => {
-                navigate("/admin/products");
+                navigate("/admin/dashboard");
             }, 300);
 
             setFormData({
