@@ -25,8 +25,8 @@ ProductRouter.post(
 );
 
 // READ
-ProductRouter.get("/",  protect,getProducts);
-ProductRouter.get("/:id", protect, getProduct);
+ProductRouter.get("/",getProducts);
+ProductRouter.get("/:id",  getProduct);
 
 // UPDATE
 ProductRouter.put(
