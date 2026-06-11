@@ -12,6 +12,7 @@ import BillingPage from "../Pages/BillingPage";
 
 // ADMIN ROUTER
 import PanelRouter from "../AdminPanel/Router/PanelRouter";
+import ScrollToTop from "../Components/UI/ScrollToTop";
 
 const KRSRouter = () => {
   return (
@@ -23,7 +24,7 @@ const KRSRouter = () => {
         element={
           <>
             <NavBar />
-
+            <ScrollToTop />
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/products" element={<ProductPage />} />

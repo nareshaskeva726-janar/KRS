@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import ProductCard from "../Components/UI/ProductCard";
 import { useGetProductsQuery } from "../Store/APIS/krsApi";
@@ -402,8 +402,8 @@ const ProductPage = () => {
                     key={preset.label}
                     onClick={() => setPriceRange([preset.lo, preset.hi])}
                     className={`text-[10px] font-medium px-2.5 py-1 rounded-full border transition-all duration-150 ${active
-                        ? "bg-[#C6181E] border-[#C6181E] text-white"
-                        : "bg-white border-gray-200 text-gray-600 hover:border-[#C6181E] hover:text-[#C6181E]"
+                      ? "bg-[#C6181E] border-[#C6181E] text-white"
+                      : "bg-white border-gray-200 text-gray-600 hover:border-[#C6181E] hover:text-[#C6181E]"
                       }`}
                   >
                     {preset.label}
@@ -573,8 +573,8 @@ const ProductPage = () => {
                   <button
                     onClick={() => setViewMode("grid")}
                     className={`p-2 rounded-lg transition-all duration-200 ${viewMode === "grid"
-                        ? "bg-gradient-to-r from-[#003B93] to-[#C6181E] text-white shadow-sm"
-                        : "text-gray-500 hover:text-gray-700"
+                      ? "bg-gradient-to-r from-[#003B93] to-[#C6181E] text-white shadow-sm"
+                      : "text-gray-500 hover:text-gray-700"
                       }`}
                   >
                     <Grid3x3 size={16} />
@@ -582,8 +582,8 @@ const ProductPage = () => {
                   <button
                     onClick={() => setViewMode("list")}
                     className={`p-2 rounded-lg transition-all duration-200 ${viewMode === "list"
-                        ? "bg-gradient-to-r from-[#003B93] to-[#C6181E] text-white shadow-sm"
-                        : "text-gray-500 hover:text-gray-700"
+                      ? "bg-gradient-to-r from-[#003B93] to-[#C6181E] text-white shadow-sm"
+                      : "text-gray-500 hover:text-gray-700"
                       }`}
                   >
                     <LayoutList size={16} />
@@ -731,10 +731,10 @@ const ProductPage = () => {
                           {/* Stock badge in list view */}
                           <span
                             className={`mt-1.5 inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full ${getStockTier(product.qty ?? product.stock ?? 0) === "In Stock"
-                                ? "bg-emerald-50 text-emerald-700"
-                                : getStockTier(product.qty ?? product.stock ?? 0) === "Low Stock"
-                                  ? "bg-amber-50 text-amber-700"
-                                  : "bg-red-50 text-red-600"
+                              ? "bg-emerald-50 text-emerald-700"
+                              : getStockTier(product.qty ?? product.stock ?? 0) === "Low Stock"
+                                ? "bg-amber-50 text-amber-700"
+                                : "bg-red-50 text-red-600"
                               }`}
                           >
                             <span

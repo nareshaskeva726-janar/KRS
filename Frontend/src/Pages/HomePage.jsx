@@ -18,7 +18,7 @@ import {
   Award,
   TrendingUp
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { assets } from "../assets/assets";
 import { products } from "../MockData/Product"
@@ -110,6 +110,12 @@ const aboutHighlights = [
 
 const HomePage = () => {
   const navigate = useNavigate();
+
+  // const location = useLocation();
+
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  // }, [location.pathname]);
 
 
   const {
@@ -213,7 +219,7 @@ const HomePage = () => {
             <motion.h1 variants={fadeUp} className="text-5xl md:text-6xl lg:text-[4.5rem] font-black leading-[1.06] tracking-tight text-[#073273]">
               Shop{" "}
 
-{/* 
+              {/* 
               <span className="relative inline-block ml-3">
                 <span className="text-[#C6181E]">Smarter.</span>
                 <motion.span
