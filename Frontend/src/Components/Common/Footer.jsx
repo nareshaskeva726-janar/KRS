@@ -269,9 +269,9 @@ const Footer = () => {
               <span className="text-gray-400 font-medium">KRS Lifeline</span>. All rights reserved.
             </p>
             <div className="hidden md:block h-px flex-1 mx-8 bg-gradient-to-r from-transparent via-red-600/30 to-transparent" />
-            <p className="text-xs text-gray-600">
+            {/* <p className="text-xs text-gray-600">
               Designed &amp; built with <span className="text-red-500 text-sm">♥</span> in India
-            </p>
+            </p> */}
           </div>
         </div>
       </div>
