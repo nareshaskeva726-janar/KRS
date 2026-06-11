@@ -41,7 +41,7 @@ const Footer = () => {
   return (
     <footer
       className="relative overflow-hidden text-gray-300"
-      style={{ background: "linear-gradient(160deg, #040a17 0%, #040a17 50%, #040a17 100%)" }}
+      style={{ background: "linear-gradient(160deg, rgb(27 45 84) 0%, rgb(11 29 67) 50%, #040a17 100%)" }}
     >
       {/* ── Decorative background ── */}
       <div className="pointer-events-none absolute inset-0 z-0">
