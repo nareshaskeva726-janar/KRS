@@ -174,7 +174,7 @@ const SideBar = ({
               <img
                 src={assets.newKrs}
                 alt="KRS"
-                className="w-35 object-contain bg-white rounded-sm"
+                className="w-35 object-contain  rounded-sm"
               />
             </div>
           ) : (

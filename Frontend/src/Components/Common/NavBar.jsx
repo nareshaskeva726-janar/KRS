@@ -72,14 +72,14 @@ const NavBar = () => {
                             ref={navRef}
                             className="hidden lg:flex flex-1 justify-center items-center gap-1 relative"
                         >
-                            <div
+                            {/* <div
                                 className="absolute top-1/2 -translate-y-1/2 h-[34px] rounded-full bg-[#FCEBEB] border border-[#F7C1C1] pointer-events-none z-0"
                                 style={{
                                     left: pillStyle.left,
                                     width: pillStyle.width,
                                     transition: "left 220ms cubic-bezier(0.34,1.56,0.64,1), width 220ms cubic-bezier(0.34,1.56,0.64,1)",
                                 }}
-                            />
+                            /> */}
                             {navLinks.map((link) => (
                                 <NavLink
                                     key={link.name}
