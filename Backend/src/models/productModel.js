@@ -5,11 +5,14 @@ const productSchema = new mongoose.Schema(
         name: String,
         price: Number,
         category: String,
-        qty: Number,
+        qty: {
+            type: Number,
+            default: 0
+        },
         image: String,
         images: [String],
-        video: String,              
-        videoDescription: String,   
+        video: String,
+        videoDescription: String,
     },
     { timestamps: true }
 );
