@@ -84,5 +84,6 @@ export const CartProvider = ({ children }) => {
   );
 };
 
+
 // CUSTOM HOOK
 export const useCart = () => useContext(CartContext);
