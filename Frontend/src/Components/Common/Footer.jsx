@@ -5,17 +5,32 @@ import { FaFacebookF } from "react-icons/fa";
 import { CiYoutube } from "react-icons/ci";
 import { Mail, Phone, MapPin, Send, ArrowUpRight } from "lucide-react";
 import { assets } from "../../assets/assets";
+import { useSubscribeNewsletterMutation } from "../../Store/APIS/krsApi"
 
 const Footer = () => {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const handleSubscribe = (e) => {
+  const [subscribeNewsletter, { isLoading }] = useSubscribeNewsletterMutation();
+
+  const handleSubscribe = async (e) => {
     e.preventDefault();
-    if (email) {
+    setErrorMsg("");
+
+    if (!email) return;
+
+    try {
+      await subscribeNewsletter({ email }).unwrap();
       setSubscribed(true);
       setEmail("");
       setTimeout(() => setSubscribed(false), 3000);
+    } catch (err) {
+      // Handle error (e.g., duplicate email, server error)
+      const message =
+        err?.data?.message || "Subscription failed. Please try again.";
+      setErrorMsg(message);
+      setTimeout(() => setErrorMsg(""), 4000);
     }
   };
 
@@ -61,50 +76,21 @@ const Footer = () => {
         />
       </div>
 
-      {/* ── Feature strip ── */}
-      {/* <div className="relative z-10 border-b border-white/[0.06]">
-        <div className="mx-auto  px-6 lg:px-10 py-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {features.map((f) => (
-              <div
-                key={f.label}
-                className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/[0.025] border border-white/[0.06] hover:border-red-600/30 hover:bg-red-600/5 transition-all duration-300"
-              >
-                <span className="text-2xl">{f.icon}</span>
-                <div>
-                  <p className="text-white text-xs font-semibold tracking-wide">{f.label}</p>
-                  <p className="text-gray-500 text-[11px] mt-0.5">{f.sub}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div> */}
-
       {/* ── Main 4-column grid ── */}
-      <div className="relative z-10 mx-auto  px-6 lg:px-10 pt-16 pb-10">
+      <div className="relative z-10 mx-auto px-6 lg:px-10 pt-16 pb-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)_minmax(0,1.3fr)_minmax(0,1.1fr)] gap-10 xl:gap-12">
 
           {/* ── COL 1 · Brand ── */}
           <div className="flex flex-col gap-6">
-            {/* Logo */}
             <Link to="/" className="flex items-center gap-3 w-fit group">
               <div className="relative">
-                <div className="absolute inset-0  bg-[#EDF3F8]/100 rounded-sm" />
+                <div className="absolute inset-0 bg-[#EDF3F8]/100 rounded-sm" />
                 <img
                   src={assets.newKrs}
                   alt="KRS Lifeline"
                   className="relative w-30 h-14 object-contain"
                 />
               </div>
-              {/* <div>
-                <h1 className="text-xl font-black tracking-[3px] text-white leading-tight">
-                  KRS <span className="text-red-500">LIFELINE</span>
-                </h1>
-                <p className="text-[10px] tracking-[5px] text-gray-600 mt-0.5 font-medium">
-                  ECOMMERCE
-                </p>
-              </div> */}
             </Link>
 
             <p className="text-sm leading-[1.9] text-gray-400">
@@ -141,12 +127,7 @@ const Footer = () => {
           </div>
 
           {/* ── COL 2 · Navigation ── */}
-          {/*
-            Increased space-y between Quick Links & Policies sections,
-            and bigger gap between each link item so column fills the vertical height.
-          */}
           <div className="flex flex-col gap-10">
-            {/* Quick Links */}
             <div>
               <SectionHeading>Quick Links</SectionHeading>
               <ul className="mt-7 space-y-0 divide-y divide-white/[0.04]">
@@ -169,19 +150,12 @@ const Footer = () => {
                 ))}
               </ul>
             </div>
-
-
           </div>
 
           {/* ── COL 3 · Contact ── */}
-          {/*
-            Contact gets the widest custom column (1.3fr) because 3 icon-rows need room.
-            Each ContactRow now has more vertical padding inside it.
-          */}
           <div>
             <SectionHeading>Contact Us</SectionHeading>
             <div className="mt-7 flex flex-col gap-0 divide-y divide-white/[0.05]">
-              {/* Email */}
               <ContactRow icon={<Mail size={17} />} label="Email">
                 <a
                   href="mailto:krslifeline.info@gmail.com"
@@ -191,7 +165,6 @@ const Footer = () => {
                 </a>
               </ContactRow>
 
-              {/* Phone */}
               <ContactRow icon={<Phone size={17} />} label="Phone">
                 <a href="tel:8190000668" className="block text-sm text-gray-400 hover:text-white transition">
                   +91 8190000668
@@ -201,7 +174,6 @@ const Footer = () => {
                 </a>
               </ContactRow>
 
-              {/* Address */}
               <ContactRow icon={<MapPin size={17} />} label="Address">
                 <p className="text-sm text-gray-400 leading-[1.9]">
                   331/12, 3rd Street Extension,<br />
@@ -220,7 +192,6 @@ const Footer = () => {
               straight to your inbox.
             </p>
 
-            {/* Subscribe form */}
             <form onSubmit={handleSubscribe} className="relative">
               <input
                 type="email"
@@ -228,22 +199,38 @@ const Footer = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
                 required
-                className="w-full h-[52px] rounded-2xl bg-white/[0.04] border border-white/[0.08] pl-5 pr-14 text-sm text-white placeholder-gray-600 outline-none focus:border-red-600/60 focus:bg-white/[0.06] transition-all duration-300"
+                disabled={isLoading}
+                className="w-full h-[52px] rounded-2xl bg-white/[0.04] border border-white/[0.08] pl-5 pr-14 text-sm text-white placeholder-gray-600 outline-none focus:border-red-600/60 focus:bg-white/[0.06] transition-all duration-300 disabled:opacity-60"
               />
               <button
                 type="submit"
-                className="absolute top-1/2 right-2 -translate-y-1/2 w-9 h-9 rounded-xl bg-gradient-to-br from-red-500 to-red-700 hover:from-red-400 hover:to-red-600 flex items-center justify-center transition-all duration-200 hover:scale-105 shadow-lg shadow-red-900/40"
+                disabled={isLoading}
+                className="absolute top-1/2 right-2 -translate-y-1/2 w-9 h-9 rounded-xl bg-gradient-to-br from-red-500 to-red-700 hover:from-red-400 hover:to-red-600 flex items-center justify-center transition-all duration-200 hover:scale-105 shadow-lg shadow-red-900/40 disabled:opacity-60 disabled:hover:scale-100"
               >
-                <Send size={15} className="text-white" />
+                {isLoading ? (
+                  <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                ) : (
+                  <Send size={15} className="text-white" />
+                )}
               </button>
             </form>
 
-            <p
-              className={`text-xs text-green-400 -mt-2 transition-all duration-300 ${subscribed ? "opacity-100" : "opacity-0"
-                }`}
-            >
-              ✓ You're subscribed! Thanks.
-            </p>
+            {/* Success message */}
+            {subscribed && (
+              <p className="text-xs text-green-400 animate-fadeIn">
+                ✓ You're subscribed! Thanks.
+              </p>
+            )}
+
+            {/* Error message */}
+            {errorMsg && (
+              <p className="text-xs text-red-400 animate-fadeIn">
+                ⚠ {errorMsg}
+              </p>
+            )}
 
             {/* Trust badge */}
             <div className="p-4 rounded-2xl border border-white/[0.06] bg-gradient-to-br from-red-900/10 to-transparent relative overflow-hidden">
@@ -256,8 +243,6 @@ const Footer = () => {
                 </p>
               </div>
             </div>
-
-
           </div>
         </div>
 
@@ -269,9 +254,6 @@ const Footer = () => {
               <span className="text-gray-400 font-medium">KRS Lifeline</span>. All rights reserved.
             </p>
             <div className="hidden md:block h-px flex-1 mx-8 bg-gradient-to-r from-transparent via-red-600/30 to-transparent" />
-            {/* <p className="text-xs text-gray-600">
-              Designed &amp; built with <span className="text-red-500 text-sm">♥</span> in India
-            </p> */}
           </div>
         </div>
       </div>
@@ -288,7 +270,6 @@ const SectionHeading = ({ children }) => (
   </h3>
 );
 
-/* ContactRow: taller vertical padding so 3 rows fill the column height evenly */
 const ContactRow = ({ icon, label, children }) => (
   <div className="flex items-start gap-4 py-5 first:pt-0 last:pb-0">
     <div className="w-11 h-11 rounded-xl bg-white/[0.03] border border-white/[0.07] flex items-center justify-center shrink-0 text-red-500 hover:bg-red-600/10 transition mt-0.5">

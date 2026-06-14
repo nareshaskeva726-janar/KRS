@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { FaInstagram, FaFacebook, FaYoutube } from "react-icons/fa";
+import toast from "react-hot-toast";
+
+import { useSendContactMutation } from "../Store/APIS/krsApi";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -19,24 +22,36 @@ const ContactPage = () => {
     message: "",
   });
 
+  const [sendContact, { isLoading }] = useSendContactMutation();
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Message sent successfully!");
-    setForm({ name: "", email: "", message: "" });
+
+    try {
+      await sendContact({
+        name: form.name,
+        email: form.email,
+        message: form.message,
+      }).unwrap();
+
+      toast.success("Message sent successfully! We'll get back to you soon.");
+      setForm({ name: "", email: "", message: "" });
+    } catch (error) {
+      console.error("Contact error:", error);
+      toast.error(
+        error?.data?.message || error?.error || "Failed to send message. Please try again."
+      );
+    }
   };
 
   return (
     <div className="bg-white min-h-screen overflow-hidden">
       {/* HERO SECTION */}
       <section className="relative py-24 px-6">
-        {/* Background Blur */}
-        {/* <div className="absolute top-0 left-0 w-[300px] h-[300px] bg-red-100 rounded-full blur-3xl opacity-70" />
-        <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-red-50 rounded-full blur-3xl opacity-80" /> */}
-
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-14 items-center relative z-10">
           {/* LEFT CONTENT */}
           <motion.div
@@ -71,12 +86,9 @@ const ContactPage = () => {
                 <div className="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center">
                   <Mail className="text-red-600" />
                 </div>
-
                 <div>
                   <h4 className="font-semibold text-gray-900">Email Us</h4>
-                  <p className="text-gray-600">
-                    krslifeline.info@gmail.com
-                  </p>
+                  <p className="text-gray-600">krslifeline.info@gmail.com</p>
                 </div>
               </div>
 
@@ -84,12 +96,9 @@ const ContactPage = () => {
                 <div className="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center">
                   <Phone className="text-red-600" />
                 </div>
-
                 <div>
                   <h4 className="font-semibold text-gray-900">Call Us</h4>
-                  <p className="text-gray-600">
-                    8190000668 | 9944589789
-                  </p>
+                  <p className="text-gray-600">8190000668 | 9944589789</p>
                 </div>
               </div>
 
@@ -97,14 +106,11 @@ const ContactPage = () => {
                 <div className="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center">
                   <MapPin className="text-red-600" />
                 </div>
-
                 <div className="w-full">
                   <h4 className="font-semibold text-gray-900">Visit Us</h4>
-
                   <p className="text-gray-600 max-w-md mb-3">
                     331/12, 3rd Street Extension, Gandhipuram, Coimbatore - 641012
                   </p>
-
                   {/* GOOGLE MAP */}
                   <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-md">
                     <iframe
@@ -116,7 +122,6 @@ const ContactPage = () => {
                     />
                   </div>
                 </div>
-
               </div>
             </div>
 
@@ -130,7 +135,6 @@ const ContactPage = () => {
               >
                 <FaInstagram size={20} />
               </a>
-
               <a
                 href="https://www.facebook.com/profile.php?id=61589577443192"
                 target="_blank"
@@ -139,7 +143,6 @@ const ContactPage = () => {
               >
                 <FaFacebook size={20} />
               </a>
-
               <a
                 href="https://www.youtube.com/@KRSLIFELINE"
                 target="_blank"
@@ -162,7 +165,6 @@ const ContactPage = () => {
             <h2 className="text-3xl font-bold text-[#073273]">
               Send <span className="text-[#C6181E]">Message</span>
             </h2>
-
             <p className="text-gray-600 mt-3">
               Fill out the form and our team will contact you shortly.
             </p>
@@ -172,7 +174,6 @@ const ContactPage = () => {
                 <label className="text-sm font-medium text-gray-700">
                   Full Name
                 </label>
-
                 <input
                   type="text"
                   name="name"
@@ -188,7 +189,6 @@ const ContactPage = () => {
                 <label className="text-sm font-medium text-gray-700">
                   Email Address
                 </label>
-
                 <input
                   type="email"
                   name="email"
@@ -204,7 +204,6 @@ const ContactPage = () => {
                 <label className="text-sm font-medium text-gray-700">
                   Message
                 </label>
-
                 <textarea
                   name="message"
                   rows="5"
@@ -220,10 +219,39 @@ const ContactPage = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
-                className="w-full h-12 rounded-xl bg-[#c90202] text-white font-semibold flex items-center justify-center gap-2 hover:bg-red-700 transition"
+                disabled={isLoading}
+                className="w-full h-12 rounded-xl bg-[#c90202] text-white font-semibold flex items-center justify-center gap-2 hover:bg-red-700 transition disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                <Send size={18} />
-                Send Message
+                {isLoading ? (
+                  <>
+                    <svg
+                      className="animate-spin h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                      />
+                    </svg>
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send size={18} />
+                    Send Message
+                  </>
+                )}
               </motion.button>
             </form>
           </motion.div>

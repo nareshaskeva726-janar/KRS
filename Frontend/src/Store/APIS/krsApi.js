@@ -3,8 +3,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const krsApi = createApi({
   reducerPath: "krsApi",
 
+  // import.meta.env.VITE_API_URL
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_API_URL,
+    baseUrl: "http://localhost:5000/api",
     credentials: "include",
   }),
 
@@ -36,6 +37,46 @@ export const krsApi = createApi({
       query: () => ({
         url: "/auth/logout",
         method: "POST",
+      }),
+    }),
+
+    forgotPassword: builder.mutation({
+      query: ({ email }) => ({
+        url: "/auth/forgot-password",
+        method: "POST",
+        body: { email },
+      }),
+    }),
+
+    verifyOtp: builder.mutation({
+      query: (data) => ({
+        url: "/auth/verify-otp",
+        method: "POST",
+        body: data,
+      }),
+    }),
+
+    resetPassword: builder.mutation({
+      query: (data) => ({
+        url: "/auth/reset-password",
+        method: "POST",
+        body: data,
+      }),
+    }),
+
+    sendContact: builder.mutation({
+      query: (data) => ({
+        url: "/auth/contact",
+        method: "POST",
+        body: data,
+      }),
+    }),
+
+    subscribeNewsletter: builder.mutation({
+      query: (data) => ({
+        url: "/auth/subscribe",
+        method: "POST",
+        body: data,
       }),
     }),
 
@@ -103,6 +144,11 @@ export const {
   useLoginMutation,
   useLogoutMutation,
   useGetMeQuery,
+  useForgotPasswordMutation,
+  useVerifyOtpMutation,
+  useResetPasswordMutation,
+  useSendContactMutation,
+  useSubscribeNewsletterMutation,
   useGetProductsQuery,
 
   useGetProductQuery,
