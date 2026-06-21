@@ -332,6 +332,7 @@ const BillingPage = () => {
                                 onClick={handleSubmit}
                                 className="w-full mt-5 h-14 rounded-2xl bg-[#C6181E] hover:bg-red-700 text-white font-bold text-sm flex items-center justify-center gap-2 transition-all duration-200 shadow-[0_8px_24px_rgba(220,38,38,0.25)] hover:shadow-[0_12px_32px_rgba(220,38,38,0.35)]"
                             >
+                                
                                 {paymentMethod === "cod" ? (
                                     <><Banknote size={17} /> Place Order</>
                                 ) : (
