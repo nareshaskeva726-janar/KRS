@@ -26,7 +26,7 @@ import {
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useGetMeQuery, useLogoutMutation } from "../../Store/APIS/krsApi";
-import {toast} from "react-hot-toast"
+import { toast } from "react-hot-toast"
 const { Header } = Layout;
 const { useBreakpoint } = Grid;
 const { Text, Title } = Typography;
@@ -158,7 +158,12 @@ const NavBar = ({
   const handleLogout = async () => {
     try {
       await logoutUser().unwrap();
+
+      // 👤 REMOVE USER FROM LOCALSTORAGE
+      localStorage.removeItem("user");
+
       toast.success("Logged out successfully");
+
       navigate("/");
     } catch (error) {
       console.log("Logout error:", error);
@@ -192,8 +197,8 @@ const NavBar = ({
           <Button
             type="text"
             icon={
-              <span style={{ fontSize: 20,  }}>
-                {collapsed ? <MenuUnfoldOutlined style={{color: "#C6181E"}}/> : <MenuFoldOutlined style={{color: "#C6181E"}}/>}
+              <span style={{ fontSize: 20, }}>
+                {collapsed ? <MenuUnfoldOutlined style={{ color: "#C6181E" }} /> : <MenuFoldOutlined style={{ color: "#C6181E" }} />}
               </span>
             }
             onClick={() => setCollapsed(!collapsed)}

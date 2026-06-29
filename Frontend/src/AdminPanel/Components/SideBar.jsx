@@ -32,7 +32,12 @@ const SideBar = ({
   const handleLogout = async () => {
     try {
       await logoutUser().unwrap();
+
+      // 👤 REMOVE USER FROM LOCALSTORAGE
+      localStorage.removeItem("user");
+
       toast.success("Logged out successfully");
+
       navigate("/");
     } catch (error) {
       console.log("Logout error:", error);
