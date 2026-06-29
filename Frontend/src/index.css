@@ -71,3 +71,33 @@ p {
 .ant-upload-list-picture-card .ant-upload-list-item {
   border-radius: 10px !important;
 }
+
+
+/* Scrollbar width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track (background) */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Gradient Thumb */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    #c90202,
+    #3730a3
+  );
+  border-radius: 10px;
+}
+
+/* Hover effect */
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    #3730a3,
+    #c90202
+  );
+}
