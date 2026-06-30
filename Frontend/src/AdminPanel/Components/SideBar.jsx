@@ -118,27 +118,19 @@ const SideBar = ({
         headerStyle={{ display: "none" }}
         bodyStyle={{
           padding: 0,
-          background: "#000",
+          background: "#040a17",
           height: "100%",
         }}
       >
         <div className="flex flex-col h-full">
           {/* LOGO */}
           <div className="h-20 flex items-center border-b border-[#1f1f1f] px-4">
-            <div className="flex items-center gap-3">
+            <div className="mx-auto  rounded-sm">
               <img
-                src={assets.logoTwo}
+                src={assets.newKrs}
                 alt="KRS"
-                className="h-12 w-12 object-contain"
+                className="w-35 object-contain  rounded-sm bg-blue-50 mt-5 mb-3"
               />
-              <div className="leading-tight">
-                <h1 className="text-white font-bold tracking-widest text-sm">
-                  KRS<span className="text-[#c90202]"> LIFELINE</span>
-                </h1>
-                <p className="text-[10px] text-gray-400 tracking-[3px]">
-                  ECOMMERCE
-                </p>
-              </div>
             </div>
           </div>
 
@@ -179,7 +171,7 @@ const SideBar = ({
               <img
                 src={assets.newKrs}
                 alt="KRS"
-                className="w-35 object-contain  rounded-sm"
+                className="w-35 object-contain  rounded-sm bg-blue-50"
               />
             </div>
           ) : (
