@@ -3,7 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  // Load cart from localStorage on first render
+  // Load cart from localStorage
   const [cartItems, setCartItems] = useState(() => {
     const savedCart = localStorage.getItem("cartItems");
     return savedCart ? JSON.parse(savedCart) : [];
@@ -33,21 +33,19 @@ export const CartProvider = ({ children }) => {
 
   // REMOVE ITEM
   const removeFromCart = (id) => {
-    setCartItems((prev) =>
-      prev.filter((item) => item._id !== id)
-    );
+    setCartItems((prev) => prev.filter((item) => item._id !== id));
   };
 
   // UPDATE QUANTITY
-  const updateQuantity = (id, qty) => {
-    setCartItems((prev) =>
-      prev
-        .map((item) =>
-          item._id === id ? { ...item, qty } : item
-        )
-        .filter((item) => item.qty > 0)
-    );
-  };
+const updateQuantity = (id, qty) => {
+  if (qty < 1) return; // Don't allow quantity below 1
+
+  setCartItems((prev) =>
+    prev.map((item) =>
+      item._id === id ? { ...item, qty } : item
+    )
+  );
+};
 
   // CLEAR CART
   const clearCart = () => {
@@ -55,11 +53,8 @@ export const CartProvider = ({ children }) => {
     localStorage.removeItem("cartItems");
   };
 
-  // CART COUNT
-  const cartCount = cartItems.reduce(
-    (acc, item) => acc + item.qty,
-    0
-  );
+  // TOTAL ITEMS
+  const cartCount = cartItems.reduce((acc, item) => acc + item.qty, 0);
 
   // TOTAL PRICE
   const totalPrice = cartItems.reduce(
@@ -83,7 +78,6 @@ export const CartProvider = ({ children }) => {
     </CartContext.Provider>
   );
 };
-
 
 // CUSTOM HOOK
 export const useCart = () => useContext(CartContext);

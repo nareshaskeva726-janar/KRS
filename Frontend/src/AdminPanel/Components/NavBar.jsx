@@ -209,7 +209,7 @@ const NavBar = ({
         {!screens.md && (
           <Button
             type="text"
-            icon={<span style={{ fontSize: 18 }}><MenuOutlined /></span>}
+            icon={<span style={{ fontSize: 18, color: "#C6181E" }}><MenuOutlined /></span>}
             onClick={() => setMobileOpen(true)}
             style={{ width: 42, height: 42 }}
           />

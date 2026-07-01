@@ -136,15 +136,18 @@ const CartModal = ({ isOpen, onClose }) => {
                         >
                           <Minus size={12} />
                         </button>
+
                         <span className="w-7 text-center font-black text-sm text-gray-900">
                           {item.qty}
                         </span>
+
                         <button
                           onClick={() => updateQuantity(item._id, item.qty + 1)}
                           className="w-7 h-7 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
                         >
                           <Plus size={12} />
                         </button>
+
                         <button
                           onClick={() => removeFromCart(item._id)}
                           className="w-7 h-7 rounded-lg bg-red-50 hover:bg-red-100 flex items-center justify-center ml-1 transition-colors"
