@@ -32,7 +32,7 @@ const ProductDetailsPage = () => {
     data: productData,
     isLoading,
     isError,
-  } = useGetProductQuery(id);
+  } = useGetProductQuery(id, { skip: !id || id === "undefined" });
   const { data: allProductsData = [] } = useGetProductsQuery();
 
   // Data Processing
@@ -54,6 +54,12 @@ const ProductDetailsPage = () => {
   const [isAdded, setIsAdded] = useState(false);
 
   // Effects
+  useEffect(() => {
+    if (!id || id === "undefined") {
+      navigate("/products", { replace: true });
+    }
+  }, [id, navigate]);
+
   useEffect(() => {
     if (productImages.length > 0) {
       setSelectedImage(productImages[0]);
@@ -218,7 +224,7 @@ const ProductDetailsPage = () => {
                 <img
                   src={selectedImage}
                   alt={product.name}
-                  className="w-full h-[450px] object-cover hover:scale-105 transition duration-700"
+                  className="w-full h-[350px] sm:h-[450px] lg:h-[500px] object-cover hover:scale-105 transition duration-700"
                   onError={(e) => {
                     if (e.target.src !== assets.placeholder) {
                       e.target.src = assets.placeholder || "https://via.placeholder.com/600";
@@ -316,7 +322,7 @@ const ProductDetailsPage = () => {
             </div>
 
             {/* Features */}
-            <div className="grid grid-cols-3 gap-3 mt-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6">
               {[
                 { icon: Truck, label: "Fast Delivery", sub: "24 hrs" },
                 { icon: ShieldCheck, label: "Secure Payment", sub: "Protected" },
@@ -324,11 +330,15 @@ const ProductDetailsPage = () => {
               ].map((feature, index) => (
                 <div
                   key={index}
-                  className="bg-white/70 backdrop-blur-xl border border-white/30 rounded-2xl p-3 hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-lg"
+                  className="bg-white/70 backdrop-blur-xl border border-white/30 rounded-2xl p-3 hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-lg flex items-center sm:flex-col sm:items-start sm:text-left gap-3 sm:gap-0"
                 >
-                  <feature.icon className="text-red-600" size={20} />
-                  <p className="text-xs font-bold mt-2 text-gray-900">{feature.label}</p>
-                  <p className="text-[10px] text-gray-500">{feature.sub}</p>
+                  <div className="p-2 sm:p-0 bg-red-50 sm:bg-transparent rounded-lg">
+                    <feature.icon className="text-red-600" size={20} />
+                  </div>
+                  <div>
+                    <p className="text-sm sm:text-xs font-bold sm:mt-2 text-gray-900">{feature.label}</p>
+                    <p className="text-[11px] sm:text-[10px] text-gray-500">{feature.sub}</p>
+                  </div>
                 </div>
               ))}
             </div>
@@ -367,11 +377,11 @@ const ProductDetailsPage = () => {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 mt-8">
+            <div className="flex flex-col sm:flex-row gap-4 mt-8">
               <motion.button
                 whileTap={{ scale: 0.97 }}
                 onClick={handleAddToCart}
-                className={`flex-1 h-12 rounded-xl font-bold flex items-center justify-center gap-2 transition-all duration-300 ${
+                className={`flex-1 py-3.5 px-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all duration-300 ${
                   isAdded
                     ? "bg-emerald-500 text-white"
                     : "bg-gradient-to-r from-red-600 to-red-700 hover:scale-[1.02] hover:shadow-[0_15px_30px_rgba(220,38,38,0.3)] text-white"
@@ -390,7 +400,7 @@ const ProductDetailsPage = () => {
                 )}
               </motion.button>
 
-              <button className="flex-1 h-12 rounded-xl bg-white border border-gray-200 hover:border-red-500 hover:text-red-600 font-bold transition-all duration-300 shadow-sm hover:shadow-lg">
+              <button className="flex-1 py-3.5 px-4 rounded-xl bg-white border border-gray-200 hover:border-red-500 hover:text-red-600 font-bold transition-all duration-300 shadow-sm hover:shadow-lg">
                 Buy Now
               </button>
             </div>
@@ -510,10 +520,11 @@ const ProductDetailsPage = () => {
                         e.stopPropagation();
                         addToCart(item, 1);
                       }}
-                      className="mt-3 w-full h-10 rounded-xl bg-gray-900 hover:bg-red-600 text-white font-bold text-xs transition-all duration-300 flex items-center justify-center gap-2"
+                      className="mt-3 w-full h-10 rounded-xl bg-gray-900 hover:bg-red-600 text-white font-bold text-xs transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2"
                     >
                       <ShoppingCart size={14} />
-                      Add to Cart
+                      <span className="hidden sm:inline">Add to Cart</span>
+                      <span className="sm:hidden">Add</span>
                     </button>
                   </div>
                 </motion.div>
