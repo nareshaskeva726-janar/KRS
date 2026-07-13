@@ -129,7 +129,7 @@ const SideBar = ({
               <img
                 src={assets.newKrs}
                 alt="KRS"
-                className="w-35 object-contain  rounded-sm bg-blue-50 mt-5 mb-3"
+                className="w-35 object-contain  rounded-sm  mt-5 mb-3"
               />
             </div>
           </div>
@@ -171,7 +171,7 @@ const SideBar = ({
               <img
                 src={assets.newKrs}
                 alt="KRS"
-                className="w-35 object-contain  rounded-sm bg-blue-50"
+                className="w-35 object-contain  rounded-sm "
               />
             </div>
           ) : (
@@ -179,7 +179,7 @@ const SideBar = ({
               <img
                 src={assets.logoTwo}
                 alt=""
-                className="rounded-lg w-10 h-10 bg-white"
+                className="rounded-lg w-10 h-10"
               />
             </div>
           )}
