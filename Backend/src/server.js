@@ -22,16 +22,19 @@ const PORT = process.env.PORT || 5000
 
 connectDB();
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://krslifeline.vercel.app"
+];
 
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "https://krs-pi-two.vercel.app"
-    ],
-    credentials: true,
-  })
-);
+  app.use(
+    cors({
+      origin: allowedOrigins,
+        credentials: true,
+    })
+  );
+
+
 app.use(cookieParser());
 app.use(express.json());
 
