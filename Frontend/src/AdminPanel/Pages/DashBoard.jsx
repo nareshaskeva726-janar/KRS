@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Table, Tag, Button, Input, Select, Badge, Avatar, Space } from 'antd'
+import React, { useState, useEffect } from 'react'
+import { Table, Tag, Button, Input, Select, Badge, Avatar, Space, Drawer, Dropdown, Menu } from 'antd'
 import {
   AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend
@@ -18,6 +18,9 @@ import {
   WarningOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
+  MenuOutlined,
+  CloseOutlined,
+  FilterOutlined,
 } from '@ant-design/icons'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -177,7 +180,7 @@ const KpiCard = ({ icon, label, value, sub, trend, accentColor, index }) => (
       <span className="text-xs text-gray-400 uppercase tracking-wide font-medium">{label}</span>
       <motion.div
         whileHover={{ rotate: 5, scale: 1.05 }}
-        className="w-9 h-9 rounded-lg flex items-center justify-center text-white text-base"
+        className="w-9 h-9 rounded-lg flex items-center justify-center text-white text-base flex-shrink-0"
         style={{ background: accentColor }}
       >
         {icon}
@@ -255,7 +258,7 @@ const productColumns = [
       <div className="flex items-center gap-3">
         <motion.div 
           whileHover={{ rotate: 5, scale: 1.1 }}
-          className="w-9 h-9 rounded-lg bg-gray-50 flex items-center justify-center text-lg border border-gray-100"
+          className="w-9 h-9 rounded-lg bg-gray-50 flex items-center justify-center text-lg border border-gray-100 flex-shrink-0"
         >
           {row.emoji}
         </motion.div>
@@ -279,6 +282,7 @@ const productColumns = [
     key: 'stock',
     render: (_, row) => <StockBar stock={row.stock} maxStock={row.maxStock} status={row.status} />,
     width: 160,
+    responsive: ['md'],
   },
   {
     title: 'Status',
@@ -297,20 +301,6 @@ const productColumns = [
     ],
     onFilter: (value, record) => record.status === value,
   },
-  // {
-  //   title: 'Actions',
-  //   key: 'actions',
-  //   render: () => (
-  //     <div className="flex gap-2">
-  //       <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-  //         <Button size="small" type="default">Edit</Button>
-  //       </motion.div>
-  //       <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-  //         <Button size="small" danger>Delete</Button>
-  //       </motion.div>
-  //     </div>
-  //   ),
-  // },
 ]
 
 // Custom animated table row component
@@ -331,11 +321,73 @@ const tableComponents = {
   },
 }
 
+// ─── Mobile Filter Drawer ───────────────────────────────────────────────────
+const MobileFilterDrawer = ({ visible, onClose, search, setSearch, filterCat, setFilterCat, categoryOptions }) => (
+  <Drawer
+    title="Filter Products"
+    placement="bottom"
+    closable={false}
+    onClose={onClose}
+    visible={visible}
+    height="auto"
+    className="rounded-t-2xl"
+    bodyStyle={{ padding: '20px' }}
+  >
+    <div className="flex justify-between items-center mb-4">
+      <span className="text-lg font-semibold">Filters</span>
+      <Button type="text" icon={<CloseOutlined />} onClick={onClose} />
+    </div>
+    <div className="space-y-4">
+      <div>
+        <label className="text-xs text-gray-500 font-medium mb-1 block">Search</label>
+        <Input
+          placeholder="Search products..."
+          prefix={<SearchOutlined className="text-gray-400" />}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          allowClear
+        />
+      </div>
+      <div>
+        <label className="text-xs text-gray-500 font-medium mb-1 block">Category</label>
+        <Select
+          value={filterCat}
+          onChange={setFilterCat}
+          className="w-full"
+          options={categoryOptions.map(cat => ({ value: cat, label: cat === 'all' ? 'All Categories' : cat }))}
+        />
+      </div>
+      <Button 
+        type="primary" 
+        block 
+        onClick={onClose}
+        style={{ background: RED, borderColor: RED }}
+      >
+        Apply Filters
+      </Button>
+    </div>
+  </Drawer>
+)
+
 // ─── Main Dashboard ───────────────────────────────────────────────────────────
 const Dashboard = () => {
   const [range, setRange] = useState('7d')
   const [search, setSearch] = useState('')
   const [filterCat, setFilterCat] = useState('all')
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+  const [isTablet, setIsTablet] = useState(false)
+
+  // Responsive breakpoints
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768)
+      setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1024)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   const filteredProducts = products.filter((p) => {
     const matchSearch = p.name.toLowerCase().includes(search.toLowerCase())
@@ -350,16 +402,27 @@ const Dashboard = () => {
 
   const categoryOptions = ['all', ...new Set(products.map(p => p.category))]
 
+  // Responsive columns for product table
+  const getResponsiveColumns = () => {
+    if (isMobile) {
+      return productColumns.filter(col => col.key !== 'stock' && col.key !== 'status')
+    }
+    if (isTablet) {
+      return productColumns.filter(col => col.key !== 'stock')
+    }
+    return productColumns
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <motion.main 
-        className="p-6 space-y-6"
+        className="p-4 sm:p-6 space-y-4 sm:space-y-6"
         initial="hidden"
         animate="visible"
         variants={staggerContainer}
       >
-        {/* ── KPI Row with staggered animations ── */}
-        <motion.div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4" variants={staggerContainer}>
+        {/* ── KPI Row ── */}
+        <motion.div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4" variants={staggerContainer}>
           <KpiCard
             icon={<DollarOutlined />}
             label="Total Revenue"
@@ -396,25 +459,25 @@ const Dashboard = () => {
 
         {/* ── Charts Row ── */}
         <motion.div 
-          className="grid grid-cols-1 xl:grid-cols-3 gap-4"
+          className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4"
           variants={staggerContainer}
         >
           {/* Revenue Area Chart */}
           <motion.div 
-            className="xl:col-span-2 bg-white rounded-xl border border-gray-100 p-4"
+            className="lg:col-span-2 bg-white rounded-xl border border-gray-100 p-3 sm:p-4"
             variants={fadeInUp}
             whileHover={{ boxShadow: "0 8px 30px rgba(0,0,0,0.05)", transition: { duration: 0.2 } }}
           >
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-2">
               <h2 className="text-sm font-semibold text-gray-700">Revenue over time</h2>
-              <div className="flex gap-1">
+              <div className="flex gap-1 w-full sm:w-auto">
                 {['7d', '30d', '90d'].map((r) => (
                   <motion.button
                     key={r}
                     onClick={() => setRange(r)}
                     whileHover={{ scale: 1.02, y: -1 }}
                     whileTap={{ scale: 0.96 }}
-                    className={`px-3 py-1 text-xs rounded-full border transition-all font-medium ${
+                    className={`flex-1 sm:flex-none px-3 py-1 text-xs rounded-full border transition-all font-medium ${
                       range === r
                         ? 'text-white border-transparent'
                         : 'text-gray-400 border-gray-200 hover:border-gray-300'
@@ -426,7 +489,7 @@ const Dashboard = () => {
                 ))}
               </div>
             </div>
-            <ResponsiveContainer width="100%" height={220}>
+            <ResponsiveContainer width="100%" height={isMobile ? 180 : 220}>
               <AreaChart data={revenueData[range]} margin={{ top: 4, right: 4, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="revGrad" x1="0" y1="0" x2="0" y2="1">
@@ -435,9 +498,9 @@ const Dashboard = () => {
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis dataKey="label" tick={{ fontSize: 11, fill: '#9ca3af' }} axisLine={false} tickLine={false} />
+                <XAxis dataKey="label" tick={{ fontSize: isMobile ? 10 : 11, fill: '#9ca3af' }} axisLine={false} tickLine={false} />
                 <YAxis
-                  tick={{ fontSize: 11, fill: '#9ca3af' }}
+                  tick={{ fontSize: isMobile ? 10 : 11, fill: '#9ca3af' }}
                   axisLine={false}
                   tickLine={false}
                   tickFormatter={(v) => v >= 1000 ? `₹${Math.round(v / 1000)}k` : `₹${v}`}
@@ -449,8 +512,8 @@ const Dashboard = () => {
                   stroke={RED}
                   strokeWidth={2}
                   fill="url(#revGrad)"
-                  dot={{ r: 4, fill: RED, strokeWidth: 0 }}
-                  activeDot={{ r: 6, fill: RED }}
+                  dot={{ r: isMobile ? 2 : 4, fill: RED, strokeWidth: 0 }}
+                  activeDot={{ r: isMobile ? 4 : 6, fill: RED }}
                   animationDuration={800}
                   animationBegin={200}
                 />
@@ -460,19 +523,19 @@ const Dashboard = () => {
 
           {/* Pie Chart + Category list */}
           <motion.div 
-            className="bg-white rounded-xl border border-gray-100 p-4"
+            className="bg-white rounded-xl border border-gray-100 p-3 sm:p-4"
             variants={fadeInUp}
             whileHover={{ boxShadow: "0 8px 30px rgba(0,0,0,0.05)", transition: { duration: 0.2 } }}
           >
             <h2 className="text-sm font-semibold text-gray-700 mb-3">Sales by category</h2>
-            <ResponsiveContainer width="100%" height={150}>
+            <ResponsiveContainer width="100%" height={isMobile ? 140 : 150}>
               <PieChart>
                 <Pie
                   data={categoryData}
                   cx="50%"
                   cy="50%"
-                  innerRadius={45}
-                  outerRadius={68}
+                  innerRadius={isMobile ? 35 : 45}
+                  outerRadius={isMobile ? 55 : 68}
                   paddingAngle={3}
                   dataKey="value"
                   animationDuration={800}
@@ -507,21 +570,21 @@ const Dashboard = () => {
 
         {/* ── Orders Bar + Recent Orders ── */}
         <motion.div 
-          className="grid grid-cols-1 xl:grid-cols-3 gap-4"
+          className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4"
           variants={staggerContainer}
         >
           {/* Weekly orders bar chart */}
           <motion.div 
-            className="bg-white rounded-xl border border-gray-100 p-4"
+            className="bg-white rounded-xl border border-gray-100 p-3 sm:p-4"
             variants={fadeInUp}
             whileHover={{ boxShadow: "0 8px 30px rgba(0,0,0,0.05)", transition: { duration: 0.2 } }}
           >
             <h2 className="text-sm font-semibold text-gray-700 mb-4">Orders this week</h2>
-            <ResponsiveContainer width="100%" height={180}>
-              <BarChart data={ordersBarData} barSize={20} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
+            <ResponsiveContainer width="100%" height={isMobile ? 150 : 180}>
+              <BarChart data={ordersBarData} barSize={isMobile ? 16 : 20} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" vertical={false} />
-                <XAxis dataKey="day" tick={{ fontSize: 11, fill: '#9ca3af' }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fontSize: 11, fill: '#9ca3af' }} axisLine={false} tickLine={false} />
+                <XAxis dataKey="day" tick={{ fontSize: isMobile ? 10 : 11, fill: '#9ca3af' }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fontSize: isMobile ? 10 : 11, fill: '#9ca3af' }} axisLine={false} tickLine={false} />
                 <Tooltip content={<OrdersTooltip />} />
                 <Bar dataKey="orders" radius={[4, 4, 0, 0]} animationDuration={800} animationBegin={200}>
                   {ordersBarData.map((_, i) => (
@@ -534,7 +597,7 @@ const Dashboard = () => {
 
           {/* Recent Orders list */}
           <motion.div 
-            className="xl:col-span-2 bg-white rounded-xl border border-gray-100 p-4"
+            className="lg:col-span-2 bg-white rounded-xl border border-gray-100 p-3 sm:p-4"
             variants={fadeInUp}
           >
             <div className="flex items-center justify-between mb-4">
@@ -547,7 +610,7 @@ const Dashboard = () => {
             </div>
             <div className="space-y-0 divide-y divide-gray-50">
               <AnimatePresence>
-                {recentOrders.map((o, idx) => (
+                {recentOrders.slice(0, isMobile ? 4 : 6).map((o, idx) => (
                   <motion.div
                     key={o.id}
                     variants={listItem}
@@ -555,31 +618,36 @@ const Dashboard = () => {
                     animate="visible"
                     whileHover="hover"
                     transition={{ delay: idx * 0.03 }}
-                    className="flex items-center justify-between py-2.5 px-1 rounded-lg cursor-pointer"
+                    className="flex flex-col xs:flex-row items-start xs:items-center justify-between py-2.5 px-1 rounded-lg cursor-pointer gap-2 xs:gap-0"
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 w-full xs:w-auto">
                       <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
                         <Avatar
-                          size={32}
+                          size={isMobile ? 28 : 32}
                           style={{ background: RED_LIGHT, color: RED_DARK, fontSize: 12, fontWeight: 600 }}
                         >
                           {o.customer.charAt(0)}
                         </Avatar>
                       </motion.div>
-                      <div>
-                        <div className="text-sm font-medium text-gray-800">{o.id}</div>
-                        <div className="text-xs text-gray-400">{o.customer} · {o.city}</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-medium text-gray-800 truncate">{o.id}</div>
+                        <div className="text-xs text-gray-400 truncate">{o.customer} · {o.city}</div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-4">
-                      <div className="text-right hidden sm:block">
+                    <div className="flex items-center gap-2 sm:gap-4 w-full xs:w-auto justify-between xs:justify-end">
+                      <div className="text-right hidden xs:block">
                         <div className="text-xs text-gray-400">{o.time}</div>
                       </div>
-                      {orderStatusTag(o.status)}
-                      <div className="text-sm font-semibold" style={{ color: RED_DARK }}>
+                      {!isMobile && orderStatusTag(o.status)}
+                      <div className="text-sm font-semibold flex-shrink-0" style={{ color: RED_DARK }}>
                         {formatINR(o.amount)}
                       </div>
                     </div>
+                    {isMobile && (
+                      <div className="flex items-center gap-2 w-full xs:hidden">
+                        {orderStatusTag(o.status)}
+                      </div>
+                    )}
                   </motion.div>
                 ))}
               </AnimatePresence>
@@ -589,39 +657,68 @@ const Dashboard = () => {
 
         {/* ── Product Inventory Section ── */}
         <motion.div 
-          className="bg-white rounded-xl border border-gray-100 p-4"
+          className="bg-white rounded-xl border border-gray-100 p-3 sm:p-4"
           variants={fadeInUp}
           whileHover={{ boxShadow: "0 8px 30px rgba(0,0,0,0.05)", transition: { duration: 0.2 } }}
         >
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
             <h2 className="text-sm font-semibold text-gray-700">Product Inventory</h2>
-            <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-              <Input
-                placeholder="Search products..."
-                prefix={<SearchOutlined className="text-gray-400" />}
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full sm:w-64"
-                allowClear
-              />
-              <Select
-                value={filterCat}
-                onChange={setFilterCat}
-                className="w-full sm:w-40"
-                options={categoryOptions.map(cat => ({ value: cat, label: cat === 'all' ? 'All Categories' : cat }))}
-              />
+            <div className="flex flex-col xs:flex-row gap-2 w-full sm:w-auto">
+              {!isMobile ? (
+                <>
+                  <Input
+                    placeholder="Search products..."
+                    prefix={<SearchOutlined className="text-gray-400" />}
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="w-full sm:w-64"
+                    allowClear
+                  />
+                  <Select
+                    value={filterCat}
+                    onChange={setFilterCat}
+                    className="w-full sm:w-40"
+                    options={categoryOptions.map(cat => ({ value: cat, label: cat === 'all' ? 'All Categories' : cat }))}
+                  />
+                </>
+              ) : (
+                <Button 
+                  icon={<FilterOutlined />} 
+                  onClick={() => setIsMobileFilterOpen(true)}
+                  className="w-full"
+                >
+                  Filter
+                </Button>
+              )}
             </div>
           </div>
+          
           <Table
-            columns={productColumns}
+            columns={getResponsiveColumns()}
             dataSource={filteredProducts}
-            pagination={{ pageSize: 5 }}
+            pagination={{ 
+              pageSize: isMobile ? 3 : 5,
+              size: isMobile ? 'small' : 'default',
+              showSizeChanger: !isMobile,
+            }}
             components={tableComponents}
             rowKey="key"
             className="product-table"
+            scroll={isMobile ? { x: true } : undefined}
           />
         </motion.div>
       </motion.main>
+
+      {/* ── Mobile Filter Drawer ── */}
+      <MobileFilterDrawer
+        visible={isMobileFilterOpen}
+        onClose={() => setIsMobileFilterOpen(false)}
+        search={search}
+        setSearch={setSearch}
+        filterCat={filterCat}
+        setFilterCat={setFilterCat}
+        categoryOptions={categoryOptions}
+      />
     </div>
   )
 }

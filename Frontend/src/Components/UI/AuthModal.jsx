@@ -26,7 +26,7 @@ const AuthModal = ({ isOpen, onClose }) => {
   const handleChange = (e) => {
     setLoginData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value.trimStart(),
     }));
   };
 

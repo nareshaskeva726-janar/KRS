@@ -468,7 +468,7 @@ const ProductPage = () => {
                     type="text"
                     placeholder="Search products…"
                     value={search}
-                    onChange={(e) => setSearch(e.target.value)}
+                    onChange={(e) => setSearch(e.target.value.trimStart())}
                     className="w-full pl-9 py-2.5 bg-white border border-gray-200 rounded-xl text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E24B4A]/20 focus:border-[#E24B4A] transition-all shadow-soft"
                     style={{ paddingRight: search ? "5.5rem" : "6rem" }}
                   />
